@@ -170,13 +170,13 @@
 
 \color{Black}
 
-\section*{Introduction}
+\subsection*{Introduction}
 
 Software engineering is undergoing a transformation unprecedented in both speed and scope. The emergence of large language models (LLMs), autonomous coding assistants, and multi-agent AI systems is collapsing long-standing assumptions about team-based development, coordination costs, and the economics of iteration. AI-augmented workflows increasingly allow individual developers to accomplish what previously required entire teams.
 
-The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project is emblematic of this shift.~\citep{blomgren2025lockd} Created over a period of approximately five weeks of spare-time work, it evolved into a coherent distributed system with a feature set comparable to those implemented by multi-person engineering teams: a distributed lock service with strong consistency semantics, a NoSQL document store, an indexing and query engine, a messaging system, a multi-backend storage abstraction, and a streaming response architecture. This scale of achievement by one developer---working in collaboration with an AI coding agent---illustrates the emerging paradigm of human--AI cognitive partnerships.
+The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project is emblematic of this shift~\citep{blomgren2025lockd}. Created over a period of approximately five weeks of spare-time work, it evolved into a coherent distributed system with a feature set comparable to those implemented by multi-person engineering teams: a distributed lock service with strong consistency semantics, a NoSQL document store, an indexing and query engine, a messaging system, a multi-backend storage abstraction, and a streaming response architecture. This scale of achievement by one developer---working in collaboration with an AI coding agent---illustrates the emerging paradigm of human--AI cognitive partnerships.
 
-This essay investigates whether existing methodologies, particularly the Outcome-Based Agile Framework (OBAF), remain relevant in this new environment. OBAF was originally conceived as an antidote to ``agile theater,'' re-centering Agile around outcomes, constraints, discovery, and evidence. But does it retain utility when discovery becomes automated, and when execution is handled by AI agents rather than human teams? We explore this question by integrating historical analysis, conceptual reasoning, and an empirical case study.
+This essay investigates whether existing methodologies, particularly the Outcome-Based Agile Framework (OBAF)~\citep{blomgren2025obaf}, remain relevant in this new environment. OBAF was originally conceived as an antidote to ``agile theater,'' re-centering Agile around outcomes, constraints, discovery, and evidence. But does it retain utility when discovery becomes automated, and when execution is handled by AI agents rather than human teams? We explore this question by integrating historical analysis, conceptual reasoning, and an empirical case study.
 
 \section*{From Agile to Agile Theater}
 
@@ -186,7 +186,7 @@ However, as Agile diffused into large organizations, its success triggered a par
 
 \section*{The Origins and Philosophy of OBAF}
 
-The Outcome-Based Agile Framework (OBAF) was created as an explicit correction to this drift. Rather than prescribing roles, ceremonies, or artifacts, OBAF emphasizes:
+The Outcome-Based Agile Framework (OBAF)~\citep{blomgren2025obaf} was created as an explicit correction to this drift. Rather than prescribing roles, ceremonies, or artifacts, OBAF emphasizes:
 
 \begin{itemize}
     \item \textbf{Outcomes over outputs}, reflecting behavioral or value changes rather than feature delivery;
@@ -196,9 +196,11 @@ The Outcome-Based Agile Framework (OBAF) was created as an explicit correction t
     \item \textbf{Evidence-based adaptation}, using signals, telemetry, and user behavior to steer action.
 \end{itemize}
 
-OBAF’s intellectual foundations span multiple disciplines: Boyd’s OODA loop \citep{osinga2006science}, distributed cognition \citep{hutchins1995cognition}, socio-technical systems theory \citep{trist1981evolution}, DevOps and continuous delivery research \citep{forsgren2018accelerate}, and agile empirical studies.
+OBAF’s intellectual foundations span multiple disciplines~\citep{blomgren2025obaf}: Boyd’s OODA loop \citep{osinga2006science}, distributed cognition \citep{hutchins1995cognition}, socio-technical systems theory \citep{trist1981evolution}, DevOps and continuous delivery research \citep{forsgren2018accelerate}, and agile empirical studies.
 
-A key insight is that OBAF is \emph{epistemic} rather than procedural: it aims to align action with uncertainty, intention, and evidence. This becomes important when evaluating OBAF in the context of human--AI collaboration.
+A key insight is that OBAF is \emph{epistemic} rather than procedural: it aims to align action with uncertainty, intention, and evidence. This becomes important when evaluating OBAF in the context of human\nobreakdash--AI collaboration.
+
+\newpage
 
 \section*{The Agentic Future of Software Development}
 
@@ -210,15 +212,15 @@ In this landscape, frameworks built around human rituals, roles, and coordinatio
 
 \section*{Case Study: \texttt{lockd} and the Human--AI Cognitive Loop}
 
-The development of \texttt{lockd} is a compelling illustration of the agentic future.~\citep{blomgren2025lockd} Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the Codex CLI) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
+The development of \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} is a compelling illustration of the agentic future.~\citep{blomgren2025lockd} Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the \href{https://developers.openai.com/codex/cli}{Codex CLI}) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
 
-The resulting system---a distributed lock mechanism, state/document store, query engine, message queue, and streaming architecture---reflects architectural coherence normally derived from cross-functional collaboration, design reviews, and iterative refactoring cycles. The developer–AI workflow documented in the repository's \texttt{AGENTS.md} file shows continuous methodological adaptation, rapid feedback loops, and minimal coordination overhead.
+The resulting system---a distributed lock mechanism, state/document store, query engine, message queue, and streaming architecture---reflects architectural coherence normally derived from cross-functional collaboration, design reviews, and iterative refactoring cycles. The developer\nobreakdash--AI workflow documented in the repository's \texttt{AGENTS.md} file shows continuous methodological adaptation, rapid feedback loops, and minimal coordination overhead.
 
-This pattern resembles the ``centaur model'' of human–AI teaming \citep{shneiderman2020human}, where humans make contextual judgments while AI agents amplify generative and analytic capacity.
+This pattern resembles the ``centaur model'' of human\nobreakdash--AI teaming \citep{shneiderman2020human}, where humans make contextual judgments while AI agents amplify generative and analytic capacity.
 
 \section*{Evaluating Frameworks for the Agentic Era}
 
-To assess the compatibility of existing methodologies with the human--AI development paradigm, we constructed a structured multi-dimensional evaluation model (fully described in Appendix~A). The model consists of six dimensions:
+To assess the compatibility of existing methodologies with the human\nobreakdash--AI development paradigm, we constructed a structured multi-dimensional evaluation model (fully described in Appendix~A). The model consists of six dimensions:
 
 \begin{enumerate}
     \item ritual independence,
@@ -229,7 +231,7 @@ To assess the compatibility of existing methodologies with the human--AI develop
     \item human--AI ecosystem compatibility.
 \end{enumerate}
 
-Each dimension is composed of five binary indicators derived from empirical literature in software engineering, organizational science, socio-technical systems, and human–AI collaboration. A framework's compatibility score is computed as the average across all dimensions.
+Each dimension is composed of five binary indicators derived from empirical literature in software engineering, organizational science, socio-technical systems, and human\nobreakdash--AI collaboration. A framework's compatibility score is computed as the average across all dimensions.
 
 \section*{Compatibility Scores}
 
@@ -257,7 +259,7 @@ Waterfall/V-model/PRINCE2 & 6\% \\
 \label{tab:compat}
 \end{table}
 
-These results indicate that frameworks grounded in epistemic principles (OBAF, Lean Startup) align most naturally with human--AI cognitive ecosystems, while coordination-heavy and ceremony-dependent frameworks (Scrum, SAFe, LeSS) are structurally incompatible.
+These results indicate that frameworks grounded in epistemic principles (OBAF, Lean Startup) align most naturally with human\nobreakdash--AI cognitive ecosystems, while coordination-heavy and ceremony-dependent frameworks (Scrum, SAFe, LeSS) are structurally incompatible.
 
 \section*{Does OBAF Remain Relevant?}
 The central question is whether OBAF retains relevance in a world where teams dissolve into human--AI ecosystems. Initial intuition might suggest that frameworks built for human teams become obsolete. However, the analysis here supports a different conclusion.
@@ -272,18 +274,31 @@ OBAF's principles are not tied to human team structure. They are tied to uncerta
     \item making ethical and strategic decisions.
 \end{itemize}
 
-This aligns directly with OBAF's purpose. As such, OBAF becomes a governance layer for human--AI development rather than a team methodology. Its evolution into OBAF-A (described in the conclusion) formalizes this role.
+This aligns directly with OBAF's purpose~\citep{blomgren2025obaf}. As such, OBAF becomes a governance layer for human\nobreakdash--AI development rather than a team methodology. Its evolution into OBAF-A (described in the conclusion) formalizes this role.
+
+\newpage
 
 \section*{Conclusion}
+
 The transformation underway in software development cannot be overstated. As AI systems reduce the cost of iteration and coordination to near zero, the methodological landscape must shift accordingly. Frameworks built around human coordination structures lose relevance; frameworks built around uncertainty, outcomes, and learning gain importance.
 
 OBAF, despite its origins in human teams, remains uniquely well-suited for the agentic future due to its epistemic foundation. The \texttt{lockd} case study illustrates how human--AI teaming can dramatically amplify individual capability.~\citep{blomgren2025lockd} The compatibility model presented here situates OBAF at the leading edge of methodologies adaptable to this future. Moving forward, OBAF-A will be needed to fully articulate governance, alignment, and constraint-setting in human--AI ecosystems.
+
+\vfill
+
+\subsection*{About The Author}
+\small{
+Michel Blomgren is a software engineer and solutions architect specializing in distributed systems, large-scale infrastructure, and operational automation. With over two decades of experience, he has designed and implemented fault-tolerant microservice architectures, distributed workflow systems, and cloud-native integration pipelines across both commercial and defense contexts.
+
+His work includes developing Kubernetes controllers and operators, architecting resilient networking and platform services, and guiding organizations in adopting container orchestration, Infrastructure as Code, and secure software-delivery practices. Colleagues consistently note his ability to clarify complex system behavior and support effective cross-disciplinary collaboration.
+
+Blomgren is also the author of the Outcome-Based Agile Framework~\citep{blomgren2025obaf}, reflecting his broader interest in how feedback loops, constraints, and adaptive planning can improve decision-making in complex sociotechnical systems. He is currently working as a senior consultant at \href{https://nionit.com/}{Nion} situated in Gothenburg, Sweden.
+}
 
 %% \bibliographystyle{plainnat}
 %% \bibliography{references}
 
 \clearpage
-\onecolumn
 
 \section*{Appendix A: Methodology, Scoring Model, and Detailed Rationale}
 
@@ -317,6 +332,9 @@ Continuous integration and telemetry-driven experimentation correlate strongly w
 
 \paragraph{AI-assisted software engineering.}  
 Emerging research shows that LLMs significantly reduce cognitive load, accelerate iteration, and alter the division of labor between humans and tooling \citep{chen2021evaluating,bavishi2022fast,qian2023communicative}. Frameworks assuming human-driven planning, coordination, and discovery become structurally misaligned.
+
+\clearpage
+\onecolumn
 
 \subsection*{A.3 Evaluation Dimensions and Indicators}
 
@@ -470,6 +488,8 @@ These methods pass Q1 and Q2 because they do not rely on iterative ceremonies; i
 D1 clearly separates frameworks into two categories. OBAF, Lean Startup, and Kanban demonstrate ritual independence, aligning with literature showing that minimal-ceremony approaches perform best in high-uncertainty environments \citep{highsmith2001agile}. Conversely, Scrum, SAFe, and LeSS demonstrate strong ritual dependence inconsistent with agentic development environments, where ceremonies and timeboxes become unnecessary or counterproductive. Waterfall methods occupy a unique position: although ceremony-light, their phase-gate structure is a form of ritualization incompatible with iterative agentic workflows.
 
 
+\newpage
+
 % ============================
 % A.6 — DIMENSION D2
 % ============================
@@ -529,6 +549,8 @@ These frameworks satisfy Q1 and Q5—they can, in principle, be executed by a si
 \subsubsection*{A.6.3 Dimension Summary}
 
 D2 reveals a clear separation between frameworks grounded in \emph{coordination minimization} (OBAF, Lean Startup, Kanban, DevOps) and those predicated on \emph{team coordination mechanics} (XP, Scrum, LeSS, SAFe). Waterfall exhibits moderate coordination dependence through phase handoffs and hierarchical roles. These results align with sociotechnical literature emphasizing coordination as a primary constraint on productivity \citep{brooks1995mythical}. In a human--AI ecosystem, where agentic systems provide frictionless internal coordination, frameworks demanding human synchronization become structurally misaligned.
+
+\newpage
 
 % ============================
 % A.7 — DIMENSION D3
@@ -590,6 +612,8 @@ These frameworks assume expensive iteration and encourage upfront specification 
 
 D3 highlights a crucial distinction: frameworks that assume inexpensive iteration (OBAF, Lean, DevOps) align naturally with human–AI development, where iteration cost approaches zero. Frameworks with fixed iteration cadences (Scrum, LeSS, SAFe) or high-cost change models (Waterfall, PRINCE2) become structurally incompatible. Kanban and XP support iterative change but lack the assumption of cheapness that characterizes agentic workflows. This result aligns with empirical evidence that fast feedback cycles correlate strongly with software delivery performance \citep{forsgren2018accelerate}.
 
+\newpage
+
 % ============================
 % A.8 — DIMENSION D4
 % ============================
@@ -649,6 +673,8 @@ These frameworks score 0 on all indicators. They emphasize deliverables, gate re
 \subsubsection*{A.8.3 Dimension Summary}
 
 D4 shows a decisive gap between outcome-centered frameworks (OBAF, Lean Startup) and output-centered frameworks (Scrum, Waterfall, SAFe, PRINCE2). Kanban and XP occupy intermediary positions: Kanban is agnostic, while XP integrates internal quality outcomes but does not operationalize user-behavioral outcomes. In human–AI ecosystems, where AI agents can cheaply generate outputs but require human direction for outcomes, outcome-centricity becomes a critical differentiator \citep{forsgren2018accelerate}. This supports the high compatibility of OBAF and Lean Startup with agentic workflows.
+
+\newpage
 
 % ============================
 % A.9 — DIMENSION D5
@@ -710,10 +736,11 @@ These frameworks score 0 on all indicators. They require strict sequential phase
 
 D5 underscores the structural incompatibility of phase-driven and human-centric discovery frameworks with the realities of human–AI development ecosystems. OBAF, Lean Startup, and DevOps align closely with continuous, automated experimentation, reflecting research that modern high-performing organizations rely on real-time telemetry, automated rollouts, and continuous validation \citep{forsgren2018accelerate}. Kanban and XP demonstrate partial compatibility; their neutrality allows integration with agentic experimentation even if they do not require it. Scrum, LeSS, SAFe, and Waterfall are structurally misaligned due to their human-centric, timeboxed, and phase-based approaches to discovery.
 
+\newpage
+
 % ============================
 % A.10 — DIMENSION D6
 % ============================
-
 
 \subsection*{A.10 Dimension D6: Human--AI Ecosystem Compatibility}
 
@@ -785,6 +812,8 @@ D6 clearly distinguishes between frameworks that treat “the team” as a human
 
 OBAF is uniquely strong because it was never tied to team rituals; its cognitive architecture (outcomes, constraints, recognitional planning, evidence) directly matches how human–AI ecosystems function in practice. This explains its exceptionally high compatibility score in the main analysis.
 
+\newpage
+
 % ============================
 % A.11 — FINAL COMPATIBILITY RESULTS
 % ============================
@@ -843,6 +872,8 @@ The model is scientifically valid because:
 \end{itemize}
 
 This makes the model reproducible, falsifiable, and analyzable—meeting the standards of academic rigor for conceptual comparative work.
+
+\newpage
 
 % ============================
 % A.13 — LIMITATIONS
@@ -912,7 +943,7 @@ The compatibility model presented here provides a scientifically grounded, trans
 
 OBAF’s perfect compatibility score is not the result of bias but of structural alignment between its core epistemic principles and the demands of human--AI development: continuous discovery, constraint framing, recognitional planning, and evidence-driven iteration. As agentic toolchains become increasingly prevalent, such frameworks will form the epistemic and governance backbone of future software engineering practice.
 
-\vspace{1em}
+\newpage
 
 \printbibliography
 
