@@ -35,10 +35,10 @@
 % NOTE: The final bottom darkness will be:
 %   total_bottom = 1 - (1 - TopOpacity)*(1 - ExtraOpacity)
 % Pick this so the bottom looks as dark as you want.
-\newcommand*\ExtraOpacity{0.80}
+\newcommand*\ExtraOpacity{0.30}
 % Fade band bounds (dimensions, measured from bottom of the page)
-\newcommand*\FadeTop{0.6\paperheight}     % where the fade ends (higher up)
-\newcommand*\FadeBottom{0.4\paperheight}  % where the fade meets the solid bottom
+\newcommand*\FadeTop{0.3\paperheight}     % where the fade ends (higher up)
+\newcommand*\FadeBottom{0.1\paperheight}  % where the fade meets the solid bottom
 % Tiny overlap to kill any hairline seam
 \newcommand*\Overlap{0.05pt}
 % A fading that is opaque at the bottom edge of the shape and
@@ -59,8 +59,32 @@
 
 % end of background settings
 
-
+\newcommand{\TitleMain}{10x}
+\newcommand{\TitleSubtitle}{Outcome-Based Agile in the Era of Human--AI Software Development}
+\newcommand{\FullTitle}{\TitleMain: \TitleSubtitle}
+\newcommand{\TitleSubtitleDisplay}{Outcome-Based Agile in the Era of\\
+  Human--AI Software Development}
 \input{structure.tex} % Specifies the document structure and loads requires packages
+
+\chead{\textit{\FullTitle}}
+
+\makeatletter
+\newcommand{\makecustomtitle}{%
+  \begingroup
+  \thispagestyle{firstpage}%
+  \vspace*{-20pt}%
+  \noindent\makebox[\textwidth][l]{\color{yellow}\fontsize{110}{120}\usefont{OT1}{phv}{b}{n}\TitleMain}\par
+  \vspace{0.8em}%
+  {\noindent\raggedright\fontsize{28}{30}\usefont{OT1}{phv}{b}{n}\color{yellow}\TitleSubtitleDisplay\par}
+  \vspace{0.8em}%
+  {\noindent\raggedright\color{yellow}\authorstyle{Michel Blomgren}\par}
+  {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}}\par
+  \vspace{26em}%
+  {\centering\color{yellow}\@date\par}
+  \vspace{1em}%
+  \endgroup
+}
+\makeatother
 
 % Make subsections 1. 2. 3., not 1.1., 1.2., etc.
 \renewcommand\thesubsection{\arabic{subsection}.}
@@ -71,13 +95,11 @@
 %	ARTICLE INFORMATION
 %----------------------------------------------------------------------------------------
 
-\title{10x\\
-Outcome-Based Agile in the Era of Human--AI Software Development}
+\title{\FullTitle}
 
-\author{
-  \authorstyle{Michel Blomgren}
-  \newline
-  \institution{\textbf{Software Engineer \& Solution Architect}\newline \href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}
+\author{%
+  \authorstyle{Michel Blomgren}\\
+  \institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}%
 }
 
 \date{\color{white}\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
@@ -125,11 +147,9 @@ Outcome-Based Agile in the Era of Human--AI Software Development}
 
 \hypersetup{urlcolor=yellow}
 
-\maketitle
+\twocolumn[{\makecustomtitle}]
 
 \hypersetup{urlcolor=blue}
-
-\thispagestyle{firstpage}
 
 %----------------------------------------------------------------------------------------
 %	ABSTRACT

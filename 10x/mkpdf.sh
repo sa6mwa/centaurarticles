@@ -21,24 +21,23 @@ BASENAME=$(basename "$FILE" .tex)
 PASS=0
 while [[ $PASS -lt $MAX_PASSES ]]; do
   pdflatex -interaction=nonstopmode -shell-escape --output-format=pdf --output-directory=$OUTDIR "$FILE"
-  if [[ ! -f "$OUTDIR/$BASENAME.bbl" ]] || [[ "$OUTDIR/$BASENAME.bbl" -ot "$OUTDIR/$BASENAME.aux" ]]; then
+  need_bibtex=false
+  if [[ ! -s "$OUTDIR/$BASENAME.bbl" ]]; then
+    need_bibtex=true
+  elif grep -q "Please (re)run BibTeX" "$OUTDIR/$BASENAME.log"; then
+    need_bibtex=true
+  fi
+
+  if [[ "$need_bibtex" == true ]]; then
     echo "Running bibtex to update bibliography..."
     pushd $OUTDIR > /dev/null
     BIBINPUTS="../:${BIBINPUTS:-}" BSTINPUTS="../:${BSTINPUTS:-}" bibtex $BASENAME
     popd > /dev/null
     PASS=$((PASS+1))
     continue
-  elif grep -qE "Rerun to get|Please rerun LaTeX" "$OUTDIR/$BASENAME.log"; then
-    echo "Rerunning pdflatex for unresolved references..."
-    PASS=$((PASS+1))
-  elif grep -q "Please (re)run BibTeX" "$OUTDIR/$BASENAME.log"; then
-    # Fallback in case the .bbl timestamp test missed the request for some reason
-    echo "Running bibtex due to log request..."
-    pushd $OUTDIR > /dev/null
-    BIBINPUTS="../:${BIBINPUTS:-}" BSTINPUTS="../:${BSTINPUTS:-}" bibtex $BASENAME
-    popd > /dev/null
-    PASS=$((PASS+1))
-  elif grep -qE "Rerun to get|Please rerun LaTeX" "$OUTDIR/$BASENAME.log"; then
+  fi
+
+  if grep -qE "Rerun to get|Please rerun LaTeX" "$OUTDIR/$BASENAME.log"; then
     echo "Rerunning pdflatex for unresolved references..."
     PASS=$((PASS+1))
   else
