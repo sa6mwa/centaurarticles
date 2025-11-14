@@ -78,7 +78,7 @@
   {\noindent\raggedright\fontsize{28}{30}\usefont{OT1}{phv}{b}{n}\color{yellow}\TitleSubtitleDisplay\par}
   \vspace{0.8em}%
   {\noindent\raggedright\color{yellow}\authorstyle{Michel Blomgren}\par}
-  {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}}\par
+  {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com} --- \href{https://pkt.systems}{pkt.systems}}}\par
   \vspace{26em}%
   {\centering\color{yellow}\@date\par}
   \vspace{1em}%
@@ -164,7 +164,7 @@
 \color{white}
 
 
-\lettrine[lines=3,lhang=0.1,findent=1pt]{L}{arge} language models (LLMs) and agentic AI systems are profoundly reshaping how software is conceived, designed, and built. The ability of a single senior developer, augmented by autonomous coding agents, to produce sophisticated distributed systems in weeks rather than months raises fundamental questions about the future of software development methodologies. This essay investigates the relevance of the Outcome-Based Agile Framework (OBAF) in this emerging paradigm. After situating OBAF historically as a response to ``agile theater,'' the essay critically analyzes whether OBAF remains applicable in a world where human teams collapse into human--AI collectives. The analysis incorporates research from socio-technical systems theory, naturalistic decision-making, DevOps, and AI-assisted software engineering. A detailed case study of the \texttt{lockd} project illustrates the agentic development reality. A structured compatibility assessment---using a multi-dimensional evaluation model described in Appendix~A---compares OBAF to frameworks such as Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. The results suggest that OBAF is unusually well-suited for the agentic future, not because of its team assumptions, but because of its epistemic foundation in uncertainty, outcomes, constraints, and evidence-driven adaptation. The essay concludes by outlining how OBAF must evolve into OBAF-A: a governance layer for human--AI ecosystems.
+\lettrine[lines=3,lhang=0.1,findent=1pt]{L}{arge} language models (LLMs) and agentic AI systems are profoundly reshaping how software is conceived, designed, and built. The ability of a single senior developer, augmented by autonomous coding agents, to produce sophisticated distributed systems in weeks rather than months raises fundamental questions about the future of software development methodologies. This essay investigates the relevance of the Outcome-Based Agile Framework (OBAF) in this emerging paradigm. After situating OBAF historically as a response to ``agile theater,'' the essay critically analyzes whether OBAF remains applicable in a world where human teams collapse into human\nobreakdash--AI collectives. The analysis incorporates research from socio-technical systems theory, naturalistic decision-making, DevOps, and AI-assisted software engineering. A detailed case study of the \texttt{lockd} project illustrates the agentic development reality. A structured compatibility assessment---using a multi-dimensional evaluation model described in Appendix~A---compares OBAF to frameworks such as Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. The results suggest that OBAF is unusually well-suited for the agentic future, not because of its team assumptions, but because of its epistemic foundation in uncertainty, outcomes, constraints, and evidence-driven adaptation. The essay concludes by outlining how OBAF must evolve into OBAF-A: a governance layer for human\nobreakdash--AI ecosystems.
 
 \clearpage
 
@@ -174,7 +174,7 @@
 
 Software engineering is undergoing a transformation unprecedented in both speed and scope. The emergence of large language models (LLMs), autonomous coding assistants, and multi-agent AI systems is collapsing long-standing assumptions about team-based development, coordination costs, and the economics of iteration. AI-augmented workflows increasingly allow individual developers to accomplish what previously required entire teams.
 
-The \texttt{lockd} project is emblematic of this shift. Created over a period of approximately five weeks of spare-time work, it evolved into a coherent distributed system with a feature set comparable to those implemented by multi-person engineering teams: a distributed lock service with strong consistency semantics, a NoSQL document store, an indexing and query engine, a messaging system, a multi-backend storage abstraction, and a streaming response architecture. This scale of achievement by one developer---working in collaboration with an AI coding agent---illustrates the emerging paradigm of human--AI cognitive partnerships.
+The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project is emblematic of this shift.~\citep{blomgren2025lockd} Created over a period of approximately five weeks of spare-time work, it evolved into a coherent distributed system with a feature set comparable to those implemented by multi-person engineering teams: a distributed lock service with strong consistency semantics, a NoSQL document store, an indexing and query engine, a messaging system, a multi-backend storage abstraction, and a streaming response architecture. This scale of achievement by one developer---working in collaboration with an AI coding agent---illustrates the emerging paradigm of human--AI cognitive partnerships.
 
 This essay investigates whether existing methodologies, particularly the Outcome-Based Agile Framework (OBAF), remain relevant in this new environment. OBAF was originally conceived as an antidote to ``agile theater,'' re-centering Agile around outcomes, constraints, discovery, and evidence. But does it retain utility when discovery becomes automated, and when execution is handled by AI agents rather than human teams? We explore this question by integrating historical analysis, conceptual reasoning, and an empirical case study.
 
@@ -210,7 +210,7 @@ In this landscape, frameworks built around human rituals, roles, and coordinatio
 
 \section*{Case Study: \texttt{lockd} and the Human--AI Cognitive Loop}
 
-The development of \texttt{lockd} is a compelling illustration of the agentic future. Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the Codex CLI) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
+The development of \texttt{lockd} is a compelling illustration of the agentic future.~\citep{blomgren2025lockd} Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the Codex CLI) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
 
 The resulting system---a distributed lock mechanism, state/document store, query engine, message queue, and streaming architecture---reflects architectural coherence normally derived from cross-functional collaboration, design reviews, and iterative refactoring cycles. The developer–AI workflow documented in the repository's \texttt{AGENTS.md} file shows continuous methodological adaptation, rapid feedback loops, and minimal coordination overhead.
 
@@ -237,9 +237,10 @@ Table~\ref{tab:compat} presents compatibility scores for selected frameworks, co
 
 \begin{table}[h]
 \centering
-\begin{tabular}{l c}
+\small
+\begin{tabular}{@{}l c@{}}
 \toprule
-\textbf{Framework} & \textbf{Compatibility with Human--AI Ecosystem (\%)} \\
+\textbf{Framework} & \textbf{\shortstack{Compatibility\\with Human--AI\\Ecosystem (\%)}} \\
 \midrule
 Outcome-Based Agile (OBAF) & \textbf{100\%} \\
 Lean Startup & 93\% \\
@@ -249,7 +250,7 @@ Extreme Programming (XP) & 56\% \\
 Scrum & 22\% \\
 LeSS & 16\% \\
 SAFe & 8\% \\
-Waterfall / V-model / PRINCE2 & 6\% \\
+Waterfall/V-model/PRINCE2 & 6\% \\
 \bottomrule
 \end{tabular}
 \caption{Compatibility estimates of selected frameworks with a human--AI development ecosystem. Scores are derived from structured expert judgment across research-backed dimensions; see Appendix~A for methodology, scoring details, and justification.}
@@ -276,7 +277,7 @@ This aligns directly with OBAF's purpose. As such, OBAF becomes a governance lay
 \section*{Conclusion}
 The transformation underway in software development cannot be overstated. As AI systems reduce the cost of iteration and coordination to near zero, the methodological landscape must shift accordingly. Frameworks built around human coordination structures lose relevance; frameworks built around uncertainty, outcomes, and learning gain importance.
 
-OBAF, despite its origins in human teams, remains uniquely well-suited for the agentic future due to its epistemic foundation. The \texttt{lockd} case study illustrates how human--AI teaming can dramatically amplify individual capability. The compatibility model presented here situates OBAF at the leading edge of methodologies adaptable to this future. Moving forward, OBAF-A will be needed to fully articulate governance, alignment, and constraint-setting in human--AI ecosystems.
+OBAF, despite its origins in human teams, remains uniquely well-suited for the agentic future due to its epistemic foundation. The \texttt{lockd} case study illustrates how human--AI teaming can dramatically amplify individual capability.~\citep{blomgren2025lockd} The compatibility model presented here situates OBAF at the leading edge of methodologies adaptable to this future. Moving forward, OBAF-A will be needed to fully articulate governance, alignment, and constraint-setting in human--AI ecosystems.
 
 %% \bibliographystyle{plainnat}
 %% \bibliography{references}
@@ -319,13 +320,12 @@ Emerging research shows that LLMs significantly reduce cognitive load, accelerat
 
 \subsection*{A.3 Evaluation Dimensions and Indicators}
 
-Each framework \(F\) is evaluated along six dimensions \(D_1,\dots,D_6\).  
-Each dimension contains five binary indicators \(q_{k,i}(F)\), each grounded in research findings.
+Each framework \(F\) is evaluated along six dimensions \(D_1, \dots, D_6\), where each dimension contains five binary indicators \(q_{k,i}(F)\), grounded in empirical or theoretical research.
 
-A score of:
+A score of 1 indicates that the framework satisfies the indicator fully.  
+A score of 0 indicates that the framework does not satisfy the indicator.
 
-- **1** indicates the framework satisfies the indicator fully.
-- **0** indicates the framework does not satisfy it.
+The six dimensions and their indicators are defined in the subsections that follow.
 
 \subsubsection*{D1: Ritual Independence}
 Assesses whether the framework depends on human-specific ceremonies or ritual structures.
@@ -407,6 +407,8 @@ D_k(F) = \frac{1}{5}\sum_{i=1}^{5} q_{k,i}(F)
 
 Next pages present full scoring tables and rationales.
 
+\newpage
+
 % ============================
 % A.5 — DIMENSION D1
 % ============================
@@ -437,13 +439,13 @@ Waterfall / V-Model / PRINCE2        & 1 & 1 & 0 & 0 & 0 \\
 \subsubsection*{A.5.2 Rationale for Each Framework}
 
 \paragraph{OBAF.}
-OBAF receives a full score (1 on all indicators) because it intentionally prescribes **no ceremonies**, **no timeboxes**, **no fixed roles**, and no ritual structures of any kind. Its core principles—outcomes, constraints, discovery, evidence, and recognitional planning—remain fully intact without any ritual expression, which aligns with research in naturalistic decision-making showing that expertise arises from cognitive models rather than procedural rituals \citep{klein1998sources}. Because OBAF's identity is epistemic rather than ceremonial, it satisfies all D1 indicators.
+OBAF receives a full score (1 on all indicators) because it intentionally prescribes \textbf{no ceremonies}, \textbf{no timeboxes}, \textbf{no fixed roles}, and no ritual structures of any kind. Its core principles—outcomes, constraints, discovery, evidence, and recognitional planning—remain fully intact without any ritual expression, which aligns with research in naturalistic decision-making showing that expertise arises from cognitive models rather than procedural rituals \citep{klein1998sources}. Because OBAF's identity is epistemic rather than ceremonial, it satisfies all D1 indicators.
 
 \paragraph{Lean Startup.}
 Lean Startup also satisfies all five indicators. It relies on the build–measure–learn cycle, which is a conceptual loop rather than a ritualized, timeboxed ceremony. Lean Startup prescribes no meetings, no roles, no sprint cadences, and no formal rituals, and its principles remain valid even when the cycle is executed autonomously by agents. Empirical studies of Lean practice confirm that it adapts well to contexts without formal ceremonies \citep{ries2011lean}.
 
 \paragraph{Kanban.}
-Kanban scores 1 on all indicators because it contains **no required ceremonies** and **no required roles**. While teams often add rituals (e.g., daily standups), these are not intrinsic to Kanban’s design. Kanban boards serve as coordination artifacts without requiring human-specific behavioral structures, consistent with distributed cognition research \citep{hutchins1995cognition}. Kanban principles remain valid when implemented by a human–AI system.
+Kanban scores 1 on all indicators because it contains \textbf{no required ceremonies} and \textbf{no required roles}. While teams often add rituals (e.g., daily standups), these are not intrinsic to Kanban’s design. Kanban boards serve as coordination artifacts without requiring human-specific behavioral structures, consistent with distributed cognition research \citep{hutchins1995cognition}. Kanban principles remain valid when implemented by a human–AI system.
 
 \paragraph{DevOps/SRE.}
 DevOps receives 1 for Q1 (no timeboxes) and Q4 (principles valid without rituals), but fails Q2 and Q3 because DevOps organizations typically rely on recurring rituals (post-incident reviews, operational reviews) and require human-specific roles (on-call engineer, SRE). Q5 is scored 0 because DevOps maturity assessments often emphasize procedural adherence (e.g., blameless postmortems). Although DevOps is principled, it retains socio-cultural rituals.
@@ -594,7 +596,7 @@ D3 highlights a crucial distinction: frameworks that assume inexpensive iteratio
 
 \subsection*{A.8 Dimension D4: Outcome Orientation}
 
-The D4 dimension assesses whether a framework fundamentally defines success in terms of *outcomes* rather than *outputs*. This includes behavioral change, user value, empirical validation, and the integration of quality attributes as part of the definition of "done." Research in product development, Lean, DevOps, and evidence-based software engineering emphasizes outcomes as the reliable indicator of value \citep{forsgren2018accelerate,ries2011lean}. Frameworks that emphasize feature completion or milestone delivery without behavioral validation score lower.
+The D4 dimension assesses whether a framework fundamentally defines success in terms of \emph{outcomes} rather than \emph{outputs}. This includes behavioral change, user value, empirical validation, and the integration of quality attributes as part of the definition of ``done.'' Research in product development, Lean, DevOps, and evidence-based software engineering emphasizes outcomes as the reliable indicator of value \citep{forsgren2018accelerate,ries2011lean}. Frameworks that emphasize feature completion or milestone delivery without behavioral validation score lower.
 
 \subsubsection*{A.8.1 Binary Scoring Table for D4}
 
@@ -712,20 +714,22 @@ D5 underscores the structural incompatibility of phase-driven and human-centric 
 % A.10 — DIMENSION D6
 % ============================
 
+
 \subsection*{A.10 Dimension D6: Human--AI Ecosystem Compatibility}
 
-The D6 dimension evaluates whether a framework remains coherent, functional, and conceptually valid when the “team” consists of a single human developer working together with autonomous or semi-autonomous AI agents.  
-This is the pivotal dimension for determining long-term viability of development methodologies in an agentic future.
+The D6 dimension evaluates whether a framework remains coherent, functional, and conceptually valid when the ``team'' consists of a single human developer working together with autonomous or semi-autonomous AI agents. This is the pivotal dimension for determining the long-term viability of development methodologies in an agentic future.
 
-Research in human–AI teaming \citep{seeber2020collaboration,shneiderman2020human}, distributed cognition \citep{hutchins1995cognition}, and AI-assisted engineering \citep{qian2023communicative,chen2021evaluating,bavishi2022fast} demonstrates that human–AI collectives operate very differently from human teams:
+Research in human--AI teaming \citep{seeber2020collaboration,shneiderman2020human}, distributed cognition \citep{hutchins1995cognition}, and AI-assisted engineering \citep{qian2023communicative,chen2021evaluating,bavishi2022fast} demonstrates that human--AI collectives operate in ways that differ fundamentally from traditional human teams. Key properties include:
 
-- Coordination costs approach **zero**  
-- Shared state becomes **virtualized** rather than socially negotiated  
-- Execution is **automated** and **parallelized**  
-- Discovery and refinement loops become **continuous**  
-- Human responsibility shifts to **intent, oversight, constraints, and ethics**
+\begin{itemize}
+    \item coordination costs approaching \textbf{zero};
+    \item shared state becoming \textbf{virtualized} rather than socially negotiated;
+    \item execution becoming \textbf{automated} and \textbf{parallelized};
+    \item discovery and refinement loops becoming \textbf{continuous};
+    \item human responsibility shifting toward \textbf{intent, oversight, constraints, and ethics}.
+\end{itemize}
 
-Frameworks predicated on human social behaviors, cognitive limits, or interpersonal synchronization fail this dimension.
+Frameworks predicated on human social behaviors, interpersonal synchronization, fixed role structures, or cognitive limitations generally fail this dimension, as such assumptions do not transfer to ecosystems where AI agents perform the majority of execution while humans focus on higher-order decision-making and interpretation.
 
 \subsubsection*{A.10.1 Binary Scoring Table for D6}
 
