@@ -59,9 +59,13 @@
 
 % end of background settings
 
-\newcommand{\TitleMain}{10x}
+\newcommand{\TitleMain}{10×}
+%\newcommand{\TitleMainFont}{\usefont{T1}{SourceSansPro-TLF}{bx}{n}}
+\newcommand{\TitleMainFont}{\usefont{T1}{Montserrat-TLF}{b}{n}}
+
 \newcommand{\TitleSubtitle}{Outcome-Based Agile in the Era of Human--AI Software Development}
-\newcommand{\FullTitle}{\TitleMain: \TitleSubtitle}
+%\newcommand{\FullTitle}{\TitleMain: \TitleSubtitle}
+\newcommand{\FullTitle}{\TitleSubtitle}
 \newcommand{\TitleSubtitleDisplay}{Outcome-Based Agile in the Era of\\
   Human--AI Software Development}
 \input{structure.tex} % Specifies the document structure and loads requires packages
@@ -73,7 +77,7 @@
   \begingroup
   \thispagestyle{firstpage}%
   \vspace*{-20pt}%
-  \noindent\makebox[\textwidth][l]{\color{yellow}\fontsize{110}{120}\usefont{OT1}{phv}{b}{n}\TitleMain}\par
+  \noindent\makebox[\textwidth][l]{\color{yellow}\fontsize{110}{120}\TitleMainFont\TitleMain}\par
   \vspace{0.8em}%
   {\noindent\raggedright\fontsize{28}{30}\usefont{OT1}{phv}{b}{n}\color{yellow}\TitleSubtitleDisplay\par}
   \vspace{0.8em}%
@@ -212,7 +216,7 @@ In this landscape, frameworks built around human rituals, roles, and coordinatio
 
 \section*{Case Study: \texttt{lockd} and the Human--AI Cognitive Loop}
 
-The development of \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} is a compelling illustration of the agentic future.~\citep{blomgren2025lockd} Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the \href{https://developers.openai.com/codex/cli}{Codex CLI}) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
+The development of \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} is a compelling illustration of the agentic future~\citep{blomgren2025lockd}. Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the \href{https://developers.openai.com/codex/cli}{Codex CLI}) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
 
 The resulting system---a distributed lock mechanism, state/document store, query engine, message queue, and streaming architecture---reflects architectural coherence normally derived from cross-functional collaboration, design reviews, and iterative refactoring cycles. The developer\nobreakdash--AI workflow documented in the repository's \texttt{AGENTS.md} file shows continuous methodological adaptation, rapid feedback loops, and minimal coordination overhead.
 
