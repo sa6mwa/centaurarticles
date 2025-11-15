@@ -11,5 +11,5 @@ Expect recurring themes such as:
 ## Articles
 
 | Title | Synopsis |
-| --- | --- |
+|:------|:---------|
 | [10x: Outcome-Based Agile in the Era of Human–AI Software Development](10x.pdf) | Evaluates how the Outcome-Based Agile Framework (OBAF) fits AI-accelerated iteration. Includes the [`lockd`](https://github.com/sa6mwa/lockd) case study and a six-dimensional compatibility model comparing OBAF with Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. |
