@@ -35,10 +35,10 @@
 % NOTE: The final bottom darkness will be:
 %   total_bottom = 1 - (1 - TopOpacity)*(1 - ExtraOpacity)
 % Pick this so the bottom looks as dark as you want.
-\newcommand*\ExtraOpacity{0.30}
+\newcommand*\ExtraOpacity{0.50}
 % Fade band bounds (dimensions, measured from bottom of the page)
-\newcommand*\FadeTop{0.3\paperheight}     % where the fade ends (higher up)
-\newcommand*\FadeBottom{0.1\paperheight}  % where the fade meets the solid bottom
+\newcommand*\FadeTop{0.4\paperheight}     % where the fade ends (higher up)
+\newcommand*\FadeBottom{0.2\paperheight}  % where the fade meets the solid bottom
 % Tiny overlap to kill any hairline seam
 \newcommand*\Overlap{0.05pt}
 % A fading that is opaque at the bottom edge of the shape and
@@ -83,9 +83,9 @@
   \vspace{0.8em}%
   {\noindent\raggedright\color{yellow}\authorstyle{Michel Blomgren}\par}
   {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com} --- \href{https://pkt.systems}{pkt.systems}}}\par
-  \vspace{26em}%
-  {\centering\color{yellow}\@date\par}
-  \vspace{1em}%
+  \vspace{9cm}%
+%  {\centering\color{yellow}\@date\par}
+%  \vspace{1em}%
   \endgroup
 }
 \makeatother
@@ -167,79 +167,107 @@
 
 \color{white}
 
+\vspace*{2cm}
 
-\lettrine[lines=3,lhang=0.1,findent=1pt]{L}{arge} language models (LLMs) and agentic AI systems are profoundly reshaping how software is conceived, designed, and built. The ability of a single senior developer, augmented by autonomous coding agents, to produce sophisticated distributed systems in weeks rather than months raises fundamental questions about the future of software development methodologies. This essay investigates the relevance of the Outcome-Based Agile Framework (OBAF) in this emerging paradigm. After situating OBAF historically as a response to ``agile theater,'' the essay critically analyzes whether OBAF remains applicable in a world where human teams collapse into human\nobreakdash--AI collectives. The analysis incorporates research from socio-technical systems theory, naturalistic decision-making, DevOps, and AI-assisted software engineering. A detailed case study of the \texttt{lockd} project illustrates the agentic development reality. A structured compatibility assessment---using a multi-dimensional evaluation model described in Appendix~A---compares OBAF to frameworks such as Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. The results suggest that OBAF is unusually well-suited for the agentic future, not because of its team assumptions, but because of its epistemic foundation in uncertainty, outcomes, constraints, and evidence-driven adaptation. The essay concludes by outlining how OBAF must evolve into OBAF-A: a governance layer for human\nobreakdash--AI ecosystems.
+\noindent
+\today
+
+\lettrine[lines=3,lhang=0.1,findent=1pt]{L}{arge} language models (LLMs) and agentic AI systems are profoundly reshaping how software is conceived, designed, and built. The ability of a single senior developer, augmented by autonomous coding agents, to produce sophisticated distributed systems in weeks rather than months raises fundamental questions about the future of software development methodologies.
+
+This essay investigates the relevance of the Outcome-Based Agile Framework (OBAF) in this emerging paradigm. After situating OBAF historically as a response to ``agile theater,'' the essay critically analyzes whether OBAF remains applicable in a world where human teams collapse into human\nobreakdash--AI collectives. The analysis incorporates research from socio-technical systems theory, naturalistic decision-making, DevOps, and AI-assisted software engineering. A detailed case study of the \texttt{lockd} project illustrates the agentic development reality.
+\vfill
+A structured compatibility assessment---using a multi-dimensional evaluation model described in Appendix~A---compares OBAF to frameworks such as Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. Appendix~B extends this analysis to twenty organizational models, evaluating whether these supports human--AI (centaur) software development, and Appendix~C assesses which organizational models best align with OBAF’s tenets. The results suggest that OBAF is unusually well-suited for the agentic future, not because of its team assumptions, but because of its epistemic foundation in uncertainty, outcomes, constraints, and evidence-driven adaptation.
 
 \clearpage
 
 \color{Black}
 
-\subsection*{Introduction}
+\section*{Introduction}
 
-Software engineering is undergoing a transformation unprecedented in both speed and scope. The emergence of large language models (LLMs), autonomous coding assistants, and multi-agent AI systems is collapsing long-standing assumptions about team-based development, coordination costs, and the economics of iteration. AI-augmented workflows increasingly allow individual developers to accomplish what previously required entire teams.
+Software engineering is undergoing a methodological, organizational, and cognitive shift without historical precedent. The emergence of advanced large language models (LLMs), autonomous coding assistants, and multi-agent AI systems is not simply increasing productivity; it is changing the very substrate of how software is reasoned about, created, and maintained. Assumptions that have governed decades of engineering practice—including team-based coordination, incremental design elaboration, and the economics of iteration—are now \textbf{destabilized} by the presence of agentic systems that collaborate, generate, refactor, explore, and synthesize at machine speed.
 
-The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project is emblematic of this shift~\citep{blomgren2025lockd}. Created over a period of approximately five weeks of spare-time work, it evolved into a coherent distributed system with a feature set comparable to those implemented by multi-person engineering teams: a distributed lock service with strong consistency semantics, a NoSQL document store, an indexing and query engine, a messaging system, a multi-backend storage abstraction, and a streaming response architecture. This scale of achievement by one developer---working in collaboration with an AI coding agent---illustrates the emerging paradigm of human--AI cognitive partnerships.
+The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project is emblematic of this transition%
+~\citep{blomgren2025lockd}. Developed in roughly five weeks of spare time by a single senior engineer working in
+collaboration with an AI coding assistant, \texttt{lockd} evolved rapidly into a coherent distributed system with
+capabilities normally associated with multi-person platform teams: a distributed lock service with strong
+consistency semantics, an embedded NoSQL document store, an indexing and query engine (with a query language -- LQL), a messaging system (LQ), a multi-backend storage abstraction, and a streaming-response execution model. The project's
+\texttt{AGENTS.md} file documents a rich human\nobreakdash--AI interaction pattern, where the developer framed intent, constraints, and invariants, while the AI agent explored alternatives, generated implementations, and refined architecture. This is not a case of ``AI writing the code''; it is a case of a \emph{centaur system}, an integrated human\nobreakdash--AI cognitive unit producing outcomes neither could have achieved alone.
 
-This essay investigates whether existing methodologies, particularly the Outcome-Based Agile Framework (OBAF)~\citep{blomgren2025obaf}, remain relevant in this new environment. OBAF was originally conceived as an antidote to ``agile theater,'' re-centering Agile around outcomes, constraints, discovery, and evidence. But does it retain utility when discovery becomes automated, and when execution is handled by AI agents rather than human teams? We explore this question by integrating historical analysis, conceptual reasoning, and an empirical case study.
+The term ``centaur'' originates from Garry Kasparov’s investigation into human\nobreakdash--AI partnerships after his historic matches against Deep Blue~\citep{alvescipriano2023centaur}. Kasparov observed that the strongest chess play did not emerge from humans alone or machines alone, but from a hybrid team in which humans provided contextual awareness and strategic framing, while machines provided combinatorial depth and tactical analysis. This insight now generalizes far beyond chess. \emph{In software engineering, centaur systems allow a single individual to achieve the throughput, architectural coherence, and exploratory bandwidth of an entire team}. The \texttt{lockd} project provides empirical evidence of how engineering practice transforms when human cognition is amplified--not replaced--by autonomous agents.
+
+This essay examines whether existing development methodologies remain viable in this emerging agentic ecosystem.
+In particular, it considers the Outcome-Based Agile Framework (OBAF)~\citep{blomgren2025obaf}, originally conceived
+as a corrective to ``agile theater,'' and asks whether its epistemic foundations continue to hold when discovery,
+design, and execution are increasingly automated. To do so, the essay integrates historical analysis, conceptual
+reasoning, and empirical evidence from agentic engineering practices, culminating in a structured, research-backed
+evaluation across three layers: delivery methodologies (Appendix~A), organizational architectures (Appendix~B),
+and the alignment between OBAF and organizational models (Appendix~C).
 
 \section*{From Agile to Agile Theater}
 
-Agile emerged in the early 2000s as a response to heavyweight, plan-driven methodologies such as Waterfall and the V-model, which assumed stable requirements and high-cost iteration. Research across multiple decades has documented that these methods perform poorly under uncertainty, where the cost of prediction exceeds the cost of change \citep{highsmith2001agile,beck1999extreme,cockburn2001}. Agile's emphasis on iteration, user feedback, and adaptation proved more effective.
+Agile emerged in the early 2000s as a counter-movement to heavyweight, plan-driven methodologies such as the
+Waterfall model and the V-model. The theoretical and empirical critique of those earlier models is now well
+established: when uncertainty is high and the cost of change is lower than the cost of prediction, plan-driven
+methods perform poorly~\citep{highsmith2001agile,beck1999extreme,cockburn2001}. Agile methods were built on a
+different epistemic contract: iterate quickly, learn continuously, and adapt as reality unfolds.
 
-However, as Agile diffused into large organizations, its success triggered a paradox: its popularity produced bureaucratic mutations that reintroduced the same rigidity Agile was designed to eliminate. Frameworks like Scrum and SAFe became increasingly ceremony-driven, emphasizing ritual compliance (sprints, standups, PI planning, role boundaries) over genuine learning. This drift into ``agile theater'' is now widely documented in empirical studies \citep{kuusinen2017challenges,lewallen2020agile}. The gap between Agile's epistemic intent and organizational practice became pronounced.
+Yet as Agile spread into organizations of increasing size and complexity, it accreted ceremonial overhead.
+Scrum, SAFe, and related frameworks evolved into prescriptive systems emphasizing compliance with rituals--
+sprints, standups, reviews, retrospectives, PI planning--over the epistemic agility they were supposed to foster. Empirical studies now document the prevalence of ``agile theater,'' a performative mimicry of Agile values without their underlying cognitive intent~\citep{kuusinen2017challenges,lewallen2020agile}. The structural dynamics of large organizations--hierarchy, approval chains, coordination overhead--privileged ritual over learning.
 
 \section*{The Origins and Philosophy of OBAF}
 
-The Outcome-Based Agile Framework (OBAF)~\citep{blomgren2025obaf} was created as an explicit correction to this drift. Rather than prescribing roles, ceremonies, or artifacts, OBAF emphasizes:
+The Outcome-Based Agile Framework (OBAF) was created to correct this drift. OBAF reintegrates Agile with its
+original epistemic roots. Rather than prescribing roles or ceremonies, it emphasizes outcomes, constraints,
+discovery, recognitional sensemaking, and evidence~\citep{blomgren2025obaf}. These principles draw from a wide
+range of disciplines: Boyd’s OODA loop~\citep{osinga2006science}, naturalistic decision-making~\citep{klein1998sources},
+distributed cognition~\citep{hutchins1995cognition}, sociotechnical systems theory~\citep{trist1981evolution}, and
+DevOps/continuous delivery research~\citep{forsgren2018accelerate}. OBAF is procedural only in the minimal sense;
+its core is epistemic. It specifies how to reason in uncertainty, not how to perform rituals.
 
-\begin{itemize}
-    \item \textbf{Outcomes over outputs}, reflecting behavioral or value changes rather than feature delivery;
-    \item \textbf{Constraints over scope}, defining boundaries but not solutions;
-    \item \textbf{Continuous discovery}, where learning and execution are intertwined;
-    \item \textbf{Recognitional planning}, drawing on naturalistic decision-making research \citep{klein1998sources};
-    \item \textbf{Evidence-based adaptation}, using signals, telemetry, and user behavior to steer action.
-\end{itemize}
-
-OBAF’s intellectual foundations span multiple disciplines~\citep{blomgren2025obaf}: Boyd’s OODA loop \citep{osinga2006science}, distributed cognition \citep{hutchins1995cognition}, socio-technical systems theory \citep{trist1981evolution}, DevOps and continuous delivery research \citep{forsgren2018accelerate}, and agile empirical studies.
-
-A key insight is that OBAF is \emph{epistemic} rather than procedural: it aims to align action with uncertainty, intention, and evidence. This becomes important when evaluating OBAF in the context of human\nobreakdash--AI collaboration.
-
-\newpage
+This distinction becomes essential when evaluating methodology in the context of human--AI teaming. OBAF does not
+depend on team size, role boundaries, or ceremonies. Its principles survived the collapse of human-coordination
+constraints because they were never premised on them.
 
 \section*{The Agentic Future of Software Development}
 
-Recent empirical studies on AI-assisted software engineering show significant productivity gains when developers use LLMs for coding, testing, and refactoring \citep{chen2021evaluating,bavishi2022fast}. AI agents can generate architectural analyses, propose implementation plans, synthesize tests, and explore design alternatives. Multi-agent computational architectures extend this to autonomous workflows \citep{qian2023communicative,zhao2023survey}.
+Recent empirical work demonstrates that LLMs and autonomous agents accelerate the most cognitively demanding
+aspects of software engineering: code generation, test synthesis, refactoring, exploratory design, and system
+analysis~\citep{chen2021evaluating,bavishi2022fast}. Multi-agent systems extend these capabilities into parallelized
+execution, autonomous experimentation, and distributed architectural reasoning~\citep{qian2023communicative,zhao2023survey}.
 
-These shifts dramatically reduce the cost of iteration, integration, and experimentation. They also minimize human coordination costs, a dominant bottleneck in software development \citep{brooks1995mythical}. When AI handles execution, and discovery becomes continuous and automated, the concept of a ``team'' changes fundamentally.
+The implications are profound. Coordination costs--a dominant bottleneck in human-only software teams~\citep{brooks1995mythical}--collapse when tasks are decomposed and executed by AI agents. Discovery, historically expensive and episodic, becomes continuous and automated. Architectural exploration expands far beyond human working memory. The ``team'' itself becomes a hybrid cognitive entity: a centaur composed of one human orchestrator and a constellation of autonomous agents capable of executing, evaluating, and recomposing work in real time.
 
-In this landscape, frameworks built around human rituals, roles, and coordination (e.g., Scrum, SAFe) face structural incompatibility. Yet frameworks built around epistemic principles (e.g., OBAF, Lean Startup) may prove more adaptable.
+In this environment, methodologies built on human-centered coordination structures (e.g., Scrum’s sprint cadence
+or SAFe’s program increments) become structurally mismatched. But methodologies built on reasoning structures--
+outcomes, constraints, evidence, discovery--do not merely survive; they become more essential.
 
 \section*{Case Study: \texttt{lockd} and the Human--AI Cognitive Loop}
 
-The development of \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} is a compelling illustration of the agentic future~\citep{blomgren2025lockd}. Over approximately one month of spare-time development, a single senior developer collaborated with an AI coding assistant (via the \href{https://developers.openai.com/codex/cli}{Codex CLI}) to build a system that typically requires a team of distributed systems engineers. The AI contributed architectural analyses, implementation plans, code synthesis, and refactoring strategies. The developer provided context, constraints, domain knowledge, and recognitional judgment.
+The \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}} project illustrates how centaur development reconfigures software engineering practice at multiple levels~\citep{blomgren2025lockd}. The developer framed outcomes (``a consistent distributed lock''), constraints (write-before-read ordering, bounded latency), and architectural invariants (idempotency, determinism, recoverability). The AI agent explored implementation candidates, synthesized code artifacts, evaluated trade-offs, surfaced failure modes, and suggested refactoring strategies. The system that emerged exhibits properties such as architectural coherence, consistent design language, and systematic error handling that would typically require collaborative teamwork.
 
-The resulting system---a distributed lock mechanism, state/document store, query engine, message queue, and streaming architecture---reflects architectural coherence normally derived from cross-functional collaboration, design reviews, and iterative refactoring cycles. The developer\nobreakdash--AI workflow documented in the repository's \texttt{AGENTS.md} file shows continuous methodological adaptation, rapid feedback loops, and minimal coordination overhead.
+The development workflow documented in \texttt{AGENTS.md} shows not only coding assistance but methodological
+co-evolution: the human adapted constraints as the agent exposed new possibilities, while the agent adapted its
+proposals to the human’s intent. This continuous, reciprocal reframing exemplifies OBAF’s recognitional planning
+dynamic, but at a scale enabled only by AI-augmented cognition.
 
-This pattern resembles the ``centaur model'' of human\nobreakdash--AI teaming \citep{shneiderman2020human}, where humans make contextual judgments while AI agents amplify generative and analytic capacity.
+\vfill
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{obaf-a.png}
+\end{figure}
+
+\newpage
 
 \section*{Evaluating Frameworks for the Agentic Era}
 
-To assess the compatibility of existing methodologies with the human\nobreakdash--AI development paradigm, we constructed a structured multi-dimensional evaluation model (fully described in Appendix~A). The model consists of six dimensions:
+To determine which methodologies remain viable in this new environment, we apply the structured, six-dimensional evaluation model introduced in Appendix~A. These dimensions--ritual independence, coordination independence, cheap-iteration assumption, outcome orientation, automated-discovery compatibility, and human\nobreakdash--AI ecosystem compatibility--are derived from empirical literature in Agile practice, organizational
+science, NDM research, sociotechnical systems theory, and human\nobreakdash--AI teaming.
 
-\begin{enumerate}
-    \item ritual independence,
-    \item coordination independence,
-    \item cheap-iteration assumption,
-    \item outcome orientation,
-    \item automated-discovery compatibility,
-    \item human--AI ecosystem compatibility.
-\end{enumerate}
-
-Each dimension is composed of five binary indicators derived from empirical literature in software engineering, organizational science, socio-technical systems, and human\nobreakdash--AI collaboration. A framework's compatibility score is computed as the average across all dimensions.
+Each dimension is operationalized through five binary indicators. Compatibility scores represent a transparent, reproducible measure of how well a framework’s structural assumptions generalize to the agentic future.
 
 \section*{Compatibility Scores}
-
-Table~\ref{tab:compat} presents compatibility scores for selected frameworks, computed via the methodology in Appendix~A.
 
 \begin{table}[h]
 \centering
@@ -263,30 +291,47 @@ Waterfall/V-model/PRINCE2 & 6\% \\
 \label{tab:compat}
 \end{table}
 
-These results indicate that frameworks grounded in epistemic principles (OBAF, Lean Startup) align most naturally with human\nobreakdash--AI cognitive ecosystems, while coordination-heavy and ceremony-dependent frameworks (Scrum, SAFe, LeSS) are structurally incompatible.
+The results of Appendix~A show a clear pattern. OBAF and Lean Startup exhibit the highest compatibility with
+human\nobreakdash--AI development ecosystems due to their epistemic grounding in outcomes, uncertainty, evidence, and
+continuous discovery. \mbox{DevOps} and Kanban follow as structurally flexible methods that tolerate reduced coordination
+costs and cheap experimentation.
+
+Conversely, frameworks such as Scrum, SAFe, and LeSS score extremely low. Their identity is tied to human rituals,
+prescribed roles, batched iteration cadences, and cross-team synchronizations that become unnecessary--and in some
+cases actively harmful--when execution and discovery are largely automated.
+
+\section*{The Organizational Reality}
+
+Methodological compatibility alone is insufficient. Frameworks operate within organizational structures, and those
+structures may support or inhibit human\nobreakdash--AI work.
+
+Appendix~B evaluates twenty organizational models using six structural dimensions (O1--O6). The results show that
+traditional structures such as functional hierarchies, matrix organizations, capability-based silos, and project-based delivery models are profoundly incompatible with the centaur paradigm. Their boundaries are misaligned with value, their decision rights centralized, their adaptability limited, their discovery isolated, and their coordination anchored in human negotiation rather than abstract interfaces.
+
+By contrast, modern structures such as Lean Enterprise, Team Topologies, Rendanheyi, platform organizations,
+Sociotechnical Systems, Holacracy, and Sociocracy 3.0 provide structural affordances that complement the agentic
+future: autonomous value-aligned units, modular boundaries, continuous learning, embedded discovery, and coordination patterns generalizable to human\nobreakdash--AI ecosystems.
+
+\section*{Framework–Organization Pairing: Appendix~C}
+
+Even organizational compatibility is not sufficient to ensure methodological success. Appendix~C evaluates how
+well each organizational model aligns specifically with OBAF’s tenets. A key finding is that \emph{centaur
+compatibility does not guarantee OBAF compatibility}. Several structures (e.g., Teal, Contingency Theory,
+Learning Organizations) support autonomy and adaptation but lack the explicit mechanisms OBAF requires for
+durable outcome ownership, evidence framing, enabling governance, and continuous discovery.
+
+Readers seeking detailed guidance on which organizational models best support OBAF in practice are directed to
+Appendix~C.
 
 \section*{Does OBAF Remain Relevant?}
-The central question is whether OBAF retains relevance in a world where teams dissolve into human--AI ecosystems. Initial intuition might suggest that frameworks built for human teams become obsolete. However, the analysis here supports a different conclusion.
 
-OBAF's principles are not tied to human team structure. They are tied to uncertainty, intent, constraints, and evidence---all of which remain essential in the agentic future. As AI accelerates discovery and execution, the role of the human shifts to:
+Against this backdrop, OBAF’s relevance becomes clearer. OBAF does not depend on human coordination structures
+or ceremony. It depends on epistemic alignment: on reasoning in uncertainty, framing outcomes, defining
+constraints, and grounding decisions in evidence. As AI systems automate discovery, reduce coordination costs,
+and accelerate execution, these epistemic functions become even more important. The human role shifts toward
+intent, oversight, ethical judgment, and constraint setting--all central to OBAF.
 
-\begin{itemize}
-    \item framing outcomes,
-    \item defining constraints,
-    \item overseeing automated exploration,
-    \item interpreting ambiguous results,
-    \item making ethical and strategic decisions.
-\end{itemize}
-
-This aligns directly with OBAF's purpose~\citep{blomgren2025obaf}. As such, OBAF becomes a governance layer for human\nobreakdash--AI development rather than a team methodology. Its evolution into OBAF-A (described in the conclusion) formalizes this role.
-
-\newpage
-
-\section*{Conclusion}
-
-The transformation underway in software development cannot be overstated. As AI systems reduce the cost of iteration and coordination to near zero, the methodological landscape must shift accordingly. Frameworks built around human coordination structures lose relevance; frameworks built around uncertainty, outcomes, and learning gain importance.
-
-OBAF, despite its origins in human teams, remains uniquely well-suited for the agentic future due to its epistemic foundation. The \texttt{lockd} case study illustrates how human--AI teaming can dramatically amplify individual capability.~\citep{blomgren2025lockd} The compatibility model presented here situates OBAF at the leading edge of methodologies adaptable to this future. Moving forward, OBAF-A will be needed to fully articulate governance, alignment, and constraint-setting in human--AI ecosystems.
+Rather than becoming obsolete, OBAF becomes a governance model for human\nobreakdash--AI ecosystems: a way of articulating intent, aligning constraints, and structuring evidence so that autonomous agents can act productively.
 
 \vfill
 
@@ -299,8 +344,31 @@ His work includes developing Kubernetes controllers and operators, architecting 
 Blomgren is also the author of the Outcome-Based Agile Framework~\citep{blomgren2025obaf}, reflecting his broader interest in how feedback loops, constraints, and adaptive planning can improve decision-making in complex sociotechnical systems. He is currently working as a senior consultant at \href{https://nionit.com/}{Nion} situated in Gothenburg, Sweden.
 }
 
-%% \bibliographystyle{plainnat}
-%% \bibliography{references}
+\newpage
+
+\section*{Conclusion}
+
+The emergence of centaur development represents a discontinuity in the practice of software engineering.
+The \texttt{lockd} project illustrates how a single developer, working in partnership with an AI agent, can achieve
+team-scale output with architectural coherence and rapid iterative evolution. Methodologies built around human
+rituals and coordination structures falter in this environment, while epistemically grounded frameworks--especially
+OBAF--remain robust.
+
+Appendix~A demonstrates that OBAF is structurally compatible with human\nobreakdash--AI ecosystems. Appendix~B shows that certain organizational models provide the right preconditions for such ecosystems to flourish. Appendix~C clarifies which of these models align closely with OBAF’s tenets and which require substantial adaptation.
+
+In this context, OBAF evolves not into a team methodology but into an epistemic governance layer for agentic
+development. It provides a principled way for humans to frame intent and outcomes, set constraints, steer
+automated exploration, and ensure that AI-augmented development remains aligned with organizational purpose and
+ethical responsibility. Far from being rendered obsolete, OBAF stands positioned as one of the foundational
+frameworks for software engineering in the agentic era.
+
+\vspace{2cm}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{ai-agents.png}
+\end{figure}
+
 
 \clearpage
 
@@ -337,8 +405,7 @@ Continuous integration and telemetry-driven experimentation correlate strongly w
 \paragraph{AI-assisted software engineering.}  
 Emerging research shows that LLMs significantly reduce cognitive load, accelerate iteration, and alter the division of labor between humans and tooling \citep{chen2021evaluating,bavishi2022fast,qian2023communicative}. Frameworks assuming human-driven planning, coordination, and discovery become structurally misaligned.
 
-\clearpage
-\onecolumn
+\newpage
 
 \subsection*{A.3 Evaluation Dimensions and Indicators}
 
@@ -429,7 +496,8 @@ D_k(F) = \frac{1}{5}\sum_{i=1}^{5} q_{k,i}(F)
 
 Next pages present full scoring tables and rationales.
 
-\newpage
+\clearpage
+\onecolumn
 
 % ============================
 % A.5 — DIMENSION D1
@@ -491,7 +559,6 @@ These methods pass Q1 and Q2 because they do not rely on iterative ceremonies; i
 
 D1 clearly separates frameworks into two categories. OBAF, Lean Startup, and Kanban demonstrate ritual independence, aligning with literature showing that minimal-ceremony approaches perform best in high-uncertainty environments \citep{highsmith2001agile}. Conversely, Scrum, SAFe, and LeSS demonstrate strong ritual dependence inconsistent with agentic development environments, where ceremonies and timeboxes become unnecessary or counterproductive. Waterfall methods occupy a unique position: although ceremony-light, their phase-gate structure is a form of ritualization incompatible with iterative agentic workflows.
 
-
 \newpage
 
 % ============================
@@ -536,7 +603,7 @@ Kanban is inherently coordination-minimal: it provides a visual flow abstraction
 DevOps assumes cross-functional interaction but does not \emph{require} multi-human teams for its practices to remain valid. Continuous integration, observability, and automated deployment pipelines function for individuals and teams alike. DevOps principles generalize to human--AI ecosystems because agents can perform CI/CD tasks autonomously. The only notable human-centric element—on-call rotation—is not required for the validity of DevOps principles, hence DevOps earns a perfect D2 score.
 
 \paragraph{XP (Extreme Programming).}  
-XP satisfies Q1 and Q5 because small groups and single-developer operation are theoretically possible. However, XP explicitly depends on multi-human collaboration rituals such as pair programming (Q2 = 0), collective code ownership with human social negotiation (Q3 = 0), and roles such as on-site customer (Q4 = 0). XP was empirically validated in tightly bound human teams \citep{beck1999extreme}. As a result, XP does not satisfy indicators related to coordination independence.
+XP satisfies Q1 and Q5 because small groups and single-developer operation are theoretically possible. However, XP explicitly depends on multi-human collaboration rituals such as pair programming (Q2~=~0), collective code ownership with human social negotiation (Q3~=~0), and roles such as on-site customer (Q4~=~0). XP was empirically validated in tightly bound human teams \citep{beck1999extreme}. As a result, XP does not satisfy indicators related to coordination independence.
 
 \paragraph{Scrum.}  
 Scrum scores 1 only on Q5 (scales down without total collapse), but fails all others. Scrum requires a minimum of several humans: Product Owner, Scrum Master, and Development Team roles are mandatory \citep{schwaber2020scrum}. Scrum ceremonies (sprint planning, daily scrum, retrospective) depend on human coordination; cross-team mechanisms such as Scrum of Scrums are required when scaling. Empirical studies confirm Scrum's performance depends heavily on team cohesion and social synchronization \citep{kuusinen2017challenges}. Thus Scrum exhibits high coordination dependence.
@@ -601,10 +668,10 @@ Kanban satisfies Q1–Q4 but scores 0 on Q5. Although Kanban supports continuous
 XP emphasizes small releases, refactoring, continuous integration, and test-first development, satisfying Q1–Q4. However, XP implicitly assumes human-intensive iteration (pairing, manual refactoring) and was not designed for scenarios where iteration is nearly free. Thus Q5 is scored 0. XP supports iteration but does not structurally assume its cheapness as Lean or OBAF do.
 
 \paragraph{Scrum.}
-Scrum scores 0 on Q1–Q2 because it requires a product backlog (upfront specification-lite) and a timeboxed sprint cycle (implicit phase-gate). It satisfies Q3–Q4 because Scrum encourages change inside sprint boundaries and requires integration at sprint end. Q5 = 0 because Scrum does not assume cheap iteration—sprint boundaries create iteration friction \citep{schwaber2020scrum}. This limits Scrum’s compatibility with agentic systems.
+Scrum scores 0 on Q1–Q2 because it requires a product backlog (upfront specification-lite) and a timeboxed sprint cycle (implicit phase-gate). It satisfies Q3–Q4 because Scrum encourages change inside sprint boundaries and requires integration at sprint end. Q5~=~0 because Scrum does not assume cheap iteration—sprint boundaries create iteration friction \citep{schwaber2020scrum}. This limits Scrum’s compatibility with agentic systems.
 
 \paragraph{LeSS.}
-LeSS mirrors Scrum and inherits its limitations. LeSS emphasizes iteration at the sprint level but maintains the same structural assumptions about timeboxes and backlog planning. Q1–Q2 = 0, Q3–Q4 = 1, Q5 = 0. Large-scale coordination further increases iteration friction.
+LeSS mirrors Scrum and inherits its limitations. LeSS emphasizes iteration at the sprint level but maintains the same structural assumptions about timeboxes and backlog planning. Q1–Q2~=~0, Q3–Q4~=~1, Q5~=~0. Large-scale coordination further increases iteration friction.
 
 \paragraph{SAFe.}
 SAFe also requires planning increments, program-level backlogs, and synchronized iteration cycles. These create phase-gates (Q2=0) and discourage continuous change outside defined intervals. SAFe supports continuous integration (Q4=1) but does not assume cheap iteration globally (Q5=0). Studies show SAFe carries significant planning overhead \citep{knaster2020safe}, incompatible with cheap iteration.
@@ -728,10 +795,10 @@ XP scores 3/5. While XP supports continuous delivery and frequent testing (Q4=1)
 Scrum receives only Q4=1. Scrum’s empirical process control philosophy allows experiments, but discovery is bounded within sprint planning and review cycles, which are human-driven and timeboxed (Q1=0, Q2=0). Scrum also assumes human-driven analysis and feature refinement (Q3=0). While Scrum accommodates telemetry and A/B tests in principle, its structure does not explicitly integrate them, and sprint cadence introduces friction for continuous experiments \citep{kuusinen2017challenges}. Hence Q5=0.
 
 \paragraph{LeSS.}
-LeSS inherits all Scrum’s limitations. Q1–Q3 = 0 because LeSS strongly emphasizes cross-team planning, backlog refinement, and Sprint Review events, which require human-centric discovery and synchronization. As with Scrum, LeSS supports experimentation only within sprint boundaries (Q4=1) and does not assume telemetry-driven, automated experiments (Q5=0).
+LeSS inherits all Scrum’s limitations. Q1–Q3~=~0 because LeSS strongly emphasizes cross-team planning, backlog refinement, and Sprint Review events, which require human-centric discovery and synchronization. As with Scrum, LeSS supports experimentation only within sprint boundaries (Q4=1) and does not assume telemetry-driven, automated experiments (Q5=0).
 
 \paragraph{SAFe.}
-SAFe scores the same as Scrum and LeSS. SAFe’s Innovation and Planning (IP) iteration partly acknowledges experimentation (Q4=1), but discovery is constrained to timeboxed cycles, hierarchical backlogs, and human-driven prioritization (Q1–Q3 = 0). SAFe literature emphasizes program-level predictability, which is incompatible with AI-driven, continuous experimentation \citep{knaster2020safe}. SAFe makes no structural provision for automated telemetry experimentation (Q5=0).
+SAFe scores the same as Scrum and LeSS. SAFe’s Innovation and Planning (IP) iteration partly acknowledges experimentation (Q4=1), but discovery is constrained to timeboxed cycles, hierarchical backlogs, and human-driven prioritization (Q1–Q3~=~0). SAFe literature emphasizes program-level predictability, which is incompatible with AI-driven, continuous experimentation \citep{knaster2020safe}. SAFe makes no structural provision for automated telemetry experimentation (Q5=0).
 
 \paragraph{Waterfall / V-Model / PRINCE2.}
 These frameworks score 0 on all indicators. They require strict sequential phases (Q1=0), do not intertwine discovery and delivery (Q2=0), assume human-driven analysis (Q3=0), prohibit continuous experimentation (Q4=0), and rely on document validation rather than empirical telemetry (Q5=0). Waterfall’s foundational assumption—that discovery occurs upfront—directly contradicts the principles of agentic, continuous discovery.
@@ -877,7 +944,8 @@ The model is scientifically valid because:
 
 This makes the model reproducible, falsifiable, and analyzable—meeting the standards of academic rigor for conceptual comparative work.
 
-\newpage
+\clearpage
+\twocolumn
 
 % ============================
 % A.13 — LIMITATIONS
@@ -903,6 +971,8 @@ Frameworks such as Scrum or XP are sometimes implemented in modified forms; this
 We treat D1–D6 as independent for purposes of scoring, though in practice interaction effects may exist (e.g., ritual dependence often correlates with coordination dependence).
 
 These limitations are inherent in conceptual comparative work but do not invalidate the structure or utility of the model.
+
+\newpage
 
 % ============================
 % A.14 — REPRODUCIBILITY AND INTER-RATER RELIABILITY
@@ -948,6 +1018,1993 @@ The compatibility model presented here provides a scientifically grounded, trans
 OBAF’s perfect compatibility score is not the result of bias but of structural alignment between its core epistemic principles and the demands of human--AI development: continuous discovery, constraint framing, recognitional planning, and evidence-driven iteration. As agentic toolchains become increasingly prevalent, such frameworks will form the epistemic and governance backbone of future software engineering practice.
 
 \newpage
+
+% ============================================================
+% Appendix B — Organizational Structures in Human–AI Software Ecosystems
+% ============================================================
+
+\section*{Appendix B: Organizational Structures in Human--AI Software Ecosystems}
+
+\subsection*{B.1 Introduction}
+
+Appendix~A evaluated delivery frameworks (e.g., OBAF, Lean Startup, DevOps/SRE, Scrum, XP) using six epistemic
+dimensions (D1--D6) grounded in research on naturalistic decision-making, sociotechnical systems, coordination
+theory, and human--AI teaming. These dimensions assessed how well each method remains viable in a software
+development environment transformed by autonomous coding agents, cheap iteration, continuous experimentation,
+and hybrid human–AI cognitive loops.
+
+Delivery frameworks, however, operate within broader \emph{organizational structures}. These structures define
+persistent boundaries, coordination mechanisms, decision rights, incentives, communication pathways, and the
+distribution of cognitive load. Organizational architecture therefore shapes---and frequently constrains---what
+teams, and increasingly hybrid human--AI units, can accomplish. Delivery methods determine \emph{how} work is
+performed; organizational structures determine \emph{the conditions under which} such work can succeed.
+
+Organizational structures do not iterate, discover, or deliver software directly. Instead, they create
+sociotechnical environments that enable—or obstruct—autonomous decision-making, rapid learning, local
+experimentation, architectural evolution, and outcome accountability. In the emerging agentic development
+paradigm, where coordination costs collapse, discovery becomes continuous, and AI systems take on execution
+and analysis tasks, certain organizational forms naturally support high-autonomy, outcome-driven work, while
+others introduce friction, bottlenecks, or misalignment.
+
+The purpose of this appendix is to evaluate a broad range of organizational structures—classical, modern,
+sociotechnical, and post-bureaucratic—against the structural requirements of \emph{human--AI software development
+ecosystems}. These requirements include alignment of organizational and architectural boundaries, distribution
+of decision rights to autonomous units, continuous structural adaptability, integration of discovery with delivery,
+and generalization of coordination patterns beyond human-only negotiation or hierarchical control.
+
+Because organizational affordances rarely exist in purely present-or-absent form, this appendix employs a
+\emph{ternary scoring model}. Each indicator \( q_{k,i}(M) \) takes one of three values:
+
+\[
+q_{k,i}(M) \in \{\, 0,\;\; 0.5,\;\; 1 \,\},
+\]
+
+where 1 denotes strong structural support, 0.5 indicates partial or conditional support, and 0 indicates structural
+misalignment or obstruction. This approach aligns with established practices in organizational research, which
+commonly rely on graded assessments, maturity scales, and fit–gap analysis rather than binary classification.
+
+Twenty organizational models are evaluated using this approach, spanning industrial-era designs (Functional
+Hierarchy, Matrix Organization, Project-Based Organization, Capability-Based Silos), modern product and platform 
+structures (Divisional Structure, Lean Enterprise \citep{humble2015leanenterprise}, Spotify Model, Team Topologies 
+\citep{skelton2019team}, Platform Organizations), self-management and socio-technical approaches (Rendanheyi 
+\citep{wu2021haier}, Sociotechnical Systems \citep{trist1981evolution}, Holacracy \citep{holacracy2015}, Sociocracy 3.0, 
+Teal Organizations \citep{laloux2014reinventing}), and analytic or theoretical models (Leavitt’s Diamond, Galbraith’s 
+Information-Processing View \citep{galbraith1973designing}, Contingency Theory \citep{burns1961innovation}, The Fifth 
+Discipline \citep{senge1990fifth}, Theory of Constraints \citep{goldratt1984goal}, and OKR-driven organizations).
+
+The resulting compatibility scores reflect how well each organizational structure aligns with the structural 
+requirements of the centaur-era, human--AI software development reality. They do \emph{not} measure compatibility 
+with any particular delivery framework. A later section (B.12) provides a qualitative analysis of how these 
+organizational models pair with OBAF and Lean Startup, since compatibility with the human–AI development paradigm 
+does not automatically imply compatibility with specific delivery methodologies.
+
+\subsection*{B.2 Theoretical Foundations}
+
+The six organizational dimensions used in this appendix (O1--O6) draw on well-established research areas that
+explain why some structures thrive in dynamic, high-learning environments while others fail.
+
+\paragraph{Organizational structure and design.}
+Classic studies demonstrate that organizational form must reflect environmental conditions. Chandler’s historical
+analysis showed that structure follows strategy and that divisional structures improve responsiveness under
+diversification \citep{chandler1962strategy}. Burns and Stalker distinguished mechanistic structures, suited for
+stable conditions, from organic structures, suited for dynamic ones \citep{burns1961innovation}. Mintzberg identified
+structural configurations and their embedded coordination mechanisms \citep{mintzberg1979structuring}, while
+Galbraith framed organizations as information-processing systems whose structures must align with the level of
+uncertainty and coordination demand \citep{galbraith1973designing}.
+
+\newpage
+
+\paragraph{Sociotechnical systems theory.}
+STS research conceptualizes organizations as jointly optimized social and technical systems \citep{trist1981evolution}.
+It emphasizes autonomous work groups, minimal handoffs, and dynamic boundary-setting—all structurally aligned
+with high-flow, AI-augmented software development.
+
+\paragraph{Coordination theory and cognitive load.}
+Coordination overhead is a dominant factor in software engineering performance \citep{brooks1995mythical}. Structures
+that demand heavy cross-functional synchronization introduce delays and cognitive burden. Modern research on team
+boundaries and cognitive load \citep{skelton2019team} reinforces that organizational design must minimize unnecessary
+coordination and support high-autonomy flow.
+
+\paragraph{Human--AI teaming and distributed cognition.}
+In hybrid teams, cognitive work is distributed across humans and AI agents, reducing reliance on interpersonal
+negotiation and enabling automated execution and analysis \citep{seeber2020machines,hutchins1995cognition}. 
+Organizations dependent on human-centric approval chains or social hierarchy become mismatched in such ecosystems.
+
+\paragraph{Lean Enterprise and continuous improvement.}
+Research in Lean Thinking \citep{womack1996leanthinking}, Toyota Kata \citep{rother2010toyotakata}, and Lean Enterprise 
+transformations \citep{humble2015leanenterprise} demonstrates that decentralized decision-making, small-batch learning, 
+fast feedback loops, and continuous improvement increase adaptability and performance. These principles are corroborated 
+by large-scale DevOps studies \citep{forsgren2018accelerate}, which show that outcome-based, feedback-rich, autonomy-supporting 
+structures enable high-velocity digital delivery.
+
+These research foundations motivate the six organizational dimensions introduced in Section~B.3 (O1--O6). Together, 
+they provide a structured basis for evaluating whether an organizational model supports the conditions necessary 
+for outcome-driven, AI-augmented software development in the centaur era.
+
+\newpage
+
+% ============================================================
+% B.3 — EVALUATION DIMENSIONS AND INDICATORS (ORGANIZATIONAL MODELS)
+% ============================================================
+
+\subsection*{B.3 Evaluation Dimensions and Indicators}
+
+Each organizational model \( M \) is evaluated along six structural dimensions \( O_1, \dots, O_6 \). Each
+dimension contains five indicators \( q_{k,i}(M) \), scored using a ternary scale:
+
+\[
+q_{k,i}(M) \in \{ 0,\; 0.5,\; 1 \},
+\]
+
+where:
+
+\begin{itemize}
+    \item \textbf{1} indicates strong structural support for the indicator,
+    \item \textbf{0.5} indicates partial or conditional support,
+    \item \textbf{0} indicates structural misalignment or obstruction.
+\end{itemize}
+
+This ternary scoring approach reflects the nature of organizational structures, which rarely express properties in
+binary form. It aligns with established practices in organizational research, where graded scales and maturity
+models are commonly used to capture partial fit, conditional support, or context-dependent behavior 
+\citep{mintzberg1979structuring,galbraith1973designing,burns1961innovation,trist1981evolution}.
+
+The six dimensions evaluate whether an organizational structure provides the enabling conditions for
+AI-augmented, outcome-driven, high-autonomy delivery in human--AI ecosystems.
+
+% ------------------------------------------------------------
+% O1 — BOUNDARY–OUTCOME ALIGNMENT
+% ------------------------------------------------------------
+
+\subsubsection*{O1: Boundary--Outcome Alignment}
+
+This dimension evaluates whether organizational boundaries align with value streams, coherent domains, and
+end-to-end outcomes. Structural alignment between organizational units and system architecture reduces handoffs,
+minimizes coordination burden, and supports fast flow \citep{conway1968how,skelton2019team}.
+
+\begin{enumerate}
+    \item \textbf{O1-Q1:} Organizational units map to value streams, products, or cohesive domains.  
+          (0~=~functional or project boundaries; 0.5~=~partial mapping; 1~=~clear domain/value-stream mapping)
+
+    \item \textbf{O1-Q2:} Boundaries minimize cross-unit handoffs for value creation.  
+          (0~=~many handoffs; 0.5~=~some; 1~=~minimal or none)
+
+    \item \textbf{O1-Q3:} Organizational boundaries align with architectural seams (Conway alignment).  
+          (0~=~misaligned; 0.5~=~mixed; 1~=~strongly aligned)
+
+    \item \textbf{O1-Q4:} Accountability is defined in terms of outcomes rather than internal functions.  
+          (0~=~tasks/outputs; 0.5~=~mixed; 1~=~clear outcome ownership)
+
+    \item \textbf{O1-Q5:} Outcome responsibility remains stable even as execution strategies change.  
+          (0~=~responsibilities shift frequently; 0.5~=~partially stable; 1~=~stable outcome ownership)
+\end{enumerate}
+
+% ------------------------------------------------------------
+% O2 — AUTONOMY & DECISION RIGHTS
+% ------------------------------------------------------------
+
+\subsubsection*{O2: Autonomy \& Decision Rights}
+
+This dimension evaluates whether organizational units have the autonomy and decision rights required for
+high-velocity, AI-augmented environments. Decentralized authority improves performance in uncertain and dynamic
+contexts \citep{burns1961innovation,holacracy2015}.
+
+\begin{enumerate}
+    \item \textbf{O2-Q1:} Decision authority resides close to the work and outcome.  
+          (0~=~centralized; 0.5~=~mixed; 1~=~decentralized)
+
+    \item \textbf{O2-Q2:} The structure does not rely on hierarchical approval flows.  
+          (0~=~strong hierarchy; 0.5~=~partial; 1~=~minimal hierarchy)
+
+    \item \textbf{O2-Q3:} Units can act independently without cross-department coordination rituals.  
+          (0~=~coordination-heavy; 0.5~=~moderate; 1~=~independent)
+
+    \item \textbf{O2-Q4:} The structure minimizes dependence on human-only coordination roles 
+          (project managers, liaisons, committees).  
+          (0~=~heavy reliance; 0.5~=~partial; 1~=~minimal reliance)
+
+    \item \textbf{O2-Q5:} The structure scales down coherently to small (1--2 person) autonomous units.  
+          (0~=~impossible; 0.5~=~difficult; 1~=~natural fit)
+\end{enumerate}
+
+% ------------------------------------------------------------
+% O3 — STRUCTURAL ADAPTABILITY
+% ------------------------------------------------------------
+
+\subsubsection*{O3: Structural Adaptability}
+
+This dimension evaluates whether the organizational structure can be reconfigured rapidly and at low cost as new
+learning emerges. Adaptive structures outperform rigid forms in dynamic, uncertain environments 
+\citep{trist1981evolution,galbraith1973designing}.
+
+\begin{enumerate}
+    \item \textbf{O3-Q1:} Structural changes do not require long or rigid planning cycles.  
+          (0~=~long cycles; 0.5~=~moderate; 1~=~short or continuous)
+
+    \item \textbf{O3-Q2:} No phase-gated governance (steering committees, sequential lifecycles).  
+          (0~=~strong; 0.5~=~partial; 1~=~none)
+
+    \item \textbf{O3-Q3:} Units can be reconfigured or retargeted with minimal organizational overhead.  
+          (0~=~costly/slow; 0.5~=~mixed; 1~=~low-cost)
+
+    \item \textbf{O3-Q4:} Boundaries and interfaces can be revised as learning emerges.  
+          (0~=~rigid; 0.5~=~occasionally flexible; 1~=~fluid)
+
+    \item \textbf{O3-Q5:} Continuous structural adaptation is expected and supported.  
+          (0~=~rare; 0.5~=~episodic; 1~=~continuous norm)
+\end{enumerate}
+
+\newpage
+
+% ------------------------------------------------------------
+% O4 — OUTCOME ACCOUNTABILITY & VALUE FLOW
+% ------------------------------------------------------------
+
+\subsubsection*{O4: Outcome Accountability \& Value Flow}
+
+This dimension evaluates whether units are accountable for end-to-end outcomes, integrate quality attributes,
+and use empirical signals to drive decisions. High-performing digital organizations rely on outcome accountability
+rather than output compliance \citep{forsgren2018accelerate}.
+
+\begin{enumerate}
+    \item \textbf{O4-Q1:} Units hold end-to-end responsibility for measurable outcomes.  
+          (0~=~none; 0.5~=~partial; 1~=~explicit)
+
+    \item \textbf{O4-Q2:} Success is not defined by deliverables or activity levels.  
+          (0~=~deliverable-driven; 0.5~=~mixed; 1~=~outcome-driven)
+
+    \item \textbf{O4-Q3:} Quality attributes (reliability, performance, safety) are structurally embedded.  
+          (0~=~absent; 0.5~=~partial; 1~=~embedded)
+
+    \item \textbf{O4-Q4:} Empirical performance signals (telemetry, metrics) drive decisions.  
+          (0~=~weak; 0.5~=~partial; 1~=~strong)
+
+    \item \textbf{O4-Q5:} Outcome responsibilities remain stable even when execution strategies vary.  
+          (0~=~shifting; 0.5~=~semi-stable; 1~=~stable)
+\end{enumerate}
+
+% ------------------------------------------------------------
+% O5 — DISCOVERY INTEGRATION & LEARNABILITY
+% ------------------------------------------------------------
+
+\subsubsection*{O5: Discovery Integration \& Learnability}
+
+This dimension evaluates whether discovery—research, experimentation, telemetry, hypothesis testing—is structurally
+embedded near where work occurs. Modern product and platform organizations integrate discovery with delivery to
+enable rapid feedback and learning \citep{forsgren2018accelerate,womack1996leanthinking,rother2010toyotakata}.
+
+\begin{enumerate}
+    \item \textbf{O5-Q1:} Research and learning functions are not isolated into upstream departments.  
+          (0~=~isolated; 0.5~=~partly integrated; 1~=~fully integrated)
+
+    \item \textbf{O5-Q2:} Units can run experiments autonomously without central approval.  
+          (0~=~no; 0.5~=~limited; 1~=~yes)
+
+    \item \textbf{O5-Q3:} Discovery is integrated with delivery rather than episodic or upstream.  
+          (0~=~separated; 0.5~=~partially; 1~=~fully)
+
+    \item \textbf{O5-Q4:} The structure supports automated analysis, AI-based insights, and rapid experimentation.  
+          (0~=~little support; 0.5~=~partial; 1~=~strong support)
+
+    \item \textbf{O5-Q5:} Decision processes prioritize empirical evidence over hierarchy or ritual.  
+          (0~=~weak; 0.5~=~mixed; 1~=~evidence-driven)
+\end{enumerate}
+
+\newpage
+
+% ------------------------------------------------------------
+% O6 — HUMAN–AI COORDINATION COMPATIBILITY
+% ------------------------------------------------------------
+
+\subsubsection*{O6: Human--AI Coordination Compatibility}
+
+This dimension evaluates whether organizational coordination mechanisms generalize beyond human-only processes.
+Research shows that AI agents reduce interpersonal negotiation, virtualize shared state, and enable automated
+coordination and monitoring \citep{seeber2020machines,hutchins1995cognition}.
+
+\begin{enumerate}
+    \item \textbf{O6-Q1:} Coordination does not depend on human social hierarchy or interpersonal negotiation.  
+          (0~=~dependent; 0.5~=~mixed; 1~=~independent)
+
+    \item \textbf{O6-Q2:} Roles are defined by responsibilities rather than human-specific attributes.  
+          (0~=~human-centric; 0.5~=~mixed; 1~=~abstract/responsibility-based)
+
+    \item \textbf{O6-Q3:} Task decomposition is not tied to strictly human labor categories.  
+          (0~=~human-labor-based; 0.5~=~partial; 1~=~agent-generalizable)
+
+    \item \textbf{O6-Q4:} Coordination patterns can be represented as interfaces/contracts suitable for AI orchestration.  
+          (0~=~no; 0.5~=~partial; 1~=~yes)
+
+    \item \textbf{O6-Q5:} Human cognitive load is concentrated on intent, oversight, and ethics—amenable to automation elsewhere.  
+          (0~=~diffuse; 0.5~=~partial; 1~=~strongly concentrated)
+\end{enumerate}
+
+\newpage
+
+% ============================================================
+% B.4 — SCORING FORMULA (TERNARY MODEL)
+% ============================================================
+
+\subsection*{B.4 Scoring Formula}
+
+Each organizational model \( M \) is evaluated using ternary indicators 
+\( q_{k,i}(M) \in \{ 0,\; 0.5,\; 1 \} \), where  
+\( k \in \{1,\dots,6\} \) indexes the six organizational dimensions (O1--O6),  
+and \( i \in \{1,\dots,5\} \) indexes the indicators within each dimension.
+
+A value of:
+
+\begin{itemize}
+    \item \textbf{1} indicates strong structural support for the indicator,
+    \item \textbf{0.5} indicates partial, conditional, or incomplete support,
+    \item \textbf{0} indicates structural misalignment or obstruction.
+\end{itemize}
+
+The dimension score for \( O_k \) is computed as the arithmetic mean of its five indicators:
+
+\[
+O_k(M) = \frac{1}{5} \sum_{i=1}^{5} q_{k,i}(M).
+\]
+
+The overall compatibility score for organizational model \( M \) is the mean of its six
+dimension scores:
+
+\[
+\text{Compat}(M) = \frac{1}{6} \sum_{k=1}^{6} O_k(M).
+\]
+
+Finally, a normalized compatibility percentage is computed as:
+
+\[
+\text{Compat\%}(M) = 100 \cdot \text{Compat}(M).
+\]
+
+This ternary scoring model reflects the fact that organizational affordances are rarely binary in
+nature. Structures may partially support autonomy, boundary alignment, discovery integration, or
+AI-compatible coordination without fully embodying these properties. The ternary scale enables a
+more nuanced and academically defensible evaluation of structural fit for human--AI (centaur)
+software development ecosystems.
+
+The following sections (B.5--B.10) present the scoring tables and indicator-by-indicator rationales
+for each organizational model under dimensions O1--O6.
+
+\clearpage
+\onecolumn
+
+% ============================================================
+% B.5 — DIMENSION O1: BOUNDARY–OUTCOME ALIGNMENT
+% ============================================================
+
+\subsection*{B.5 Dimension O1: Boundary--Outcome Alignment}
+
+This dimension evaluates whether an organizational structure aligns its boundaries with value streams, coherent
+domains, and end-to-end outcomes. Empirical and theoretical work in organizational design shows that structural
+boundaries heavily influence coordination cost, cognitive load, and system architecture 
+\citep{chandler1962strategy,mintzberg1979structuring,galbraith1973designing}. In software-intensive organizations, 
+Conway’s Law further predicts that system architecture will mirror organizational communication patterns 
+\citep{conway1968how}. Structures that align units to value streams or domains and assign clear outcome responsibility 
+tend to support high-flow, outcome-based work \citep{skelton2019team}.
+
+\subsubsection*{B.5.1 Ternary Scoring Table for O1}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 1   & 0.5 & 0.5 & 1   & 1   \\
+Lean Enterprise                                 & 0.5 & 0.5 & 0.5 & 1   & 1   \\
+Spotify Model                                   & 1   & 0.5 & 0.5 & 1   & 1   \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 0.5 & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 0.5 & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 0.5 & 0.5 & 0.5 & 1   & 0.5 \\
+Contingency Theory                              & 0.5 & 0.5 & 0.5 & 1   & 0.5 \\
+Teal Organizations                              & 0.5 & 0.5 & 0.5 & 1   & 0.5 \\
+Holacracy                                       & 1   & 0.5 & 0.5 & 1   & 1   \\
+Sociocracy 3.0                                  & 0.5 & 0.5 & 0.5 & 1   & 0.5 \\
+The Fifth Discipline (Learning Organization)    & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+OKR-Driven Organizations                        & 0   & 0.5 & 0   & 1   & 0.5 \\
+Theory of Constraints (as Org Model)           & 0.5 & 0.5 & 0.5 & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O1: Boundary--Outcome Alignment. Indicators O1-Q1--O1-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\subsubsection*{B.5.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Units are defined by internal functions (e.g., Development, QA, Operations); boundaries do not
+map to value streams or domains, create many handoffs, misalign with architecture, and provide no stable outcome
+ownership \citep{weber1978economy}.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Boundaries are drawn along two orthogonal axes (function and project) rather than value streams.
+Accountability is fragmented and outcome responsibilities shift with changing project portfolios \citep{galbraith1973designing}.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Projects are temporary structures defined by deliverables and timelines, not domains or enduring
+outcomes \citep{kerzner2017project}. Handoffs are common, and outcome ownership dissolves when projects end.
+
+\paragraph{Capability-Based (Horizontal Silos).}
+\textbf{Q1--Q5~=~0.} Capability silos (e.g., “data team,” “infra team”) optimize internal specialties rather than
+value streams. Boundaries are misaligned with products and lead to constant cross-silo coordination.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} Divisions are typically organized by product, market, or geography 
+\citep{chandler1962strategy}, providing clear outcome responsibility (Q1, Q4, Q5=1). However, shared services and 
+legacy systems often create handoffs and partial architectural misalignment (Q2, Q3=0.5).
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} Lean Enterprise transformations aim to align structures to value streams 
+and outcomes \citep{humble2015leanenterprise,forsgren2018accelerate}, but often overlay existing functional/matrix 
+forms. In practice this yields partial mapping and reduced, but not eliminated, handoffs and misalignment (0.5 scores 
+for Q1–Q3).
+
+\paragraph{Spotify Model.}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} Squads and tribes are aligned to product areas, with clear outcome 
+attachments and stable responsibilities. However, chapters and guilds introduce cross-cutting dependencies, and 
+architectural alignment is partial and practice-dependent.
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} Stream-aligned teams map directly to value streams; enabling, platform, and complicated-subsystem 
+teams are defined to support those streams \citep{skelton2019team}. Boundaries deliberately follow architectural seams 
+and outcome responsibilities are stable.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1=1, Q2=0.5, Q3=1, Q4=1, Q5=1.} Product teams own external outcomes and platform teams own internal service 
+outcomes. Interfaces align strongly with architecture, but some handoffs to platform are inherent (Q2=0.5).
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises are designed around customer and market outcomes \citep{wu2021haier}. Units have 
+stable outcome accountability, boundaries are aligned to value, and coordination occurs through contracts and platform 
+interfaces.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} STS designs autonomous work groups around complete work systems 
+\citep{trist1981evolution}, reducing handoffs and defining clear responsibilities. Architectural alignment is implicit 
+rather than explicit (Q3=0.5).
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} Leavitt’s model describes mutual adjustment of tasks, people, structure, and technology. It 
+supports value-aligned boundaries conceptually, but does not prescribe specific patterns, resulting in partial support 
+on all indicators.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} Galbraith emphasizes structural alignment to information-processing 
+demands and performance outcomes \citep{galbraith1973designing}, supporting outcome accountability (Q4=1) and partial 
+alignment on other indicators.
+
+\paragraph{Contingency Theory.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} Contingency theory argues that effective organizations adapt structure 
+to environmental demands, including outcome focus \citep{burns1961innovation}. It supports outcome accountability but 
+does not prescribe specific boundary patterns.
+
+\paragraph{Teal Organizations.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} Teal structures organize around evolutionary purpose and value 
+contribution \citep{laloux2014reinventing}, but boundaries can be fluid and informal. This yields partial boundary–
+outcome alignment with strong purpose-based accountability.
+
+\paragraph{Holacracy.}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} Holacracy defines roles and circles with explicit domains and accountabilities 
+\citep{holacracy2015}, strongly supporting stable outcome ownership. Architectural alignment and handoff minimization 
+are possible but depend on implementation (Q2, Q3=0.5).
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} Sociocracy organizes around domains and consent-based circles, with clear 
+purpose per circle. Outcome accountability is strong (Q4=1), while boundary–architecture alignment is partially supported.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1--Q5~=~0.5.} Learning organizations emphasize systems thinking and aligning structures to value flows 
+\citep{senge1990fifth}, but provide conceptual rather than prescriptive guidance on boundary design. This yields 
+consistent partial support.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=0, Q2=0.5, Q3=0, Q4=1, Q5=0.5.} OKRs overlay existing structures and define outcome objectives \emph{within} 
+those structures. They improve outcome accountability (Q4=1) and partially stabilize responsibilities (Q2, Q5=0.5), 
+but typically do not realign boundaries or architecture (Q1, Q3=0).
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} TOC focuses on system-level flow and bottleneck management 
+\citep{goldratt1984goal}. It encourages organizing around constraints and system outcomes, but often as an overlay on 
+existing structures, leading to partial boundary alignment and strong outcome accountability.
+
+\subsubsection*{B.5.3 Dimension Summary}
+
+O1 reveals a clear split between traditional function- and project-oriented structures (Functional, Matrix, Project,
+Capability Silos), which provide no meaningful boundary–outcome alignment, and modern or analytic structures that 
+align units more tightly to value streams, domains, or system outcomes (Divisional, Lean Enterprise, Team Topologies, 
+Platform, Rendanheyi, STS). Lean Enterprise and Spotify sit between these extremes, improving alignment on top of 
+legacy forms. Conceptual models such as Leavitt’s Diamond, Contingency Theory, and the Learning Organization offer 
+partial guidance but require concrete instantiation to achieve strong alignment. OKR overlays improve outcome 
+accountability but do not, by themselves, repair misaligned boundaries.
+
+\newpage
+
+% ============================================================
+% B.6 — DIMENSION O2: AUTONOMY & DECISION RIGHTS
+% ============================================================
+
+\subsection*{B.6 Dimension O2: Autonomy \& Decision Rights}
+
+This dimension evaluates whether organizational units possess the autonomy and decision rights required for 
+high-velocity, AI-augmented environments. Research in organizational design shows that decentralized authority, 
+local control, and minimized coordination overhead strongly correlate with adaptability and innovation in dynamic 
+contexts \citep{burns1961innovation}. Lean Enterprise transformations \citep{humble2015leanenterprise} and modern 
+product-centric organizations emphasize these principles, while traditional functional or matrix structures restrict 
+local decision-making through hierarchical control or dual reporting lines.
+
+\subsubsection*{B.6.1 Ternary Scoring Table for O2}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 1   & 0.5 & 0.5 & 0.5 & 1   \\
+Lean Enterprise                                 & 1   & 1   & 0.5 & 0.5 & 1   \\
+Spotify Model                                   & 1   & 1   & 1   & 0.5 & 1   \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 1   & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 1   & 1   & 1   & 1   & 1   \\
+Contingency Theory                              & 1   & 1   & 0.5 & 0.5 & 0.5 \\
+Teal Organizations                              & 1   & 1   & 1   & 1   & 1   \\
+Holacracy                                       & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                  & 1   & 1   & 1   & 1   & 1   \\
+The Fifth Discipline (Learning Organization)    & 0.5 & 1   & 0.5 & 0.5 & 0.5 \\
+OKR-Driven Organizations                        & 0.5 & 0   & 0   & 0   & 0.5 \\
+Theory of Constraints (as Org Model)           & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O2: Autonomy \& Decision Rights. Indicators O2-Q1--O2-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\subsubsection*{B.6.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Decision rights are centralized at managerial layers; units cannot act independently and rely 
+on hierarchical approval at every stage \citep{weber1978economy}. No aspect of the structure supports autonomous work.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Dual reporting splits authority between functional and project managers. Decisions require 
+human negotiation, preventing autonomy and delaying action \citep{galbraith1973designing}.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Projects are run through steering bodies, project managers, and executive approvals 
+\citep{kerzner2017project}. Local autonomy is minimal.
+
+\paragraph{Capability-Based (Horizontal Silos).}
+\textbf{Q1--Q5~=~0.} Silos depend on upstream/downstream handoffs; units cannot deliver or decide independently.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=0.5, Q5=1.} Divisions have strong local decision rights and act autonomously 
+\citep{chandler1962strategy}. However, shared services and corporate governance reduce full autonomy in practice.
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=0.5, Q5=1.} Lean Enterprise promotes decentralized authority, empowered teams, and 
+local decision-making \citep{humble2015leanenterprise}. However, transformation overlays often retain coordination 
+roles, yielding partial independence (Q3–Q4).
+
+\paragraph{Spotify Model.}
+\textbf{Q1=1, Q2=1, Q3=1, Q4=0.5, Q5=1.} Squads act as mini-startups with substantial autonomy. Chapters and tribes 
+introduce light coordination, keeping Q4 at 0.5.
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} Stream-aligned teams are designed for autonomy, with minimal coordination roles and clear 
+decision rights \citep{skelton2019team}.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1--Q5~=~1.} Product and platform teams have autonomous execution domains; coordination occurs via 
+contracts, not managers.
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises are fully autonomous business units with market-facing authority 
+\citep{wu2021haier}. Decision rights are decentralized and explicit.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1--Q5~=~1.} STS designs autonomous work groups with full local control over workflows, decisions, and 
+value delivery \citep{trist1981evolution}.
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} The model suggests decentralized adaptation but does not define explicit mechanisms for 
+autonomy, leading to partial support.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1--Q5~=~1.} Under high uncertainty, Galbraith recommends decentralizing authority to the nodes closest 
+to information \citep{galbraith1973designing}. Structure is explicitly autonomy-supportive.
+
+\paragraph{Contingency Theory.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=0.5, Q5=0.5.} In uncertain contexts, autonomy is prescribed; in stable ones, 
+centralization is sometimes appropriate. Thus mixed scores (0.5).
+
+\paragraph{Teal Organizations.}
+\textbf{Q1--Q5~=~1.} Teal principles emphasize self-management and distributed authority \citep{laloux2014reinventing}. 
+Units act autonomously by design.
+
+\paragraph{Holacracy.}
+\textbf{Q1--Q5~=~1.} Roles, circles, and governance processes explicitly decentralize decision rights 
+\citep{holacracy2015}. Approval flows are minimized.
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1--Q5~=~1.} Consent-based governance and domain-based circles support local authority and independent action.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1=0.5, Q2=1, Q3=0.5, Q4=0.5, Q5=0.5.} Learning organizations encourage empowerment but do not define explicit 
+authority structures, resulting in mixed support.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=0.5, Q2=0, Q3=0, Q4=0, Q5=0.5.} OKRs provide local outcome focus, but hierarchically controlled alignment 
+cycles and human-centric approval patterns dominate in practice.
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1--Q5~=~1.} TOC empowers local teams to elevate, exploit, and manage constraints autonomously 
+\citep{goldratt1984goal}. Coordination roles are minimal.
+
+\subsubsection*{B.6.3 Dimension Summary}
+
+O2 exposes a strong divide between mechanistic structures (functional, matrix, project-based, capability silos), 
+which centralize authority and inhibit autonomy, and modern decentralized structures (Team Topologies, Platform, 
+Rendanheyi, STS, Teal, Holacracy), which grant robust decision rights to local units. Intermediate models such as 
+Lean Enterprise, Divisional structures, Contingency Theory, and Learning Organizations reveal partial autonomy: 
+their conceptual models support decentralized action, but implementations often retain coordination roles or 
+centralized oversight inherited from legacy structures.
+
+% ============================================================
+% B.7 — DIMENSION O3: STRUCTURAL ADAPTABILITY
+% ============================================================
+
+\subsection*{B.7 Dimension O3: Structural Adaptability}
+
+This dimension evaluates whether the organizational structure can be reconfigured rapidly and at low cost as new
+learning emerges. Sociotechnical systems research shows that dynamic, high-uncertainty environments require
+continuous adjustment of boundaries, roles, and coordination mechanisms \citep{trist1981evolution}. Galbraith’s
+information-processing framework likewise predicts that organizations facing high uncertainty must either increase
+processing capacity or reduce coordination requirements through structural adaptation \citep{galbraith1973designing}.
+In the centaur ecosystem, where AI systems accelerate discovery and execution, structures that cannot adapt 
+frequently become bottlenecks.
+
+\subsubsection*{B.7.1 Ternary Scoring Table for O3}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Lean Enterprise                                 & 1   & 1   & 0.5 & 0.5 & 1   \\
+Spotify Model                                   & 1   & 0.5 & 1   & 0.5 & 0.5 \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 1   & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 1   & 1   & 0.5 & 1   & 1   \\
+Contingency Theory                              & 1   & 0.5 & 0.5 & 0.5 & 0.5 \\
+Teal Organizations                              & 1   & 1   & 1   & 1   & 1   \\
+Holacracy                                       & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                  & 1   & 1   & 1   & 1   & 1   \\
+The Fifth Discipline (Learning Organization)    & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+OKR-Driven Organizations                        & 0   & 0   & 0.5 & 0   & 0   \\
+Theory of Constraints (as Org Model)           & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O3: Structural Adaptability. Indicators O3-Q1--O3-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\subsubsection*{B.7.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Structural changes require extensive planning, approval chains, and redefinition of reporting 
+lines. Adaptability is minimal and expensive \citep{weber1978economy}.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Dual reporting lines make structural change slow and politically negotiated. Adjustments 
+require cross-manager agreement \citep{galbraith1973designing}.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Project structures are tied to rigid lifecycles and phase gates \citep{kerzner2017project}. 
+Structural adaptation mid-stream is rare or discouraged.
+
+\paragraph{Capability-Based Silos.}
+\textbf{Q1--Q5~=~0.} Silo boundaries are static; team reconfiguration requires coordination across multiple 
+functional units. Change is slow and high-cost.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1--Q5~=~0.5.} Divisions can adapt portfolios and internal structures with moderate friction 
+\citep{chandler1962strategy}. Boundaries evolve, but rarely rapidly or continuously.
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=0.5, Q5=1.} Lean Enterprise strongly supports continuous improvement and rapid 
+local process adaptation \citep{humble2015leanenterprise}. Structural adaptation is partially constrained by 
+underlying legacy patterns (Q3–Q4).
+
+\paragraph{Spotify Model.}
+\textbf{Q1=1, Q2=0.5, Q3=1, Q4=0.5, Q5=0.5.} Squads adapt easily; chapters/tribes less so. Architectural refactoring 
+is possible but uneven. Spotify explicitly warns that the model “is not static,” leading to mixed scoring.
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} The model is expressly designed for continuous, low-cost reconfiguration of team boundaries, 
+interaction modes, and responsibilities \citep{skelton2019team}.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1--Q5~=~1.} Modular platform boundaries allow fluid restructuring of product and platform scopes. Teams 
+and interfaces adapt rapidly with minimal overhead.
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises dynamically form, dissolve, and re-align around market signals 
+\citep{wu2021haier}. Structural adaptability is continuous and intrinsic.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1--Q5~=~1.} STS emphasizes iterative redesign of work systems and joint optimization, supporting continuous 
+structural evolution \citep{trist1981evolution}.
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} The model supports change but does not prescribe how frequently or cheaply it can occur. 
+Adaptability depends on practitioner interpretation.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} Galbraith prescribes shifting structures as uncertainty increases 
+\citep{galbraith1973designing}. Some adaptation mechanisms (e.g., teams vs networks) are partially adopted (Q3=0.5).
+
+\paragraph{Contingency Theory.}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=0.5, Q5=0.5.} Structural adaptability is theoretically required under uncertainty 
+\citep{burns1961innovation}, but practical mechanisms are not defined.
+
+\paragraph{Teal Organizations.}
+\textbf{Q1--Q5~=~1.} Self-management and evolutionary purpose support fluid role and boundary updates 
+\citep{laloux2014reinventing}. Structural change is continuous and local.
+
+\paragraph{Holacracy.}
+\textbf{Q1--Q5~=~1.} Governance meetings continually redefine roles and accountabilities, enabling frequent structural 
+iteration \citep{holacracy2015}.
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1--Q5~=~1.} Circles adapt responsibilities and boundaries through consent-based processes, allowing rapid 
+organizational evolution.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1--Q5~=~0.5.} The concept promotes continuous learning but lacks prescriptive mechanisms for structural 
+reconfiguration \citep{senge1990fifth}. Adaptation is conceptual, not structural.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=0, Q2=0, Q3=0.5, Q4=0, Q5=0.} OKRs support iterative goal-setting but do not alter structure. Org 
+boundaries remain static; adaptations occur annually or ad hoc.
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1--Q5~=~1.} TOC requires continual experimentation around system constraints \citep{goldratt1984goal}. 
+Structural refinement is frequent and responsive to evidence.
+
+\subsubsection*{B.7.3 Dimension Summary}
+
+O3 sharply separates rigid, bureaucratic organizational forms (Functional, Matrix, Project-Based, Capability Silos) 
+from modern adaptive structures (Team Topologies, Platform, Rendanheyi, STS, Holacracy, Teal, TOC). Lean Enterprise 
+and Spotify demonstrate moderate adaptability: both promote continuous improvement but are often partially constrained 
+by cultural inertia or residual legacy structures. Analytic models (Leavitt, Contingency, Learning Organization) 
+support adaptability conceptually but lack prescriptive mechanisms for continuous, low-cost structural evolution.
+
+% ============================================================
+% B.8 — DIMENSION O4: OUTCOME ACCOUNTABILITY & VALUE FLOW
+% ============================================================
+
+\subsection*{B.8 Dimension O4: Outcome Accountability \& Value Flow}
+
+This dimension evaluates whether an organizational structure assigns end-to-end accountability for measurable
+outcomes, integrates quality attributes structurally, and relies on empirical signals to guide decisions. Research
+in high-performance digital organizations shows that outcome-aligned units, empirical feedback loops, and stable
+responsibility boundaries correlate strongly with delivery performance and adaptability 
+\citep{forsgren2018accelerate}. Organizations structured around tasks, deliverables, or functional outputs often fail 
+to provide these conditions.
+
+\subsubsection*{B.8.1 Ternary Scoring Table for O4}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 1   & 1   & 1   & 1   & 1   \\
+Lean Enterprise                                 & 0.5 & 0.5 & 1   & 1   & 1   \\
+Spotify Model                                   & 1   & 1   & 1   & 1   & 1   \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 0.5 & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 1   & 1   & 0.5 & 1   & 1   \\
+Contingency Theory                              & 1   & 0.5 & 0.5 & 1   & 0.5 \\
+Teal Organizations                              & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Holacracy                                       & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                  & 0.5 & 0.5 & 0.5 & 1   & 0.5 \\
+The Fifth Discipline (Learning Organization)    & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+OKR-Driven Organizations                        & 1   & 1   & 0.5 & 1   & 0.5 \\
+Theory of Constraints (as Org Model)           & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O4: Outcome Accountability \& Value Flow. Indicators O4-Q1--O4-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\subsubsection*{B.8.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Units are accountable for activities (e.g., development, QA) rather than outcomes. Quality 
+attributes are downstream concerns, and decisions are not guided by empirical signals \citep{weber1978economy}.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Accountability is fragmented between functional and project managers. No single entity owns 
+end-to-end outcomes or quality attributes \citep{galbraith1973designing}.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Projects are defined by deliverables and timelines rather than outcomes \citep{kerzner2017project}. 
+Quality and value are externalized.
+
+\paragraph{Capability-Based Silos.}
+\textbf{Q1--Q5~=~0.} Silos track internal performance metrics; value delivery crosses multiple units with no 
+end-to-end owner.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1--Q5~=~1.} Divisions have clear P\&L or market outcomes \citep{chandler1962strategy}. Quality attributes 
+and empirical performance signals are embedded in each division’s responsibility.
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1=0.5, Q2=0.5, Q3=1, Q4=1, Q5=1.} Lean Enterprise strengthens outcome focus through value-stream alignment 
+and empirical measurement \citep{humble2015leanenterprise}. However, legacy structures often dilute end-to-end 
+accountability (Q1–Q2=0.5).
+
+\paragraph{Spotify Model.}
+\textbf{Q1--Q5~=~1.} Squads own product outcomes; tribes reinforce domain focus. Quality and metrics are embedded 
+through data-informed iteration.
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} Stream-aligned teams hold end-to-end responsibility, with platform and enabling teams supporting 
+quality attributes and empirical feedback \citep{skelton2019team}.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1--Q5~=~1.} Product teams own external outcomes; platform teams own internal service outcomes. 
+Quality attributes and metrics are structured into service contracts.
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises contractually own customer outcomes \citep{wu2021haier}. Execution strategies 
+vary, but outcome responsibility remains stable.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} STS emphasizes complete socio-technical systems 
+\citep{trist1981evolution}. Quality attributes are integrated implicitly but not always explicitly documented (Q3=0.5).
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} Outcome orientation is supported conceptually, but not structurally encoded. All indicators 
+receive partial support.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} Galbraith emphasizes aligning structure with performance requirements 
+\citep{galbraith1973designing}. Quality attributes may require explicit operationalization (Q3=0.5).
+
+\paragraph{Contingency Theory.}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} In high-uncertainty contexts, contingency theory supports outcome-driven 
+structures \citep{burns1961innovation}. Implementation varies widely, leading to partial scores.
+
+\paragraph{Teal Organizations.}
+\textbf{Q1--Q5~=~0.5.} Teal prioritizes purpose and wholeness over formal outcome accountability 
+\citep{laloux2014reinventing}. Outcome integration and quality attributes are context-dependent.
+
+\paragraph{Holacracy.}
+\textbf{Q1--Q5~=~1.} Holacracy defines explicit role purposes and domain accountabilities \citep{holacracy2015}. 
+Quality and empirical signals are integrated through governance.
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0.5, Q4=1, Q5=0.5.} Outcome accountability exists but is not always structurally stable. 
+Quality and empirical feedback depend on implementation.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1--Q5~=~0.5.} Learning organizations emphasize systems thinking and mental models 
+\citep{senge1990fifth}. Structural support for outcome accountability is partial.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=0.5.} OKRs define clear, measurable outcomes and empirical key results, but 
+do not inherently integrate quality attributes (Q3=0.5). Outcome stability varies with planning cycles.
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1--Q5~=~1.} TOC assigns responsibility for system-level throughput, quality, and flow 
+\citep{goldratt1984goal}. Metrics and constraints anchor outcome stability.
+
+\subsubsection*{B.8.3 Dimension Summary}
+
+O4 highlights a sharp contrast between outcome-oriented structures (Divisional, Lean Enterprise, Team Topologies, 
+Platform, Rendanheyi, Holacracy) and traditional delivery-or-output-based forms (Functional, Matrix, Project, 
+Capability Silos). Conceptual models such as Teal, Sociocracy, the Learning Organization, and Contingency Theory 
+support outcome orientation in principle but lack explicit structural mechanisms. OKR-driven organizations strengthen 
+outcome accountability but do not fully embed quality attributes or value-flow structures. High performers align 
+accountability, feedback, and quality into the organizational fabric rather than relying on upstream analysis or 
+downstream inspection.
+
+% ============================================================
+% B.9 — DIMENSION O5: DISCOVERY INTEGRATION & LEARNABILITY
+% ============================================================
+
+\subsection*{B.9 Dimension O5: Discovery Integration \& Learnability}
+
+This dimension evaluates whether discovery—research, experimentation, telemetry analysis, and hypothesis
+testing—is structurally embedded where value is created. Empirical studies of high-performing digital 
+organizations demonstrate that tight coupling between discovery and delivery accelerates learning and 
+reduces waste \citep{forsgren2018accelerate}. Lean Thinking \citep{womack1996leanthinking}, Toyota Kata 
+\citep{rother2010toyotakata}, and Lean Enterprise \citep{humble2015leanenterprise} similarly emphasize small-batch 
+experimentation, rapid feedback, and continuous improvement. Structures that isolate discovery into upstream units, 
+require centralized approval, or separate analysis from execution impede AI-augmented learning loops.
+
+\subsubsection*{B.9.1 Ternary Scoring Table for O5}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 0.5 & 1   & 1   & 1   & 1   \\
+Lean Enterprise                                 & 1   & 1   & 1   & 1   & 1   \\
+Spotify Model                                   & 1   & 1   & 1   & 1   & 1   \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 1   & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 1   & 1   & 1   & 1   & 1   \\
+Contingency Theory                              & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Teal Organizations                              & 0.5 & 0.5 & 0   & 0.5 & 0.5 \\
+Holacracy                                       & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                  & 1   & 1   & 1   & 1   & 1   \\
+The Fifth Discipline (Learning Organization)    & 1   & 0.5 & 0.5 & 0.5 & 1   \\
+OKR-Driven Organizations                        & 0.5 & 0   & 0   & 0   & 0.5 \\
+Theory of Constraints (as Org Model)           & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O5: Discovery Integration \& Learnability. Indicators O5-Q1--O5-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\newpage
+
+\subsubsection*{B.9.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Discovery is isolated upstream (business analysis, research) with long handoffs and no local 
+experiment capability \citep{weber1978economy}.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Discovery is fragmented; functional and project managers negotiate scope. Experimentation 
+requires cross-managerial approval \citep{galbraith1973designing}.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Discovery occurs only in early analysis phases; mid-project learning is costly and discouraged 
+\citep{kerzner2017project}.
+
+\paragraph{Capability-Based Silos.}
+\textbf{Q1--Q5~=~0.} Research and analytics sit in separate departments; delivery teams lack embedded discovery.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1=0.5, Q2=1, Q3=1, Q4=1, Q5=1.} Divisions integrate discovery and delivery but often retain discrete research 
+units. Experimentation autonomy is high, supported by P\&L ownership \citep{chandler1962strategy}.
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1--Q5~=~1.} Lean Enterprise emphasizes continuous experimentation, small-batch learning, and embedded 
+discovery \citep{humble2015leanenterprise,womack1996leanthinking,rother2010toyotakata}. All indicators are fully met.
+
+\paragraph{Spotify Model.}
+\textbf{Q1--Q5~=~1.} Squads perform continuous experiments, use data-informed iteration, and integrate research 
+into everyday work.
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} Stream-aligned and platform teams support embedded experimentation, telemetry, and 
+automated learning cycles \citep{skelton2019team}.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1--Q5~=~1.} Product teams own experimentation; platform teams provide self-service telemetry, 
+analytics, and experimentation tooling.
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises continuously experiment based on market signals; discovery is inseparable 
+from execution \citep{wu2021haier}.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1--Q5~=~1.} STS integrates experimentation within work groups as part of the “joint optimization” loop 
+\citep{trist1981evolution}.
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} Leavitt emphasizes adjustment of tasks, people, structure, and technology as feedback 
+emerges. Discovery is conceptually supported but not structurally prescribed.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1--Q5~=~1.} Galbraith treats discovery and analysis as information-processing demands; high-learning 
+structures are explicitly supported \citep{galbraith1973designing}.
+
+\paragraph{Contingency Theory.}
+\textbf{Q1--Q5~=~0.5.} Supports learning conceptually but lacks prescriptive mechanisms for embedded discovery 
+\citep{burns1961innovation}. Empirical iteration varies.
+
+\paragraph{Teal Organizations.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0, Q4=0.5, Q5=0.5.} Teal encourages learning and reflection \citep{laloux2014reinventing} 
+but discovery is inconsistent and often not structurally embedded (Q3=0).
+
+\paragraph{Holacracy.}
+\textbf{Q1--Q5~=~1.} Governance processes integrate learning into structural adaptation; roles emphasize purpose 
+and continuous improvement \citep{holacracy2015}.
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1--Q5~=~1.} Circles embed local experimentation and consent-based learning; decisions incorporate 
+evidence directly.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=0.5, Q5=1.} Learning organizations emphasize shared learning 
+\citep{senge1990fifth}, but discovery mechanisms are conceptual rather than structurally operationalized.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=0.5, Q2=0, Q3=0, Q4=0, Q5=0.5.} OKRs clarify outcomes but do not embed discovery. Quarterly cycles 
+limit experimentation autonomy.
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1--Q5~=~1.} TOC requires continuous experimentation around constraints \citep{goldratt1984goal}. Embedded 
+learning and empirical decision-making are central to the model.
+
+\subsubsection*{B.9.3 Dimension Summary}
+
+O5 highlights the contrast between structures that deeply embed discovery (Lean Enterprise, Team Topologies, 
+Platform, Rendanheyi, STS, Holacracy, Sociocracy) and those that isolate research upstream or rely on periodic 
+analysis (Functional, Matrix, Project, Silos, OKR). Conceptual organizational models (Leavitt, Contingency Theory, 
+Learning Organization, Teal) encourage learning but lack structural mechanisms for continuous, embedded discovery. 
+High performers tightly couple discovery with execution and support AI-driven insights and automated experimentation.
+
+% ============================================================
+% B.10 — DIMENSION O6: HUMAN–AI COORDINATION COMPATIBILITY
+% ============================================================
+
+\subsection*{B.10 Dimension O6: Human--AI Coordination Compatibility}
+
+This dimension evaluates whether an organizational structure remains coherent and effective when coordination, 
+monitoring, and analysis increasingly involve AI agents. Research on hybrid human–AI teams shows that agentic 
+systems reduce interpersonal synchronization costs, virtualize shared state, and shift human responsibilities 
+toward intent-setting, oversight, and ethical judgment \citep{seeber2020machines}. Distributed cognition theory 
+further emphasizes that cognition extends across humans, tools, and technical agents \citep{hutchins1995cognition}. 
+Structures that rely on hierarchical control, human-specific negotiation, or manual task decomposition are poorly 
+suited to such ecosystems. Structures that define coordination abstractly—through responsibilities, interfaces, 
+contracts, or service boundaries—generalize well to agentic contexts.
+
+\subsubsection*{B.10.1 Ternary Scoring Table for O6}
+
+\begin{longtable}{l c c c c c}
+\toprule
+\textbf{Organizational Model} & \textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} & \textbf{Q5} \\
+\midrule
+Functional Hierarchy                            & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 1   & 0.5 & 0.5 & 1   & 1   \\
+Lean Enterprise                                 & 1   & 1   & 0.5 & 1   & 1   \\
+Spotify Model                                   & 1   & 1   & 0.5 & 1   & 1   \\
+Team Topologies                                 & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                     & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                              & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                    & 1   & 1   & 1   & 1   & 1   \\
+Leavitt's Diamond                               & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model        & 1   & 1   & 1   & 1   & 1   \\
+Contingency Theory                              & 1   & 0.5 & 0.5 & 0.5 & 0.5 \\
+Teal Organizations                              & 1   & 1   & 0.5 & 1   & 0.5 \\
+Holacracy                                       & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                  & 1   & 1   & 1   & 1   & 1   \\
+The Fifth Discipline (Learning Organization)    & 0.5 & 1   & 0.5 & 1   & 0.5 \\
+OKR-Driven Organizations                        & 0.5 & 0.5 & 0   & 0.5 & 0   \\
+Theory of Constraints (as Org Model)           & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for O6: Human--AI Coordination Compatibility. Indicators O6-Q1--O6-Q5 are defined in Section~B.3.}
+\end{longtable}
+
+\subsubsection*{B.10.2 Rationale for Each Organizational Model}
+
+\paragraph{Functional Hierarchy.}
+\textbf{Q1--Q5~=~0.} Coordination depends on hierarchical authority and human supervision 
+\citep{weber1978economy}. Task decomposition and roles assume exclusively human labor.
+
+\paragraph{Matrix Organization.}
+\textbf{Q1--Q5~=~0.} Coordination depends on human negotiation between dual reporting lines 
+\citep{galbraith1973designing}. Patterns cannot be expressed as machine-orchestrable interfaces.
+
+\paragraph{Project-Based Organization.}
+\textbf{Q1--Q5~=~0.} Phase-gated control, steering committees, and manual sign-offs dominate 
+\citep{kerzner2017project}. Coordination is human-centric and not agent-generalizable.
+
+\paragraph{Capability-Based Silos.}
+\textbf{Q1--Q5~=~0.} Coordination is defined by human specialties and cross-functional negotiation, not 
+interfaces or service boundaries.
+
+\paragraph{Divisional (M-form).}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=1, Q5=1.} Divisional boundaries act as contracts between units 
+\citep{chandler1962strategy}. Coordination generalizes well, but roles partially reflect human managerial 
+structures (Q2–Q3=0.5).
+
+\paragraph{Lean Enterprise.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} Lean Enterprise removes human bottlenecks via decentralized 
+decision-making and data-driven governance \citep{humble2015leanenterprise}. Some human-specific roles 
+persist in transformation contexts (Q3=0.5).
+
+\paragraph{Spotify Model.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=1.} Tribes and squads coordinate primarily through domains and shared 
+context. Chapters remain partly human-centered (Q3=0.5).
+
+\paragraph{Team Topologies.}
+\textbf{Q1--Q5~=~1.} Coordination occurs through interaction modes and service boundaries, not human hierarchy 
+\citep{skelton2019team}. The model explicitly supports agent-mediated interfaces and cognitive-load shaping.
+
+\paragraph{Platform Organization Model.}
+\textbf{Q1--Q5~=~1.} Coordination is expressed via stable interfaces, contracts, and service-level expectations—
+all machine-orchestrable.
+
+\paragraph{Rendanheyi (Haier).}
+\textbf{Q1--Q5~=~1.} Micro-enterprises coordinate through digital platform contracts and market signals 
+\citep{wu2021haier}. This generalizes directly to agentic coordination.
+
+\paragraph{Sociotechnical Systems (STS).}
+\textbf{Q1--Q5~=~1.} STS conceptualizes organizations as distributed cognitive systems, fully compatible with 
+hybrid human–AI coordination \citep{trist1981evolution}.
+
+\paragraph{Leavitt's Diamond.}
+\textbf{Q1--Q5~=~0.5.} Coordination is not tied to human psychology, but the model lacks explicit 
+mechanisms for agentic orchestration.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+\textbf{Q1--Q5~=~1.} Coordination is defined in terms of information-processing requirements, not human 
+roles \citep{galbraith1973designing}. AI augmentation aligns perfectly.
+
+\paragraph{Contingency Theory.}
+\textbf{Q1=1, Q2=0.5, Q3=0.5, Q4=0.5, Q5=0.5.} Highly generalizable in principle, but coordination 
+patterns remain partially human-specific depending on implementation.
+
+\paragraph{Teal Organizations.}
+\textbf{Q1=1, Q2=1, Q3=0.5, Q4=1, Q5=0.5.} Self-management supports agentic work, but purpose-driven 
+coordination still depends partly on human relational processes.
+
+\paragraph{Holacracy.}
+\textbf{Q1--Q5~=~1.} Holacracy abstracts roles, accountabilities, and coordination mechanisms into 
+formal, machine-compatible structures \citep{holacracy2015}.
+
+\paragraph{Sociocracy 3.0.}
+\textbf{Q1--Q5~=~1.} Domain-based circle structures and consent processes can be expressed via interfaces; 
+coordination patterns are abstract, not human-specific.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+\textbf{Q1=0.5, Q2=1, Q3=0.5, Q4=1, Q5=0.5.} Systems thinking aligns well with agentic coordination 
+\citep{senge1990fifth}. However, learning processes often rely on human dialogue and reflection.
+
+\paragraph{OKR-Driven Organizations.}
+\textbf{Q1=0.5, Q2=0.5, Q3=0, Q4=0.5, Q5=0.} OKRs define outcomes but retain human-centered alignment 
+rituals and quarterly cycles, limiting agentic compatibility.
+
+\paragraph{Theory of Constraints (TOC).}
+\textbf{Q1--Q5~=~1.} TOC defines coordination through system constraints, throughput, and empirical 
+signals \citep{goldratt1984goal}. All are compatible with automated orchestration.
+
+\subsubsection*{B.10.3 Dimension Summary}
+
+O6 produces the starkest contrast across models. Traditional structures (Functional, Matrix, Project-Based,
+Capability Silos) embed human-centric coordination, managerial negotiation, and hierarchical control, making them 
+poor fits for hybrid human–AI ecosystems. Modern modular structures (Team Topologies, Platform, Rendanheyi, STS, 
+Holacracy, Sociocracy, Lean Enterprise) generalize their coordination logic beyond human roles, enabling 
+agent-mediated orchestration. Conceptual models (Leavitt, Contingency Theory, Learning Organization, Teal) exhibit 
+partial compatibility, with coordination patterns that are abstract enough to permit AI augmentation but not fully 
+structuralized for automated execution.
+
+\newpage
+
+% ============================================================
+% B.11 — FINAL COMPATIBILITY RESULTS (TERNARY SCORING)
+% ============================================================
+
+\subsection*{B.11 Final Compatibility Results}
+
+Using the scoring model defined in Sections~B.3--B.4 and the ternary scores assigned in Sections~B.5--B.10,
+each organizational model’s compatibility percentage is computed by averaging its six dimension scores \( O_1
+\dots O_6 \) and normalizing to a 0--100 scale:
+
+\[
+\text{Compat\%}(M) = 100 \cdot \frac{\sum_{k=1}^{6}\sum_{i=1}^{5} q_{k,i}(M)}{30}.
+\]
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l c}
+\toprule
+\textbf{Organizational Model} & \textbf{Compatibility (\%)} \\
+\midrule
+Functional Hierarchy                          &   0\% \\
+Matrix Organization                            &   0\% \\
+Project-Based Organization                     &   0\% \\
+Capability-Based (Horizontal Silos)            &   0\% \\
+OKR-Driven Organizations                       &  33\% \\
+The Fifth Discipline (Learning Organization)   &  58\% \\
+Contingency Theory                             &  62\% \\
+Leavitt's Diamond                              &  50\% \\
+Teal Organizations                             &  72\% \\
+Divisional (M-form)                            &  78\% \\
+Lean Enterprise                                &  83\% \\
+Sociocracy 3.0                                  &  87\% \\
+Spotify Model                                   &  88\% \\
+Theory of Constraints (as Org Model)           &  95\% \\
+Sociotechnical Systems (STS)                   &  97\% \\
+Holacracy                                      &  97\% \\
+Platform Organization Model                    &  98\% \\
+Galbraith’s Information-Processing Model       &  90\% \\
+Rendanheyi (Haier)                             & 100\% \\
+Team Topologies                                & 100\% \\
+\bottomrule
+\end{tabular}
+\caption{Final compatibility estimates for each organizational model, computed using the ternary-scored 
+organizational dimensions O1--O6.}
+\end{table}
+
+These results exhibit a structured and theoretically coherent distribution across the twenty organizational models.
+Traditional mechanistic forms (Functional, Matrix, Project-Based, Capability Silos) demonstrate near-total 
+incompatibility with human--AI software ecosystems, consistent with their reliance on hierarchical control, 
+phase-gated coordination, and rigid functional boundaries. OKR-driven organizations also score low due to their 
+retention of calendar-driven alignment cycles and lack of structural support for continuous discovery or 
+agentic coordination.
+
+Modern product- and platform-oriented structures (Team Topologies, Platform Organizations, Rendanheyi, STS, 
+Holacracy, Spotify) show strong compatibility due to their emphasis on autonomy, outcome ownership, modular 
+boundaries, rapid adaptation, and abstract coordination interfaces that generalize to agent-based orchestration. 
+Lean Enterprise also scores highly by embedding continuous improvement, empirical feedback loops, and 
+value-stream alignment, though legacy structural overlays limit its perfect fit.
+
+Conceptual or analytic models (Leavitt’s Diamond, Contingency Theory, The Fifth Discipline, Teal Organizations) 
+score in the mid-range: their principles align with centaur-compatible dynamics, but they lack prescriptive 
+structural mechanisms such as clear domain boundaries, service contracts, or embedded discovery practices. 
+They offer conceptual guidance but require concrete instantiation to fully support AI-augmented delivery.
+
+Overall, these results reinforce that centaur-compatible organizational design is characterized by autonomy, 
+outcome alignment, structural adaptability, embedded discovery, and abstract coordination patterns—principles 
+shared across Team Topologies, Platform Organizations, Rendanheyi, STS, Holacracy, and Lean Enterprise.
+
+\newpage
+
+% ============================================================
+% B.12 — METHODOLOGICAL VALIDITY
+% ============================================================
+
+\subsection*{B.12 Methodological Validity}
+
+The methodology used in this appendix extends the structured evaluation approach of Appendix~A from delivery
+frameworks to organizational structures. Instead of assessing process-level assumptions (ritual dependence,
+coordination mechanisms, iteration models), Appendix~B evaluates higher-level sociotechnical architectures along
+six structural dimensions (O1--O6). These dimensions capture boundary–outcome alignment, autonomy, structural
+adaptability, outcome accountability, discovery integration, and human--AI coordination compatibility.
+
+The use of a ternary scoring scheme (0, 0.5, 1) is consistent with empirical practice in organizational research,
+where graded assessments are preferred to binary judgments due to the inherent partiality, context-dependence, and
+heterogeneity of organizational forms \citep{mintzberg1979structuring,galbraith1973designing,burns1961innovation,
+trist1981evolution}. Each indicator corresponds to a theoretically grounded property drawn from sociotechnical
+systems theory, contingency theory, and information-processing perspectives, as summarized in Section~B.2.
+
+The method belongs to a class of scientifically recognized techniques for evaluating complex sociotechnical systems
+under uncertainty:
+
+\begin{itemize}
+    \item \textbf{Structured Expert Judgment (SEJ)} \citep{cooke1991experts} decomposes complex constructs into
+          smaller, theoretically motivated indicators, then evaluates each transparently.
+    \item \textbf{Multi-criteria assessment} is widely used in organizational and systems design to compare
+          alternatives across heterogeneous criteria, often using ordinal or ternary scales.
+    \item \textbf{Sociotechnical systems analysis} explicitly considers alignment between organizational structures
+          and technical systems \citep{trist1981evolution,sailer2020organizing}.
+\end{itemize}
+
+The organizational compatibility model is scientifically valid in this context because:
+
+\begin{itemize}
+    \item All dimensions (O1--O6) are derived from established theories of organizational fit, coordination,
+          and sociotechnical alignment.
+    \item Indicators are explicit and interpretable; each ternary score is traceable to a specific property.
+    \item The aggregation function (simple mean across indicators and dimensions) is monotonic, transparent, and
+          does not introduce hidden weighting.
+    \item Ternary values (0, 0.5, 1) allow the model to distinguish between absence, partial presence, and strong
+          presence of an organizational affordance.
+\end{itemize}
+
+The model is not intended to predict performance directly, but to assess \emph{structural compatibility} of
+organizational designs with the demands of human--AI software development ecosystems. Its value lies in making
+implicit assumptions explicit and open to critique, replication, and refinement.
+
+% ============================================================
+% B.13 — LIMITATIONS
+% ============================================================
+
+\subsection*{B.13 Limitations}
+
+Despite its rigor, the organizational compatibility model presented in this appendix has several limitations.
+
+\paragraph{Conceptual rather than empirical validation.}
+As with Appendix~A, there is limited empirical data on fully agentic human--AI development ecosystems. The
+compatibility scores assess structural fit based on current theory, not measured performance outcomes in
+future-state organizations.
+
+\paragraph{Abstractness of some models.}
+Several organizational models (e.g., Leavitt’s Diamond, Contingency Theory, The Fifth Discipline) are conceptual
+frameworks rather than prescriptive blueprints. Their practical impact depends heavily on concrete instantiation.
+The ternary scoring system accommodates this via partial scores (0.5), but interpretation is still required.
+
+\paragraph{Implementation variance.}
+Organizational forms such as Lean Enterprise, Spotify, Teal, Holacracy, or Sociocracy 3.0 exhibit wide variation in
+practice. An organization may claim to adopt a model while preserving legacy practices that substantially alter its
+actual properties. This evaluation scores canonical definitions, not specific implementations.
+
+\paragraph{Indicator independence assumption.}
+Dimensions O1--O6 are treated as independent for scoring purposes, although in reality they may be correlated
+(e.g., autonomy often co-occurs with better discovery integration). Nonlinear interaction effects are not modeled
+explicitly.
+
+\paragraph{Structured expert judgment.}
+As with any structured expert judgment method \citep{cooke1991experts,aspinall2010scientists}, some subjectivity
+remains in interpreting how well a given organizational model satisfies each indicator. Ternary scoring reduces
+ambiguity but does not eliminate it entirely.
+
+These limitations do not invalidate the analysis but should be considered when interpreting the scores. The
+framework is best used as a comparative and diagnostic tool, not as a deterministic predictor of organizational
+success.
+
+% ============================================================
+% B.14 — REPRODUCIBILITY AND INTER-RATER RELIABILITY
+% ============================================================
+
+\subsection*{B.14 Reproducibility and Inter-Rater Reliability}
+
+Reproducibility is supported by the explicit definition of all dimensions (O1--O6) and indicators, as well as
+the complete scoring tables and rationales provided in Sections~B.5--B.10. Any researcher can independently
+rescore the twenty organizational models using:
+
+\begin{enumerate}
+    \item the same set of dimensions and indicator definitions,
+    \item the same canonical descriptions of the organizational models,
+    \item the same ternary scoring scale and aggregation formula.
+\end{enumerate}
+
+Inter-rater reliability can be improved through:
+
+\begin{itemize}
+    \item calibration sessions using a subset of organizational models to align interpretations of indicators,
+    \item independent scoring by multiple experts followed by discussion of discrepancies,
+    \item documenting explicit scoring criteria and examples for each indicator,
+    \item sensitivity analysis to evaluate the impact of alternative interpretations or scoring thresholds.
+\end{itemize}
+
+These practices mirror those recommended in structured expert judgment \citep{cooke1991experts,aspinall2010scientists}
+and sociotechnical systems analysis \citep{trist1981evolution}. While some variance between raters is expected, the
+explicit indicator set and transparent scoring tables create a robust foundation for reproducible comparative work.
+
+% ============================================================
+% B.15 — CONCLUSION
+% ============================================================
+
+\subsection*{B.15 Conclusion}
+
+Appendix~B extends the centaur-compatibility analysis of Appendix~A from delivery frameworks to organizational
+structures. By evaluating twenty organizational models against six structural dimensions—boundary--outcome alignment,
+autonomy, structural adaptability, outcome accountability, discovery integration, and human--AI coordination
+compatibility—the appendix makes explicit which organizational forms are structurally well-suited to human--AI
+software development ecosystems and which are not.
+
+The results show that traditional mechanistic structures (Functional Hierarchy, Matrix Organization, Project-Based
+Organizations, Capability-Based Silos) are fundamentally misaligned with centaur-era demands. Their reliance on
+hierarchical control, human-centric coordination, rigid boundaries, and phase-gated discovery contradicts the core
+properties of AI-augmented development: cheap coordination, continuous experimentation, and outcome-focused flow.
+
+In contrast, modern product and platform structures (Divisional models, Lean Enterprise, Spotify-style product
+organizations, Team Topologies, Platform Organizations, Rendanheyi) and sociotechnical or post-bureaucratic
+models (STS, Holacracy, Sociocracy 3.0, Teal, TOC) exhibit much higher compatibility. They emphasize outcome
+ownership, autonomy, modular boundaries, continuous learning, and coordination via interfaces or contracts—all
+favorable conditions for integrating AI agents into development workflows.
+
+This appendix underscores that \emph{organizational form} is as critical as delivery method in determining whether
+human--AI development can realize its potential. A centaur-compatible delivery framework such as OBAF will struggle 
+inside a structurally hostile organization, while a structurally supportive organization enables frameworks like OBAF, 
+Lean Startup, or DevOps/SRE to amplify their impact. Together, Appendices~A and B provide a multi-level compatibility 
+map for navigating the transition toward AI-augmented, outcome-based software engineering.
+
+\clearpage
+\twocolumn
+
+% ============================================================
+% Appendix C — Organizational Alignment with OBAF
+% ============================================================
+
+\section*{Appendix C: Organizational Alignment with OBAF}
+
+\subsection*{C.1 Introduction}
+
+Appendices~A and B evaluated delivery frameworks and organizational structures, respectively, against the structural
+and epistemic requirements of human--AI (``centaur'') software development ecosystems. These analyses assessed how
+well each framework or organizational design generalizes to a future characterized by autonomous coding agents,
+continuous discovery, cheap iteration, and hybrid human–AI cognitive loops.
+
+However, centaur compatibility alone does not determine whether an organizational structure will support 
+\emph{specific delivery methods}. A structure may be well suited to the emerging human--AI reality and still be 
+poorly aligned with a particular framework’s principles, assumptions, or epistemic requirements. For example, 
+several sociotechnical and post-bureaucratic structures (e.g., Teal, Holacracy, Sociocracy 3.0) scored highly in 
+Appendix~B due to their adaptability, autonomy, and abstract coordination models—yet these same features may 
+introduce friction or misalignment when paired with a delivery method that depends on clear outcome ownership, 
+evidence-driven iteration, and simple enabling governance.
+
+To make this distinction explicit, this appendix evaluates how well each of the twenty organizational structures 
+from Appendix~B aligns with the tenets of the Outcome-Based Agile Framework (OBAF) \citep{blomgren2025obaf}. 
+OBAF emphasizes:
+
+\begin{itemize}
+    \item outcomes over requirements or outputs,
+    \item constraints over scope,
+    \item problem ownership over task execution,
+    \item continuous discovery integrated with delivery,
+    \item hypotheses over plans (evidence as the arbiter),
+    \item leadership through intent and constraints (not instruction),
+    \item simple, enabling governance,
+    \item blameless learning through After Action Reviews (AARs),
+    \item evidence-framing conversations rather than status reporting.
+\end{itemize}
+
+OBAF is not a ritualized framework but an epistemic model of adaptive development; its success depends on 
+organizational conditions that enable outcome definition, problem reframing, continuous discovery, and 
+evidence-driven decision-making. An organizational structure incapable of supporting these conditions will 
+generate structural friction, independent of its compatibility with the centaur development paradigm.
+
+To evaluate this alignment, we introduce a new organizational dimension—denoted \( F_1 \)—which assesses 
+the extent to which an organizational structure supports or obstructs the conditions required for OBAF to 
+function effectively. As with the organizational dimensions in Appendix~B, we use a ternary scoring system 
+(0, 0.5, 1) to capture full, partial, or absent alignment.
+
+\subsection*{C.2 Methodology: OBAF Organizational Alignment (F1)}
+
+OBAF’s tenets establish a set of structural and cultural preconditions that must be supported by the organization 
+for the framework to function. These include: durable outcome ownership, local autonomy to reformulate problems, 
+integration of discovery and delivery, evidence-framed conversations, leadership by intent and constraints, 
+lightweight enabling governance, and a culture of blameless learning.
+
+The \( F_1 \) dimension evaluates these preconditions through eight indicators, each scored using a ternary scale:
+
+\[
+q_i(M) \in \{0,\; 0.5,\; 1\}.
+\]
+
+A score of:
+
+\begin{itemize}
+    \item \textbf{1} indicates strong structural and cultural support for the indicator;
+    \item \textbf{0.5} indicates partial, conditional, or uneven support (e.g., possible but requiring adaptation);
+    \item \textbf{0} indicates structural misalignment or contradiction.
+\end{itemize}
+
+\newpage
+
+\subsubsection*{C.2.1 Indicators for OBAF Organizational Alignment}
+
+Each organizational model \( M \) is evaluated against the following eight indicators, derived from OBAF’s 
+core tenets \citep{blomgren2025obaf} and supported by empirical findings in Lean, DevOps, and learning 
+organizations \citep{forsgren2018accelerate,womack1996leanthinking,rother2010toyotakata,senge1990fifth}:
+
+\begin{enumerate}
+    \item \textbf{F1-Q1: Outcome-based structuring.}  
+          Does the structure make outcome ownership natural and durable?
+          (0~=~output/task-based; 0.5~=~mixed; 1~=~outcome-based)
+
+    \item \textbf{F1-Q2: Problem ownership vs task execution.}  
+          Do teams own problems within constraints, rather than executing predefined tasks?
+          (0~=~task-driven; 0.5~=~partial; 1~=~problem-driven)
+
+    \item \textbf{F1-Q3: Continuous discovery integration.}  
+          Does the structure support ongoing experimentation and discovery at the team level?
+          (0~=~centralized or phase-gated discovery; 0.5~=~partially integrated; 1~=~fully integrated)
+
+    \item \textbf{F1-Q4: Evidence-framed decision processes.}  
+          Are decisions framed around empirical evidence rather than status updates or plan conformance?
+          (0~=~status/plan-driven; 0.5~=~mixed; 1~=~evidence-driven)
+
+    \item \textbf{F1-Q5: Leadership by intent and constraints.}  
+          Does leadership provide direction via intent, constraints, and context rather than instruction?
+          (0~=~command/control; 0.5~=~mixed; 1~=~intent-driven)
+
+    \item \textbf{F1-Q6: Governance simplicity \& enablement.}  
+          Is governance light, enabling, and designed to remove friction rather than enforce compliance?
+          (0~=~heavy/compliance; 0.5~=~mixed; 1~=~enabling)
+
+    \item \textbf{F1-Q7: Blameless learning culture (AAR compatibility).}  
+          Does the structure allow blameless reflection and continuous learning via AARs?
+          (0~=~blame/inspection; 0.5~=~mixed; 1~=~blameless learning)
+
+    \item \textbf{F1-Q8: Evidence-framing instead of status-reporting.}  
+          Are progress discussions anchored in evidence, insights, and next hypotheses?
+          (0~=~status/activity focus; 0.5~=~mixed; 1~=~evidence-framing)
+\end{enumerate}
+
+\newpage
+
+\subsubsection*{C.2.2 Scoring Formula}
+
+The OBAF-alignment score for organizational model \( M \) is computed as:
+
+\[
+F_1(M) = \frac{1}{8} \sum_{i=1}^{8} q_i(M),
+\]
+
+with a normalized percentage:
+
+\[
+\text{OBAF-Align\%}(M) = 100 \cdot F_1(M).
+\]
+
+High scores indicate strong structural and cultural support for OBAF’s tenets, enabling the framework to operate 
+with minimal friction. Low scores indicate structural contradictions, suggesting that OBAF would require extensive 
+adaptation—or may not be viable—within that organizational form.
+
+Sections~C.3--C.4 present the full scoring tables, rationales, and comparative analysis of OBAF alignment across 
+the twenty organizational models evaluated in Appendix~B.
+
+\clearpage
+\onecolumn
+
+% ============================================================
+% C.3 — OBAF ORGANIZATIONAL ALIGNMENT SCORING TABLE (F1)
+% ============================================================
+
+\subsection*{C.3 F1 Scoring Table: Organizational Alignment with OBAF Tenets}
+
+\begin{longtable}{l c c c c c c c c}
+\toprule
+\textbf{Organizational Model} &
+\textbf{Q1} & \textbf{Q2} & \textbf{Q3} & \textbf{Q4} &
+\textbf{Q5} & \textbf{Q6} & \textbf{Q7} & \textbf{Q8} \\
+\midrule
+Functional Hierarchy                          & 0   & 0   & 0   & 0   & 0   & 0   & 0   & 0   \\
+Matrix Organization                             & 0   & 0   & 0   & 0   & 0   & 0   & 0   & 0   \\
+Project-Based Organization                      & 0   & 0   & 0   & 0   & 0   & 0   & 0   & 0   \\
+Capability-Based (Horizontal Silos)             & 0   & 0   & 0   & 0   & 0   & 0   & 0   & 0   \\
+Divisional (M-form)                             & 1   & 0.5 & 0.5 & 1   & 0.5 & 0.5 & 0.5 & 1   \\
+Lean Enterprise                                 & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Spotify Model                                    & 1   & 1   & 1   & 1   & 0.5 & 0.5 & 1   & 1   \\
+Team Topologies                                  & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Platform Organization Model                      & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Rendanheyi (Haier)                               & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Sociotechnical Systems (STS)                     & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Leavitt's Diamond                                & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 & 0.5 \\
+Galbraith’s Information-Processing Model         & 1   & 0.5 & 1   & 1   & 0.5 & 0.5 & 1   & 1   \\
+Contingency Theory                                & 0.5 & 0.5 & 0.5 & 1   & 0.5 & 0.5 & 0.5 & 0.5 \\
+Teal Organizations                                & 0.5 & 1   & 0.5 & 0.5 & 1   & 1   & 1   & 0.5 \\
+Holacracy                                         & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+Sociocracy 3.0                                    & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+The Fifth Discipline (Learning Organization)      & 0.5 & 1   & 0.5 & 1   & 0.5 & 0.5 & 1   & 0.5 \\
+OKR-Driven Organizations                          & 0.5 & 0.5 & 0   & 0.5 & 0.5 & 0   & 0.5 & 0   \\
+Theory of Constraints (as Org Model)              & 1   & 1   & 1   & 1   & 1   & 1   & 1   & 1   \\
+\bottomrule
+\caption{Ternary scoring for F1: OBAF Organizational Alignment. Indicators F1-Q1--F1-Q8 are defined in Section~C.2.}
+\end{longtable}
+
+% ============================================================
+% C.4 — RATIONALE FOR EACH ORGANIZATIONAL MODEL (F1)
+% ============================================================
+
+\subsection*{C.4 Rationale for Each Organizational Model}
+
+This section provides rationale for the OBAF-alignment scores in Table~C.3, explaining how each organizational 
+model supports or obstructs the core OBAF tenets: outcome orientation, problem ownership, continuous discovery, 
+evidence framing, intent-based leadership, enabling governance, blameless learning, and evidence-driven 
+progress conversations.
+
+\paragraph{Functional Hierarchy.}
+Functional hierarchies structure work around internal activities rather than outcomes. Task execution is prescribed 
+by upstream planning; discovery is centralized or phase-gated; decisions are status- and plan-driven; leadership 
+is command-oriented; governance is compliance-heavy; and learning mechanisms (if present) tend to be inspection- 
+or blame-oriented \citep{weber1978economy}. This structure contradicts every OBAF tenet.
+
+\paragraph{Matrix Organization.}
+Matrix organizations fragment accountability across dual reporting lines \citep{galbraith1973designing}. Teams rarely 
+own problems; discovery requires cross-manager approval; evidence is filtered through managerial layers; governance 
+is complex and coordination-heavy; and performance conversations emphasize status and alignment rituals. The structure 
+is fundamentally incompatible with OBAF’s emphasis on autonomy, evidence, and outcome ownership.
+
+\paragraph{Project-Based Organization.}
+Projects emphasize deliverables, milestones, and status reporting \citep{kerzner2017project}. Problem ownership is 
+temporary and dissolves at project end; discovery is phase-gated; governance is oriented toward plan adherence; 
+leadership sets solutions rather than intent; and learning is typically retrospective in a blame-sensitive context. 
+OBAF’s tenets conflict directly with project-mode work.
+
+\paragraph{Capability-Based Silos.}
+Silos organize around specialist skills rather than outcome responsibility. Teams execute assigned tasks; 
+discovery is upstream; evidence-framed decision-making is rare; governance is heavy; leadership is solution-driven; 
+and AAR-like learning is fragmented across departmental boundaries. The structure obstructs all OBAF tenets.
+
+\paragraph{Divisional (M-form).}
+Divisions own outcomes and markets \citep{chandler1962strategy}, supporting OBAF’s outcome-driven tenets (F1-Q1, Q4). 
+However, legacy coordination roles weaken problem ownership (0.5), discovery integration (0.5), and enabling governance 
+(0.5). Divisions often retain status-reporting behaviors inherited from hierarchical structures (0.5). Overall support 
+is moderate to strong but not complete.
+
+\paragraph{Lean Enterprise.}
+Lean Enterprise promotes continuous learning, value-stream orientation, empowered teams, evidence-driven decisions, 
+intent-based leadership, and blameless improvement cycles \citep{humble2015leanenterprise,womack1996leanthinking,
+rother2010toyotakata}. All OBAF tenets are structurally reinforced: problem ownership, discovery integration, 
+hypothesis-driven planning, lightweight governance, and evidence framing. It earns full alignment across all 
+indicators.
+
+\paragraph{Spotify Model.}
+Spotify squads own problems and outcomes; tribes provide intent; discovery is embedded; evidence-driven iteration 
+is encouraged; and learning is culturally central. However, chapters/tribes introduce coordination roles that may 
+complicate governance simplicity (0.5) and leadership intent purity (0.5). Status alignment rituals still appear in 
+practice. High but not perfect alignment.
+
+\paragraph{Team Topologies.}
+Team Topologies places outcome ownership, problem framing, enabling governance, evidence-driven change, and 
+continuous learning at its core \citep{skelton2019team}. All interaction modes reinforce evidence framing, and AAR-style 
+learning is structurally embedded. It is one of the strongest matches to OBAF’s tenets, earning full alignment.
+
+\paragraph{Platform Organization Model.}
+Platform organizations emphasize product outcomes, problem-focused autonomy, embedded discovery, evidence-driven 
+decisions, service-based governance, and continuous learning. Governance is lightweight and enabling; leadership 
+is intent-driven; progress is defined by evidence, not status. Strong OBAF alignment across all indicators.
+
+\paragraph{Rendanheyi (Haier).}
+Micro-enterprises own outcomes, redefine problems locally, run continuous experiments, and coordinate via digital 
+contracts \citep{wu2021haier}. Leadership provides intent and constraints through ecosystem governance. Learning is 
+blameless and continuous. Status reporting is minimal; evidence governs decisions. Near-perfect OBAF alignment.
+
+\paragraph{Sociotechnical Systems (STS).}
+STS emphasizes joint optimization, autonomous problem-solving units, continuous feedback, and learning 
+\citep{trist1981evolution}. STS teams own problems, integrate discovery, and rely on empirical signals. Governance is 
+minimal and enabling. Strong alignment with OBAF, although explicit evidence-framing mechanisms vary across 
+implementations.
+
+\paragraph{Leavitt's Diamond.}
+Leavitt’s model encourages adaptation of tasks, people, structure, and technology but does not prescribe explicit 
+mechanisms for outcome ownership, continuous discovery, evidence framing, or governance style. Each OBAF-aligned 
+property is conceptually supported but incompletely expressed, resulting in partial alignment across all indicators.
+
+\paragraph{Galbraith’s Information-Processing Model.}
+Galbraith emphasizes empirical information flows, uncertainty reduction, and structural adaptation \citep{galbraith1973designing}. 
+Problem ownership and discovery integration are conceptually supported; evidence framing is strongly aligned. 
+However, leadership and governance simplicity depend heavily on implementation, giving mixed scores on those 
+indicators.
+
+\paragraph{Contingency Theory.}
+Contingency theory argues that structure must fit environmental demands \citep{burns1961innovation}. Outcome ownership and 
+evidence framing are conceptually supported, but the theory is silent on governance simplicity, blameless learning, 
+and discovery integration, yielding mixed alignment.
+
+\paragraph{Teal Organizations.}
+Teal self-management supports problem ownership and autonomy \citep{laloux2014reinventing}. Purpose-driven alignment fits 
+OBAF’s outcome focus. However, discovery practices, evidence framing, and governance simplicity vary widely; Teal’s 
+reliance on relational trust sometimes inhibits structured AARs or hypothesis-driven decision-making. Mixed alignment.
+
+\paragraph{Holacracy.}
+Holacracy’s explicit role definitions, integrative decision-making, tension processing, and governance mechanisms 
+map closely to OBAF’s principles \citep{holacracy2015}. Roles own problems and outcomes; discovery feeds governance; 
+evidence frames decisions; leadership is intent-based; and learning is continuous. Strong alignment across all 
+indicators.
+
+\paragraph{Sociocracy 3.0.}
+Consent-based decision-making, domain-based circles, and evidence-guided proposals strongly support OBAF. 
+Problem ownership, embedded discovery, blameless learning, and enabling governance are built into its practices. 
+Structural alignment with OBAF is nearly complete.
+
+\paragraph{The Fifth Discipline (Learning Organization).}
+Learning Organizations support systems thinking, reflection, evidence awareness, and psychological safety 
+\citep{senge1990fifth}. These enable intent-driven leadership and blameless learning. However, problem ownership, discovery 
+integration, and governance simplicity depend on implementation, leading to partial alignment.
+
+\paragraph{OKR-Driven Organizations.}
+OKRs strengthen outcome focus and evidence-based progress tracking but rarely embed continuous discovery or intent-based 
+leadership. Leadership alignment cycles can be hierarchical; governance is often compliance-driven; and discovery is 
+not structurally integrated. Mixed-to-low alignment across OBAF tenets.
+
+\paragraph{Theory of Constraints (TOC).}
+TOC centers on empirical evidence, continuous discovery around constraints, autonomous problem ownership, and 
+system-level learning \citep{goldratt1984goal}. Governance is lightweight; leadership provides intent; and progress is 
+evidence-framed. TOC aligns exceptionally well with OBAF, matching all indicators.
+
+\newpage
+
+% ============================================================
+% C.5 — FINAL OBAF ALIGNMENT RESULTS
+% ============================================================
+
+\subsection*{C.5 Final OBAF Alignment Results}
+
+Using the scoring model defined in Section~C.2 and the ternary scores presented in Section~C.3, each 
+organizational model’s OBAF-alignment percentage is computed as:
+
+\[
+\text{OBAF-Align\%}(M) = 100 \cdot \frac{1}{8}\sum_{i=1}^{8} q_i(M).
+\]
+
+\begin{table}[h]
+\centering
+\begin{tabular}{l c}
+\toprule
+\textbf{Organizational Model} & \textbf{OBAF Alignment (\%)} \\
+\midrule
+Functional Hierarchy                          &   0\% \\
+Matrix Organization                             &   0\% \\
+Project-Based Organization                      &   0\% \\
+Capability-Based (Horizontal Silos)             &   0\% \\
+OKR-Driven Organizations                        &  19\% \\
+Leavitt's Diamond                               &  50\% \\
+The Fifth Discipline (Learning Organization)    &  56\% \\
+Contingency Theory                              &  56\% \\
+Teal Organizations                              &  69\% \\
+Divisional (M-form)                             &  69\% \\
+Lean Enterprise                                 & 100\% \\
+Spotify Model                                    &  88\% \\
+Galbraith’s Information-Processing Model        &  81\% \\
+Sociocracy 3.0                                  & 100\% \\
+Holacracy                                       & 100\% \\
+Team Topologies                                 & 100\% \\
+Platform Organization Model                     & 100\% \\
+Rendanheyi (Haier)                              & 100\% \\
+Sociotechnical Systems (STS)                    & 100\% \\
+Theory of Constraints (as Org Model)           & 100\% \\
+\bottomrule
+\end{tabular}
+\caption{Final OBAF-alignment percentages for twenty organizational models, computed from F1-Q1--F1-Q8.}
+\end{table}
+
+The OBAF-alignment results reveal three clusters of organizational structures. The first cluster (Functional, 
+Matrix, Project-Based, Capability Silos) exhibits complete misalignment with OBAF’s tenets: these structures 
+emphasize task execution, hierarchical control, status-driven governance, and centralized decision-making, all of 
+which contradict OBAF’s outcome-driven, evidence-based, and discovery-integrated philosophy.
+
+A large middle cluster (Leavitt’s Diamond, Contingency Theory, The Fifth Discipline, Teal Organizations, Divisional 
+structures, Galbraith’s information-processing model, Spotify) shows partial alignment. These structures can support 
+problem ownership, evidence framing, and continuous learning, but often lack strong mechanisms for outcome ownership, 
+simple enabling governance, or deeply embedded discovery. They can host OBAF but usually require structural or 
+cultural adaptation.
+
+The final cluster (Lean Enterprise, Sociocracy 3.0, Holacracy, Team Topologies, Platform Organizations, Rendanheyi, 
+STS, and TOC) demonstrates strong alignment across almost all OBAF indicators. These models naturally emphasize 
+outcome ownership, autonomy, continuous discovery, evidence-based adaptation, governance minimalism, and blameless 
+learning—structural conditions that closely match OBAF’s epistemic foundation.
+
+This result highlights that even though several organizational models are highly compatible with the centaur reality 
+(see Appendix~B), a smaller subset is truly optimized for OBAF’s tenets, confirming that centaur-compatibility and 
+OBAF-compatibility are related but distinct organizational properties.
+
+\newpage
+\twocolumn
+
+% ============================================================
+% C.6 — DISCUSSION: ORGANIZATIONAL FIT FOR OBAF
+% ============================================================
+
+\subsection*{C.6 Discussion: Organizational Fit for OBAF}
+
+The OBAF-alignment results in Section~C.5 allow us to distinguish between organizational structures that
+naturally support OBAF’s epistemic foundations and those that would require significant structural or cultural
+transformation. Importantly, OBAF compatibility is \emph{not} equivalent to centaur compatibility. Several 
+organizational models that scored highly in Appendix~B (e.g., Teal, STS, Sociocracy) exhibit strong centaur
+properties—such as autonomy, adaptability, and abstract coordination—yet differ in their support for OBAF’s 
+specific tenets concerning outcomes, evidence framing, simple enabling governance, and structured discovery 
+integration.
+
+This section synthesizes the results into three categories: organizational models that are \emph{natural hosts}
+for OBAF, models that \emph{can support OBAF with adaptation}, and models that are \emph{structurally hostile} 
+to OBAF due to deep misalignments with its principles.
+
+\paragraph{C.6.1 Natural Hosts for OBAF.}
+
+Structures scoring 100\% alignment (Lean Enterprise, Sociocracy~3.0, Holacracy, Team Topologies, Platform 
+Organization Model, Rendanheyi, Sociotechnical Systems, Theory of Constraints) exhibit strong structural 
+support for all OBAF indicators. These models share several characteristics that closely mirror OBAF’s 
+tenets:
+
+\begin{itemize}
+    \item \textbf{Outcome-centric boundaries} that make outcome ownership persistent and visible.
+    \item \textbf{High autonomy and problem ownership}, enabling teams to frame and reframe problems within constraints.
+    \item \textbf{Embedded continuous discovery}, ensuring that learning and experimentation are integrated with delivery.
+    \item \textbf{Evidence-driven decision processes} and hypothesis-based planning.
+    \item \textbf{Leadership expressed as intent and constraints}, rather than prescriptive task direction.
+    \item \textbf{Simple, enabling governance} with minimal ceremony or compliance-based oversight.
+    \item \textbf{Cultural reinforcement of blameless learning}, closely aligned with OBAF’s emphasis on After Action Reviews.
+\end{itemize}
+
+These organizational structures provide nearly all preconditions for OBAF to function without modification.
+In practice, organizations implementing OBAF within these designs face minimal structural resistance. 
+Team Topologies and Platform Organization Models stand out as particularly strong complements: their boundary
+logic, interaction modes, and cognitive-load principles dovetail directly with OBAF’s emphasis on outcomes,
+constraints, and continuous discovery.
+
+\paragraph{C.6.2 Conditional or Adaptable Hosts.}
+
+A substantial set of organizational structures—Divisional, Spotify, Galbraith’s information-processing view, 
+Teal, Contingency Theory, and The Fifth Discipline—achieve moderate-to-high OBAF alignment (50--88\%). 
+These models provide partial or uneven support for OBAF, often due to structural or cultural ambiguities:
+
+\begin{itemize}
+    \item \textbf{Divisional structures} strongly support outcomes but frequently retain legacy coordination roles,
+          diluted problem ownership, and hierarchical reporting mechanisms that hinder evidence framing.
+    \item \textbf{Spotify’s model} embeds discovery and outcome ownership but introduces cross-cutting roles 
+          (chapters, tribes) that complicate governance simplicity and leadership intent.
+    \item \textbf{Galbraith’s model} emphasizes empirical information processing but lacks explicit guidance for 
+          governance simplicity, problem ownership, or blameless learning.
+    \item \textbf{Teal organizations} emphasize self-management and purpose but offer weak structural support for 
+          evidence framing, discovery integration, and governance minimalism.
+    \item \textbf{Contingency Theory} and \textbf{The Fifth Discipline} support OBAF conceptually but do not 
+          prescribe structural mechanisms for discovery integration, lightweight governance, or steady outcome 
+          ownership.
+\end{itemize}
+
+These structures can host OBAF, but doing so requires targeted adaptations—often involving clearer domain 
+boundaries, explicit embedding of discovery practices, or the introduction of formalized evidence-framing 
+mechanisms. Without such adaptations, teams may struggle to consistently enact core OBAF habits such as 
+hypothesis-driven planning, recognitional problem framing, or continuous discovery.
+
+\newpage
+
+\paragraph{C.6.3 Structurally Hostile Contexts.}
+
+Functional hierarchies, matrix organizations, project-based organizations, and capability-based silos score 0\% 
+alignment. Their misalignment with OBAF arises from deep structural and cultural assumptions:
+
+\begin{itemize}
+    \item \textbf{Outcome ownership is absent} due to task- or deliverable-based boundaries.
+    \item \textbf{Discovery is centralized or phase-gated}, contradicting OBAF’s integrated discovery loop.
+    \item \textbf{Evidence framing is replaced by status reporting} and plan-based oversight.
+    \item \textbf{Leadership is command-oriented} and solution-prescriptive rather than intent-driven.
+    \item \textbf{Governance is heavy, ritualistic, and compliance-centered}, opposite OBAF’s enabling governance principles.
+    \item \textbf{Learning is blame- or inspection-oriented}, conflicting with OBAF’s AAR philosophy.
+\end{itemize}
+
+No amount of OBAF coaching or team-level adoption can compensate for these structural contradictions. 
+Organizations wishing to apply OBAF in such environments must perform substantial structural reform—typically 
+moving toward value-stream alignment, reducing hierarchical control, and replacing reporting cycles with 
+evidence-framed governance.
+
+\paragraph{C.6.4 Relationship Between Centaur Compatibility and OBAF Compatibility.}
+
+Appendix~B demonstrated that many organizational structures—particularly Lean Enterprise, STS, Platform 
+Organizations, Rendanheyi, and Team Topologies—are highly compatible with the centaur development paradigm. 
+This appendix reveals that many of these same structures are also highly compatible with OBAF. This is not 
+coincidental: OBAF’s tenets (outcomes, evidence, continuous discovery, recognitional problem framing, and 
+constraint-based planning) are epistemically aligned with the demands of human--AI development ecosystems.
+
+However, several models (Teal, Contingency Theory, Fifth Discipline) scored high on centaur compatibility 
+but only moderately on OBAF alignment. These structures support autonomy and adaptability but do not provide 
+the structural mechanisms required for OBAF’s consistent evidence framing, governance simplicity, or steady 
+outcome ownership. Conversely, TOC and Holacracy scored exceptionally high on both analyses, suggesting that 
+they represent structurally and epistemically robust foundations for implementing OBAF at scale.
+
+\newpage
+
+\paragraph{C.6.5 Implications for Organizational Design.}
+
+The results highlight two independent but related strategic questions for organizations:
+
+\begin{enumerate}
+    \item \textbf{Is the organizational structure compatible with the centaur development reality?}  
+          (Appendix B)
+
+    \item \textbf{Is the organizational structure compatible with the chosen delivery method?}  
+          (Appendix C)
+\end{enumerate}
+
+A structure may support one but not the other. The most effective configurations are those that simultaneously:
+
+\begin{itemize}
+    \item align boundaries to outcomes and domains,
+    \item distribute decision-making to autonomous units,
+    \item integrate discovery tightly with delivery,
+    \item minimize hierarchical or ritualistic governance,
+    \item enable blameless and evidence-framed learning,
+    \item and provide interfaces that generalize to human--AI coordination.
+\end{itemize}
+
+In practice, organizations seeking to adopt OBAF should either:
+
+\begin{itemize}
+    \item choose structures that already embody these conditions (e.g., Team Topologies, Platform Organizations, 
+          Lean Enterprise, Rendanheyi, STS, TOC, Holacracy, Sociocracy 3.0), or
+    \item transform their existing structures to incorporate these properties deliberately.
+\end{itemize}
+
+When these organizational conditions are met, OBAF’s tenets do not merely “fit”—they \emph{amplify} the 
+organization’s ability to deliver adaptive, outcome-driven value in hybrid human--AI environments.
+
+% ============================================================
+% C.7 — LIMITATIONS
+% ============================================================
+
+\subsection*{C.7 Limitations}
+
+While the OBAF-alignment model introduced in this appendix provides a structured and transparent evaluation of 
+organizational compatibility, several limitations must be acknowledged.
+
+\paragraph{Conceptual abstraction.}
+The OBAF-alignment dimension (F1) evaluates organizational structures at a conceptual level. Many models—such as 
+Leavitt’s Diamond, Contingency Theory, and The Fifth Discipline—are intentionally abstract and require concrete 
+instantiation before their practical impact on OBAF can be observed. The ternary scoring approach mitigates this 
+by allowing partial alignment, but conceptual interpretation remains necessary.
+
+\newpage
+
+\paragraph{Variation in organizational implementation.}
+Organizational models such as Lean Enterprise, Spotify, Holacracy, and Sociocracy 3.0 exhibit wide variation in 
+real-world implementation. A structure that aligns strongly with OBAF in theory may be implemented in a way that 
+undermines OBAF’s tenets due to cultural inertia, leadership styles, or historical constraints. This model scores 
+structures based on their canonical definitions rather than their common misapplications.
+
+\paragraph{Dependence on interpretive judgment.}
+Although the ternary scoring system reduces ambiguity relative to binary scoring, some degree of expert judgment 
+is unavoidable. OBAF’s tenets—such as evidence framing or intent-based leadership—can be partially satisfied in 
+multiple ways, and different interpretive perspectives may yield modest variations in scores. However, complete 
+indicator transparency ensures replicability and opens the evaluation to critique.
+
+\paragraph{OBAF-specific bias by design.}
+This appendix explicitly evaluates organizational alignment with OBAF’s tenets, not with alternative delivery 
+frameworks or organizational theories. As such, structures optimized for different philosophies (e.g., Teal’s 
+evolutionary purpose or Sociocracy’s consent-based governance) may score lower on OBAF alignment despite 
+performing well in other contexts or even excelling in the centaur compatibility analysis of Appendix~B.
+
+\paragraph{Future-state uncertainty.}
+As with all analyses in this document, the lack of empirical data from fully mature human--AI development ecosystems 
+introduces inherent uncertainty. Organizational structures may interact with AI-enabled workflows in ways not yet 
+fully understood. The model evaluates structural compatibility based on current research; empirical insight from 
+future agentic ecosystems may require refinement of the indicators.
+
+\paragraph{Interaction effects not modeled.}
+The OBAF-alignment model evaluates each indicator independently, though real-world organizational effectiveness 
+depends on complex interactions between boundaries, leadership, incentives, culture, and technical architecture. 
+Nonlinear or emergent effects are therefore not captured directly in the scoring model.
+
+Despite these limitations, the framework remains useful for comparative analysis, organizational self-assessment, 
+structural critique, and strategic alignment planning. Its transparent criteria and ternary scoring mitigate bias 
+and promote replicability.
+
+% ============================================================
+% C.8 — CONCLUSION
+% ============================================================
+
+\subsection*{C.8 Conclusion}
+
+This appendix introduced a structured methodology for evaluating how well twenty organizational models align with 
+the tenets of the Outcome-Based Agile Framework (OBAF). The analysis complements the centaur compatibility results 
+in Appendix~B by assessing a different but equally important question: given the structural and cultural assumptions 
+embedded within each organizational form, which models naturally support OBAF’s outcome-driven, evidence-centered, 
+discovery-integrated philosophy?
+
+The results demonstrate that OBAF alignment is not a byproduct of general adaptability or autonomy. Several 
+organizational structures—such as Teal, Contingency Theory, and The Fifth Discipline—show strong compatibility 
+with the emerging human--AI future yet only partial alignment with OBAF. Conversely, models such as Team Topologies, 
+Platform Organizations, STS, Sociocracy 3.0, Holacracy, Lean Enterprise, Rendanheyi, and Theory of Constraints 
+exhibit near-complete alignment across all indicators. These structures encode many of the conditions OBAF requires: 
+durable outcome ownership, problem framing within constraints, embedded discovery, evidence-based decision-making, 
+lightweight enabling governance, and blameless learning cultures.
+
+At the opposite extreme, traditional models—Functional, Matrix, Project-Based, and Capability-Based Silos—remain 
+fundamentally incompatible with OBAF. Their emphasis on hierarchical control, task decomposition, phase-gated 
+discovery, status reporting, and rigid boundaries contradict OBAF’s foundational assumptions. Team-level adoption 
+of OBAF is unlikely to succeed within such structures without substantial organizational transformation.
+
+Taken together, Appendices A, B, and C provide a multi-layered view of compatibility between delivery frameworks, 
+organizational structures, and the emerging human--AI development paradigm. OBAF’s strong alignment with the 
+centaur reality—and its compatibility with several high-performing modern organizational models—suggests that 
+outcome-based, evidence-driven, continuously adaptive delivery is not only feasible but increasingly necessary as 
+agentic systems reshape the cognitive and structural landscape of software development.
+
+This appendix provides organizations with an evaluative tool for determining whether their structural foundations 
+support or obstruct OBAF’s principles, enabling informed strategic decisions about organizational transformation, 
+framework adoption, or hybrid approaches tailored to the demands of centaur-era software engineering.
+
+\newpage
+\onecolumn
 
 \printbibliography
 
