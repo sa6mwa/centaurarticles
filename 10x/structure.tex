@@ -23,7 +23,8 @@
 
 %\usepackage{tgheros}
 %\usepackage[black]{sourcesanspro}
-\usepackage[defaultfam,tabular,black]{montserrat}
+% Use Montserrat only when explicitly requested (headings, etc.); keep serif body (XCharter) so italics work.
+\usepackage[tabular,black]{montserrat}
 
 \usepackage{microtype} % Better typography
 
@@ -41,6 +42,16 @@
 \usepackage[hang, small, labelfont=bf, up, textfont=it]{caption} % Custom captions under/above tables and figures
 
 \usepackage{booktabs} % Horizontal rules in tables
+\usepackage{tabularx} % Tables that automatically adjust column widths
+\usepackage{listings} % Code listings
+\lstset{
+  basicstyle=\small\ttfamily,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=none,
+  showstringspaces=false,
+  tabsize=2
+}
 
 \usepackage{lastpage} % Used to determine the number of pages in the document (for "Page X of Total")
 
