@@ -12,4 +12,4 @@ Expect recurring themes such as:
 
 | Title | Synopsis |
 |:------|:---------|
-| [10x: Outcome-Based Agile in the Era of Human–AI Software Development](pub/10x.pdf) | Evaluates how the Outcome-Based Agile Framework (OBAF) fits AI-accelerated iteration. Includes the [`lockd`](https://github.com/sa6mwa/lockd) case study and a six-dimensional compatibility model comparing OBAF with Scrum, SAFe, XP, Kanban, Lean Startup, and Waterfall. |
+| [10× — The Coordination Shift: Software Engineering in the Centaur Era](pub/10x.pdf) | Examines how human–AI “centaur” units change coordination economics. Builds six evaluation dimensions for delivery frameworks and six for organizational models, scoring Scrum, XP, Kanban, Lean Startup, DevOps/SRE, SAFe, LeSS, Waterfall, PRINCE2, OBAF and structures such as hierarchy, matrix, product teams, Team Topologies, platform orgs, Spotify, S3.0, Holacracy, Teal, Rendanheyi, and networked models. Highlights automated governance, boundary design, and a `lockd` case illustration. |
