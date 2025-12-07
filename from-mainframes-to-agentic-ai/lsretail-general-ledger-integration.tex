@@ -1,0 +1,533 @@
+\documentclass[a4paper,10pt]{article}
+%% \usepackage[termes]{customfonts}
+% \usepackage[cmu]{customfonts} % alternative = Computer Modern Unicode family
+
+\usepackage[margin=2cm]{geometry}
+%% \usepackage[swedish]{babel}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{listings-golang}
+\usepackage{listings-json}
+\usepackage{minted}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{rotating}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\usemintedstyle{default}
+\setminted{%
+  bgcolor=backcolour,
+  linenos,
+  numbersep=5pt,
+  breaklines,
+  breakanywhere,
+  tabsize=2,
+  fontfamily=tt,
+  fontsize=\footnotesize,
+}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1} \nameref*{#1}}}
+\newcommand*{\halfref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
+
+\lstset{style=mystyle}
+
+\makeatletter
+\renewcommand{\maketitle}{%
+  \begin{center}
+    \vspace*{2cm}% push title block down from the top margin
+    {\usefont{OT1}{phv}{b}{n}\huge \@title\par}
+    \vskip 1em
+    {\normalsize \@author\par}
+    \vskip 1em
+    {\normalsize \@date\par}
+  \end{center}
+  \@thanks
+}
+\makeatother
+
+\title{Business Central (LSRetail) $\rightarrow$ Visma Control}
+\author{Michel Blomgren\thanks{E-mail: \href{mailto:michel.blomgren@destinationgotland.se}{michel.blomgren@destinationgotland.se}}\\ Integration \& Transactional Communication Platforms Services}
+
+%% \href{https://www.nionit.com}{\includegraphics[width=70pt]{ nion.eps }}}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Summary}
+
+This article explains how Destination Gotland exports posted general ledger batches from Microsoft Dynamics 365 Business Central (LS Retail) into the flat-file format required by Visma Control. We document how the integration keeps each G/L Register intact, preserves balanced debit and credit lines, and offers accountants a like-for-like view between Business Central and the consolidation platform.
+
+For implementers, we enumerate the exact Business Central APIs and fields involved, provide a sample payload, and define the column mapping that shapes the import file, including optional dimensions. We also outline the worker’s control flow---polling, locking, checkpointing, and idempotent retry logic---to achieve operational safety as we extend or operate the export pipeline.
+
+\vspace*{1cm}
+
+\tableofcontents
+
+\vspace*{1cm}
+
+\section{Overview}
+
+This section summarizes the validated export path: we read posted \emph{G/L Registers} and their \emph{generalLedgerEntries} through the Business Central OData APIs, package each balanced batch into Visma Control’s flat-file layout, and guard the process with ordered register polling, single-writer locking, and checkpointed hand-offs so retries stay idempotent. The subsections give the manual transactions, raw payloads, and inferred import contract that the later mapping, format, and worker guidance build on.
+
+\newpage
+
+\subsection{Retrieval of data for import}
+
+We successfully generated lines in \emph{G/L Registers} and \texttt{generalLedgerEntries} via the following actions...
+
+\begin{enumerate}
+\item Create Purchase Order (New) in the Purchase Order part of BC
+\item Add an item, along with its quantity and amount, to simulate a purchase
+\item Leave it \texttt{Open} (it's saved ``automatically'')
+\item Click \texttt{Post} and choose ``Receive and Invoice''
+\item You should now have a register entry in \texttt{G/L Registers} referencing (two or three always?) entries in \texttt{generalLedgerEntries} aswell as invoices (\texttt{documentType==Invoice})
+\end{enumerate}
+
+By performing the actions described above, the entries listed below appear in the \textbf{G/L Registers} (these have been made accessible as a ``Web Service'' of type \texttt{Page} through \texttt{116 G/L Registers} in the GUI)...
+
+\begin{minted}{json}
+{
+  "@odata.context": "https://api.businesscentral.dynamics.com/v2.0/1a268335-c833-4c13-bad8-a9f00b90fd49/SandboxProd12SEP2025/ODataV4/$metadata#Company('PROD_TST')/GLRegisters",
+  "value": [
+    {
+      "@odata.etag": "W/\"JzE5OzU4Nzk3MTA5MDMyMTEzMjMwMDExOzAwOyc=\"",
+      "No": 3,
+      "Creation_Date": "2025-09-26",
+      "Creation_Time": "14:56:59.203",
+      "SystemCreatedAt": "2025-09-26T12:56:59.563Z",
+      "User_ID": "MICHEL.BLOMGREN",
+      "Source_Code": "PURCHASES",
+      "Journal_Batch_Name": "",
+      "Reversed": false,
+      "From_Entry_No": 5,
+      "To_Entry_No": 6,
+      "From_VAT_Entry_No": 2,
+      "To_VAT_Entry_No": 2
+    },
+    {
+      "@odata.etag": "W/\"JzIwOzE1NjY2NTAzNjAzODY5NDg2NjQ5MTswMDsn\"",
+      "No": 2,
+      "Creation_Date": "2025-09-26",
+      "Creation_Time": "14:56:57.757",
+      "SystemCreatedAt": "2025-09-26T12:56:57.88Z",
+      "User_ID": "MICHEL.BLOMGREN",
+      "Source_Code": "INVTPCOST",
+      "Journal_Batch_Name": "",
+      "Reversed": false,
+      "From_Entry_No": 3,
+      "To_Entry_No": 4,
+      "From_VAT_Entry_No": 2,
+      "To_VAT_Entry_No": 1
+    },
+    {
+      "@odata.etag": "W/\"JzIwOzEzMzE1NjkxMDM4NzE4NzAwNDI4MTswMDsn\"",
+      "No": 1,
+      "Creation_Date": "2025-09-26",
+      "Creation_Time": "11:50:01.897",
+      "SystemCreatedAt": "2025-09-26T09:50:01.937Z",
+      "User_ID": "MICHEL.BLOMGREN",
+      "Source_Code": "PURCHASES",
+      "Journal_Batch_Name": "",
+      "Reversed": false,
+      "From_Entry_No": 1,
+      "To_Entry_No": 2,
+      "From_VAT_Entry_No": 1,
+      "To_VAT_Entry_No": 1
+    }
+  ]
+}
+\end{minted}
+
+\newpage
+
+\subsection{General Ledger Entries}
+
+The \texttt{generalLedgerEntries} API returns the following as a result of the action described on the previous page...
+
+\begin{minted}{json}
+{
+  "@odata.context": "https://api.businesscentral.dynamics.com/v2.0/1a268335-c833-4c13-bad8-a9f00b90fd49/SandboxProd12SEP2025/api/v2.0/$metadata#companies(ff9a0b5a-a781-f011-a708-7ced8d4173cc)/generalLedgerEntries",
+  "value": [
+    {
+      "@odata.etag": "W/\"JzIwOzE3NTQyOTgxMTcwMDI0NzQyNTkxMTswMDsn\"",
+      "id": "3f8fab28-be9a-f011-b419-6045bd956b24",
+      "entryNumber": 1,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000001",
+      "documentType": "Invoice",
+      "accountId": "0fa6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "10156",
+      "description": "Order PROD_OFCIOPO000002",
+      "debitAmount": 0,
+      "creditAmount": 0,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T09:50:01.927Z"
+    },
+    {
+      "@odata.etag": "W/\"JzE4OzgyOTY3NzY3NzE3MjIxMDQyNDE7MDA7Jw==\"",
+      "id": "458fab28-be9a-f011-b419-6045bd956b24",
+      "entryNumber": 2,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000001",
+      "documentType": "Invoice",
+      "accountId": "92a6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "91140",
+      "description": "Order PROD_OFCIOPO000002",
+      "debitAmount": 0,
+      "creditAmount": 0,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T09:50:02.57Z"
+    },
+    {
+      "@odata.etag": "W/\"JzE5OzYxMDA3MjE4ODA0MzYwMjkyMjUxOzAwOyc=\"",
+      "id": "27d07448-d89a-f011-b419-6045bd96bb34",
+      "entryNumber": 3,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000002",
+      "documentType": "_x0020_",
+      "accountId": "5ea6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "70009",
+      "description": "Direct Cost 2001001005 on 09/26/25",
+      "debitAmount": 29950,
+      "creditAmount": 0,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T12:56:57.787Z"
+    },
+    {
+      "@odata.etag": "W/\"JzE5OzczNTY5NzA1ODU0MTEyMzA1NDAxOzAwOyc=\"",
+      "id": "29d07448-d89a-f011-b419-6045bd96bb34",
+      "entryNumber": 4,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000002",
+      "documentType": "_x0020_",
+      "accountId": "0fa6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "10156",
+      "description": "Direct Cost 2001001005 on 09/26/25",
+      "debitAmount": 0,
+      "creditAmount": 29950,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T12:56:57.877Z"
+    },
+    {
+      "@odata.etag": "W/\"JzIwOzEyOTU1MjQwNzk1OTIxNjc2MjIzMTswMDsn\"",
+      "id": "30d07448-d89a-f011-b419-6045bd96bb34",
+      "entryNumber": 5,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000002",
+      "documentType": "Invoice",
+      "accountId": "0fa6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "10156",
+      "description": "Order PROD_OFCIOPO000003",
+      "debitAmount": 29950,
+      "creditAmount": 0,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T12:56:59.213Z"
+    },
+    {
+      "@odata.etag": "W/\"JzE5OzgyNjUzMjY0NjU0NjMwMDgxNDAxOzAwOyc=\"",
+      "id": "34d07448-d89a-f011-b419-6045bd96bb34",
+      "entryNumber": 6,
+      "postingDate": "2025-09-26",
+      "documentNumber": "PROD_OFCIOPI000002",
+      "documentType": "Invoice",
+      "accountId": "92a6b190-fc57-f011-8eed-7ced8d46c288",
+      "accountNumber": "91140",
+      "description": "Order PROD_OFCIOPO000003",
+      "debitAmount": 0,
+      "creditAmount": 29950,
+      "additionalCurrencyDebitAmount": 0,
+      "additionalCurrencyCreditAmount": 0,
+      "lastModifiedDateTime": "2025-09-26T12:56:59.56Z"
+    }
+  ]
+}
+\end{minted}
+
+\newpage
+
+\section{Export of G/L Entries for Consolidation}
+
+After posting a purchase order (e.g.\ via ``Receive and Invoice'' in Business Central), the system produces two main artifacts:
+
+\begin{itemize}
+  \item \textbf{G/L Registers}: each register is an atomic posting batch. It defines a contiguous block of G/L Entries using the fields \texttt{From\_Entry\_No} and \texttt{To\_Entry\_No}.
+  \item \textbf{G/L Entries}: the actual ledger rows (debits and credits). They are immutable after posting and have a monotonically increasing field \texttt{entryNumber}.
+\end{itemize}
+
+This structure allows us to implement an incremental export strategy that is both simple and reliable. By keeping track of the last processed register (or entry number), we can safely resume processing without duplicates or gaps. The accountant’s view is preserved: every posting is transferred as a whole (balanced debit/credit pairs).
+
+\subsection{Cursor Strategy}
+
+Two equivalent approaches are possible:
+
+\begin{enumerate}
+  \item \textbf{Register-driven}: read the next G/L Register where \texttt{No > lastProcessedRegister}. For each register, export all entries in the range 
+  \([From\_Entry\_No, To\_Entry\_No]\). After successful export, advance the checkpoint to the register number.
+  \item \textbf{Entry-driven}: query \texttt{generalLedgerEntries} with a filter \texttt{entryNumber > lastProcessedEntryNumber}. Export results in ascending order, and update the checkpoint after success.
+\end{enumerate}
+
+Both methods ensure no double-processing and no missed entries, since numbering is monotonic and entries are immutable.
+
+\subsection{Implementation Notes}
+
+In Go, we run the export worker under a distributed lock to guarantee single-writer semantics. Two common approaches:
+
+\begin{itemize}
+  \item Acquire a database lock (e.g.\ via \texttt{SELECT FOR UPDATE}) or a lease/lock in \texttt{etcd}.
+  \item Alternatively, model this as a workflow in Temporal. The controller workflow maintains the cursor state and issues \texttt{ContinueAsNew} after each batch.
+\end{itemize}
+
+\subsection{Example Worker Skeleton}
+
+The following Go code outlines the register-driven loop with checkpointing:
+
+\begin{minted}{go}
+for {
+    // Acquire distributed lock (db or etcd)
+    lock := acquireLock()
+    if lock == nil {
+        time.Sleep(backoff)
+        continue
+    }
+
+    tx := db.Begin()
+    lastReg := loadLastProcessedRegister(tx)
+
+    regs := fetchGLRegisters(lastReg)
+    for _, reg := range regs {
+        entries := fetchGLEntries(reg.FromEntryNo, reg.ToEntryNo)
+        if err := exportEntries(entries); err != nil {
+            tx.Rollback()
+            releaseLock(lock)
+            return
+        }
+        updateCheckpoint(tx, reg.No)
+    }
+
+    tx.Commit()
+    releaseLock(lock)
+    time.Sleep(pollInterval)
+}
+\end{minted}
+
+This ensures atomicity: the system only advances the cursor once a complete posting has been exported successfully. Retrying is idempotent, since entries are upserted by their unique IDs.
+
+\subsection{Accountant’s View of the Export}
+
+From the accountant’s perspective, our integration simply takes the posted entries that Business Central already produced (debits and credits) and materializes them into a text file for the group consolidation platform. Each posting batch (\emph{G/L Register}) remains intact: the paired debit and credit lines travel together. 
+
+The target system does not expose an API, but instead ingests scheduled text file imports. Therefore, our worker converts the exported entries into the flat-file format required by the consolidation tool.
+
+\paragraph{Example Posting}
+
+Consider the following extract (two invoices with VAT at 6\% and one manual test line). We reformatted your example rows with headers to make them intelligible to accounting colleagues:
+
+\begin{table}[H]
+\centering
+\footnotesize % shrink text so the wide table fits without rotating
+\begin{tabular}{lllllllllll}
+\toprule
+Batch? & Journal? & Document? & Line & Date & Account & Text & Dim1 & Debit & Credit & Company \\
+\midrule
+1 & 19 & S1901467 & 110 & 2025-08-31 & 2630 & Utgående moms 6\% & 0 & 39,62 & -39,62 & Name \\
+1 & 19 & S1901467 & 110 & 2025-08-31 & 3007 & Kuplplats, 6\% & 0 & 660,38 & -660,38 & Name \\
+1 & 19 & S1901467 & 111 & 2025-08-31 & 2630 & Utgående moms 6\% & 0 & 103,01 & -103,01 & Name \\
+1 & 19 & S1901467 & 111 & 2025-08-31 & 3007 & Kuplplats, 6\% & 0 & 1716,99 & -1716,99 & Name \\
+1 & 19 & S1901467 & 130 & 2025-08-31 & 1111 & Test & 11 & 1,00 & 10,00 & Name \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Interpretation}
+
+\begin{itemize}
+  \item The \emph{Batch}, \emph{Journal}, and \emph{Document} columns identify the posting context. Accountants will recognize this as the original voucher.
+  \item The \emph{Account} column contains the chart-of-accounts code (e.g.\ 2630 = ``Utgående moms 6\%'').
+  \item Each row carries either a debit or a credit amount. Positive and negative signs cancel, ensuring the posting is balanced.
+  \item \emph{Company} indicates the legal entity. In the group platform, this will be mapped to the group account plan (the Danish standard chart).
+\end{itemize}
+
+\subsection{Technical Realization Behind the Export}
+
+From the developer’s side, the \textit{worker component} extracts entries from Business Central’s \texttt{generalLedgerEntries} API. For each posting batch, we write rows into the flat-file structure as accountants expect them, preserving debit/credit pairs. 
+
+Checkpointing (by \texttt{entryNumber} or \texttt{register.No}) guarantees that:
+\begin{enumerate}
+  \item No posting is exported twice (idempotency).
+  \item No posting is missed (strict monotonic cursor).
+\end{enumerate}
+
+The export job runs under a distributed lock, either via a database transaction (\texttt{SELECT FOR UPDATE}) or a lease in \texttt{etcd}. Another option is to implement the process in Temporal, where the workflow state (last processed entry) is carried across runs by issuing \texttt{ContinueAsNew}.
+
+\begin{minted}{go}
+// pseudo-code skeleton
+lock := acquireLock()
+defer releaseLock(lock)
+
+last := loadCheckpoint()
+regs := fetchGLRegisters(last)
+
+for _, reg := range regs {
+    entries := fetchGLEntries(reg.FromEntryNo, reg.ToEntryNo)
+    writeFlatFile(entries)       // accountant-facing rows
+    updateCheckpoint(reg.No)     // safe only after success
+}
+\end{minted}
+
+This way, accountants can trust that every posting they see in Business Central will appear, intact, in the consolidation system, and developers can trust that retries and failures will never create duplicates.
+
+\newpage
+
+\subsection{From Posted Entries to Consolidation File: What Happens}
+
+\paragraph{For accountants.}
+Once a purchase is posted in Business Central, the system creates (i) a \emph{G/L Register} that represents one atomic posting batch and (ii) the concrete \emph{G/L Entries} (debits and credits) inside that batch. The register holds a contiguous range of entry numbers (\texttt{From\_Entry\_No} to \texttt{To\_Entry\_No}), and those entries are immutable after posting. Our integration simply extracts those posted entries and writes them to the scheduled import file for the group consolidation platform, preserving each posting as balanced debit/credit lines.
+
+\paragraph{For developers.}
+Technically, we poll the G/L Registers in ascending order of \texttt{No}, and for each register we export all \texttt{generalLedgerEntries} in \([\texttt{From\_Entry\_No}, \texttt{To\_Entry\_No}]\). Because register ranges are contiguous and entry numbers are monotonically increasing, checkpointing by register number or by the last processed \texttt{entryNumber} guarantees no duplicates and no gaps.
+
+\subsection{Field Mapping: Business Central APIs $\rightarrow$ Import File}
+
+\noindent The table below defines how we map each column in the import file. Where relevant, we indicate the exact BC API and field.
+
+\begin{table}[H]
+\centering
+\small % shrink font to help fit wide descriptive columns
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{@{}l l l L{3.2cm} Y@{}}
+\toprule
+\textbf{Import Column} & \textbf{Type} & \textbf{BC API} & \textbf{BC Field(s)} & \textbf{Notes} \\
+\midrule
+Batch & Integer & \texttt{GLRegisters} & \texttt{No} & Posting batch identifier; used as the outer cursor and artifact accountants recognize. \\
+Journal & Text/Code & \texttt{GLRegisters} & \texttt{Source\_Code} or \texttt{Journal\_Batch\_Name} & Human~label for journal/source (e.g.\ \texttt{PURCHASES}); if a numeric journal code is required by the target, we map from these fields. \\
+Document & Text & \texttt{generalLedgerEntries} & \texttt{documentNumber} & Voucher / invoice reference seen by accountants. \\
+Line & Integer & \texttt{generalLedgerEntries} & \texttt{entryNumber} (or per-document sequence) & We default to the global \texttt{entryNumber}; optionally re-sequence within each document if the target requires local line numbering. \\
+Date & Date & \texttt{generalLedgerEntries} & \texttt{postingDate} & Posting date of the entry (ISO~YYYY-MM-DD). \\
+Account & Text/Code & \texttt{generalLedgerEntries} & \texttt{accountNumber} & Company (local) chart code; the consolidation platform will map to group plan (DK) on import. \\
+Text & Text & \texttt{generalLedgerEntries} & \texttt{description} & Free text line description from BC. \\
+Dim1 (optional) & Text/Code & (join by entry) & e.g.\ dimension set member & Optional: if the target requires dimensions, include a column per required dimension. (Not shown in our current payload sample.) \\
+Debit & Decimal & \texttt{generalLedgerEntries} & \texttt{debitAmount} & Positive debit amount; zero if the line is a credit. \\
+Credit & Decimal & \texttt{generalLedgerEntries} & \texttt{creditAmount} & Positive credit amount; zero if the line is a debit. \\
+Company & Text & Context/config & company name/code & From the company scope of the API call or config; included for multi-entity consolidations. (Company appears in the \texttt{@odata.context} for our samples.) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\newpage
+
+\subsection{Exact API Objects Referenced}
+\begin{itemize}
+  \item \textbf{G/L Register}: fields include \texttt{No}, \texttt{From\_Entry\_No}, \texttt{To\_Entry\_No}, \texttt{Source\_Code}, \texttt{Journal\_Batch\_Name}. We use these as batch cursor and to shape each export chunk.
+  \item \textbf{G/L Entry}: fields include \texttt{entryNumber}, \texttt{postingDate}, \texttt{documentNumber}, \texttt{accountNumber}, \texttt{description}, \texttt{debitAmount}, \texttt{creditAmount}. These become the actual rows.
+\end{itemize}
+
+\subsection{File Format \& Localization Considerations}
+
+\begin{itemize}
+  \item \textbf{Encoding}: write files as UTF-8. In the sample text we observed mojibake like ``Utg\textless E5\textgreater ende moms'' which indicates a legacy single-byte code page; enforce UTF-8 end-to-end to preserve diacritics (\emph{å, ä, ö}). 
+  \item \textbf{Decimal separator}: the sample shows comma decimals (\(39,62\)). If the consolidation import expects period decimals, convert on export; otherwise set the file’s locale/format flag if supported.
+  \item \textbf{Date format}: normalize \texttt{YYYY-MM-DD} unless the target mandates a specific format.
+  \item \textbf{Sign convention}: export as separate \texttt{Debit} and \texttt{Credit} columns (non-negative values). If the target expects a single signed amount, keep the sign from BC’s debit/credit semantics and set the other column to zero.
+\end{itemize}
+
+\subsection{Worker Control Flow (Locking, Checkpointing, Idempotency)}
+
+We run a single-writer worker guarded by either a DB \texttt{SELECT FOR UPDATE} or an etcd lease/lock. Alternatively, a Temporal workflow can hold the cursor and periodically \texttt{ContinueAsNew}. Checkpointing is done \emph{after} a successful file handoff per register (or per entry range), so retries are idempotent.
+
+\begin{minted}{go}
+// Types mirror the BC fields we read and the file schema we write.
+type GLEntry struct {
+    EntryNumber   int
+    PostingDate   string
+    DocumentNo    string
+    AccountNumber string
+    Description   string
+    DebitAmount   float64
+    CreditAmount  float64
+    Company       string
+}
+
+type FileRow struct {
+    Batch   int    // GLRegisters.No
+    Journal string // GLRegisters.Source_Code or Journal_Batch_Name
+    Doc     string // generalLedgerEntries.documentNumber
+    Line    int    // generalLedgerEntries.entryNumber (or per-doc seq)
+    Date    string // generalLedgerEntries.postingDate
+    Account string // generalLedgerEntries.accountNumber
+    Text    string // generalLedgerEntries.description
+    Dim1    string // optional (dimension)
+    Debit   string // decimal normalized to target format
+    Credit  string // decimal normalized to target format
+    Company string // company code/name
+}
+
+// Pseudocode: register-driven export with transactional checkpointing.
+func ExportOnce(ctx context.Context) error {
+    lock := AcquireLock(ctx) // DB row lock or etcd lease
+    if lock == nil { return nil }
+    defer lock.Release()
+
+    lastReg := LoadCheckpoint(ctx) // last processed GLRegisters.No
+    regs := FetchGLRegistersGreaterThan(ctx, lastReg) // order by No asc
+
+    for _, r := range regs {
+        entries := FetchGLEntriesRange(ctx, r.FromEntryNo, r.ToEntryNo) // order by entryNumber asc
+        rows := MapEntriesToFileRows(r, entries)
+        if err := WriteAndStageFile(rows); err != nil { return err }
+        if err := MarkFileReadyForImport(); err != nil { return err }
+        SaveCheckpoint(ctx, r.No) // advance only after successful handoff
+    }
+    return nil
+}
+\end{minted}
+
+\subsection{Example (Narrative)}
+
+Suppose the next unprocessed register is \texttt{No=3} with \texttt{From\_Entry\_No=5} and \texttt{To\_Entry\_No=6}. We fetch G/L Entries 5 and 6, which contain \texttt{postingDate}, \texttt{documentNumber}, \texttt{accountNumber}, \texttt{description}, \texttt{debitAmount}/\texttt{creditAmount}, and write two lines to the file. Only after the file is staged for the target’s scheduled import do we set the checkpoint to \texttt{No=3}. This preserves the accountant’s invariant that a posting (debit/credit pair) is transferred whole, and it gives us exactly-once semantics even across failures.
+
+\end{document}

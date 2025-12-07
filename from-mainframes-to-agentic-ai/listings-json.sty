@@ -1,0 +1,43 @@
+% listings-json.sty
+%
+% \begin{lstlisting}[style=json]
+% {
+%   "name": "Alice",
+%   "age": 30,
+%   "isAdmin": false,
+%   "skills": ["LaTeX", "JSON", "C++"],
+%   "address": null
+% }
+% \end{lstlisting}
+%
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{listings-json}[2025/09/26 JSON with listings]
+
+\RequirePackage{listings}
+\RequirePackage{xcolor}
+
+\lstdefinelanguage{json}{
+  morestring=[b]",
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+}
+
+\lstdefinestyle{json}{
+  language=json,
+  basicstyle=\ttfamily\footnotesize,
+  showstringspaces=false,
+  breaklines=true,
+  stringstyle=\color{blue},
+  % Only the literate below is touchy — keep lines balanced and end with %
+  literate=*%
+    {true}{{{\color{magenta}true}}}{4}%
+    {false}{{{\color{magenta}false}}}{5}%
+    {null}{{{\color{magenta}null}}}{4}%
+    {:}{{\textcolor{black}{:}}}{1}%
+    {,}{{\textcolor{black}{,}}}{1}%
+    {\{}{{\textcolor{black}{\{}}}{1}%
+    {\}}{{\textcolor{black}{\}}}}{1}%
+    {[}{{\textcolor{black}{[}}}{1}%
+    {]}{{\textcolor{black}{]}}}{1}%
+}
+\endinput

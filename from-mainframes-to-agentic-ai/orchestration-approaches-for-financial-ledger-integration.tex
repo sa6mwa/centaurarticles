@@ -1,0 +1,398 @@
+\documentclass[11pt, a4paper, twocolumn]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column)
+
+\newcommand{\point}[2]{\item \textbf{#1}\\ #2}
+
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    %% linkcolor={rgb:hex(FF,00,00)},
+    %% citecolor={rgb:hex(00,00,FF)},
+    %% urlcolor={rgb:hex(00,80,00)}
+    linkcolor=blue,
+    citecolor=black,
+    urlcolor=blue
+}
+
+\usepackage[absolute,overlay]{textpos} % For absolute positioning
+
+% background
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{fadings}
+
+% === knobs you can tune (NO math, just constants) ===
+\newcommand*\BGimage{cashregister.jpeg}
+% Darkness above the fade band (0..1)
+\newcommand*\TopOpacity{0}
+% Extra opacity layer used for the bottom & the fade band (0..1).
+% NOTE: The final bottom darkness will be:
+%   total_bottom = 1 - (1 - TopOpacity)*(1 - ExtraOpacity)
+% Pick this so the bottom looks as dark as you want.
+\newcommand*\ExtraOpacity{0.80}
+% Fade band bounds (dimensions, measured from bottom of the page)
+\newcommand*\FadeTop{0.6\paperheight}     % where the fade ends (higher up)
+\newcommand*\FadeBottom{0.4\paperheight}  % where the fade meets the solid bottom
+% Tiny overlap to kill any hairline seam
+\newcommand*\Overlap{0.05pt}
+% A fading that is opaque at the bottom edge of the shape and
+% transparent at the top edge (we'll clip it to our band).
+\tikzfading[name=opaqueAtBottom, bottom color=transparent!0, top color=transparent!100]
+
+%% \usepackage[firstpage=true]{background}
+%% \backgroundsetup{
+%% scale=1,
+%% color=white,
+%% opacity=1,
+%% angle=0,
+%% position=current page,
+%% vshift=0pt,
+%% hshift=0pt,
+%% contents={\includegraphics[width=\paperwidth,height=\paperheight]{cashregister.jpeg}}
+%% }
+
+% end of background settings
+
+
+\input{structure.tex} % Specifies the document structure and loads requires packages
+
+% Make subsections 1. 2. 3., not 1.1., 1.2., etc.
+\renewcommand\thesubsection{\arabic{subsection}.}
+
+%% \usepackage{lscape}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Orchestration Approaches for Financial Ledger Integration}
+
+\author{
+  \authorstyle{Michel Blomgren}
+  \newline
+  \institution{\textbf{Integration \& Transactional Communication Platforms Services}\newline Destination Gotland\newline \href{mailto:michel.blomgren@destinationgotland.se}{michel.blomgren@destinationgotland.se}}
+}
+
+
+\date{\color{white}\today} % Add a date here if you would like one to appear underneath the title block, use \today for the current date, leave empty for no date
+
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% --- start of faded background filter --- add directly after \begin{document}
+\AddToShipoutPictureBG*{%
+  \begin{tikzpicture}[remember picture,overlay]
+
+    % 0) Full-bleed background image
+    \node[anchor=north west, inner sep=0] at (current page.north west)
+      {\includegraphics[width=\paperwidth,height=\paperheight]{\BGimage}};
+
+    % 1) Base constant overlay everywhere
+    \fill[black, opacity=\TopOpacity]
+      (current page.south west) rectangle (current page.north east);
+
+    % 2) Fade band: from FadeTop down to FadeBottom
+    %    Extra layer ramps from ExtraOpacity (at bottom of band)
+    %    down to 0 (at top of band). We clip and add a tiny overlap to avoid seams.
+    \begin{scope}
+      \clip ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+            rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity, path fading=opaqueAtBottom]
+        ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+        rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+    \end{scope}
+
+    % 3) Solid bottom extension: keep darkest below FadeBottom (with slight overlap)
+    \begin{scope}
+      \clip (current page.south west)
+            rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity]
+        (current page.south west)
+        rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+    \end{scope}
+
+  \end{tikzpicture}%
+}
+% --- end of faded background filter ---
+
+
+\hypersetup{urlcolor=yellow}
+
+\maketitle % Print the title
+
+\hypersetup{urlcolor=blue}
+
+\thispagestyle{firstpage} % Apply the page style for the first page (no headers and footers)
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\lettrineabstract{}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+
+
+\color{white}
+
+%\section*{Summary}
+
+% Prevent lettrine from using small caps in the rest of the word
+%\renewcommand{\LettrineTextFont}{\normalfont}
+
+\lettrine[lines=3,lhang=0.1,findent=1pt]{F}{inancial} integrations demand a higher standard of engineering than most data pipelines. Unlike marketing data feeds or operational metrics, General Ledger transactions cannot tolerate subtle errors, duplicates, or gaps. A missed register or an extra voucher can create costly reconciliation work, regulatory risk, and a loss of trust in the system.
+
+The task at hand is to export \textbf{General Ledger registers from Microsoft Dynamics Business Central} and import them into \textbf{Visma Control 15 on-premises} via its \textit{Import Service}. The integration must guarantee:
+
+\begin{itemize}[leftmargin=*, nosep]
+\item \textbf{Completeness} – every register, in strict sequence, is imported exactly once.
+\item \textbf{No duplication} – the same voucher must never appear twice.
+\item \textbf{Balanced accounting} – imported vouchers must retain debit–credit parity.
+\item \textbf{Resilience} – the system must withstand crashes, network failures, and partial imports without manual repair.
+\item \textbf{Auditability} – all imports must be traceable, with evidence of what was processed and when.
+\end{itemize}
+
+\subsection*{This white paper examines four approaches}
+
+\begin{enumerate}
+\item \textbf{Windmill}
+\item \textbf{Temporal}
+\item \textbf{iWF}\newline(a higher-level abstraction on top of Temporal), and...
+\item a \textbf{custom-built state management solution}.
+\end{enumerate}
+
+We evaluate their strengths and weaknesses in delivering the required guarantees and discuss their fit for financial-grade integrations.
+
+\clearpage
+
+\color{Black}
+
+\section*{Introduction}
+
+The text in this paper, excluding this introduction, was generated by an LLM (ChatGPT 5). My research revealed the ease with which we could either miss importing vouchers or inadvertently import them multiple times. Consequently, our solution must not only maintain state (at least a cursor) but also implement atomic operations (e.g., CAS or SQL transactions) along with locks and leases. A two-phase commit that waits for a log from the Import Service would be advantageous which would also introduce potentially long-running operations. The possible failure scenarios are numerous, and the logic for resuming operations would require thorough integration testing before we can trust it in production.
+
+I know Temporal very well, and immediately saw a great fit, but I know very little of the other solutions -- Windmill in particular -- so I asked GPT how Temporal would fit this solution and give me an in-depth comparison between various workflow engines. This is the result. I can vouch for the information about Temporal, and the information regarding Windmill matched the documentation I have glanced over.
+
+I have made an effort to minimize my bias toward Temporal in this analysis, evident from phrases indicating a steep learning curve. Here I disagree and contend that the rich suite of features available out of the box -- features you would otherwise need to develop or, at the very least, configure and deploy -- such as state management, queuing, service discovery (to some extent), replays, rollbacks, and multi-programming language integration, outweigh that aspect.
+
+\clearpage
+
+\section*{Windmill: Flow Automation Without Durable State}
+
+Windmill is an orchestration platform designed for \textbf{automation flows} and \textbf{script execution}. It excels at providing a \textit{low-barrier} environment for running scheduled tasks, API glue code, and operational automation. Flows in Windmill can include retries, error handling, and concurrency limits.
+
+However, Windmill lacks Temporal’s \textbf{durable workflow semantics}. A Windmill flow is a job that runs to completion; its state does not persist across restarts in the same way Temporal does. If a worker dies while waiting for Visma’s import log, Windmill cannot ``replay'' the past and resume seamlessly. Instead, you must implement durability yourself by writing checkpoints to an external database.
+
+Similarly, \textbf{idempotency} in Windmill is left to the developer. Duplicates must be prevented through external constraints, such as unique keys in a staging database or deduplication logic in code. Partial imports must be detected and retried carefully.
+
+Windmill shines when the requirement is \textbf{fast delivery of simple automation} — for example, running nightly scripts, orchestrating ETL jobs, or connecting APIs with straightforward logic. For financial ledger imports where correctness is paramount, Windmill can play a role but only if paired with additional custom infrastructure for state management and deduplication.
+
+\section*{Temporal: A Proven Orchestration Runtime}
+
+Temporal provides a programming model and runtime for \textbf{durable, deterministic workflows}. A workflow in Temporal is not a long-running process in memory; it is a persisted event history that can be replayed at any time to reconstruct state. This design makes Temporal inherently resilient to crashes, restarts, and even data center failures.
+
+For our integration scenario, this means that the cursor pointing to the \textit{``last successfully imported register''} does not live in a fragile database row or in a worker’s memory. It lives in the Temporal event history. If a worker crashes while waiting for Visma to complete an import, another worker can pick up the workflow, replay the past events deterministically, and resume at exactly the same logical point.
+
+Temporal’s \textbf{activity model} is equally relevant. Activities encapsulate side effects such as fetching entries from BC \textit{(Business Central)}, rendering text files, or dropping them into Visma’s inbox. Activities are retried automatically according to policy. If an activity is idempotent — for example, by writing files whose names include a content hash or by using external reference IDs in vouchers — Temporal guarantees exactly-once *effects*.
+
+Finally, Temporal provides \textbf{strong concurrency control} through workflow \texttt{IDs}. By defining one workflow per register, identified as \texttt{glreg-<RegisterNo>}, we ensure that only one workflow can ever process a register. This eliminates race conditions in advancing the cursor.
+
+In short, Temporal aligns almost perfectly with the needs of financial integration: it provides durable state, deterministic execution, built-in retries, and a complete audit trail of every decision and retry attempt.
+
+\section*{iWF: A Higher-Level Abstraction on Temporal}
+
+While Temporal is powerful, its programming model can be challenging to newcomers. Developers must understand concepts like replay determinism, side-effect management, and workflow versioning. For teams without Temporal experience, the learning curve can be steep.
+
+iWF (iWorkflow) addresses this by providing a \textbf{declarative workflow abstraction} on top of Temporal. Instead of writing full workflow code, developers define workflows as \textbf{state machines with transitions}. iWF handles the underlying Temporal mechanics.
+
+For our scenario, iWF provides the same core guarantees as Temporal: durable state, resilient retries, and deterministic replay. These guarantees come ``for free'' because iWF is backed by Temporal. The difference lies in developer experience. A workflow like `\textit{`fetch register → normalize → render file → drop to Visma → wait for import → verify → advance cursor''} can be expressed more concisely in iWF than in raw Temporal code.
+
+The trade-off is flexibility. By working at a higher abstraction, some of the fine-grained control available in Temporal is harder to access. For complex patterns — such as custom recovery strategies or multi-workflow coordination — iWF may feel limiting. However, for many integrations, the declarative model is sufficient and can accelerate onboarding for developers new to Temporal.
+
+\section*{Custom State Management}
+
+The final option is to build orchestration directly on top of cron jobs, queues, and a relational database. In this model, the team designs a \textbf{state machine} stored in a database table, with CAS \textit{(compare--and--swap atomicity)} updates to prevent races, leases to handle concurrency, and custom retry and deduplication logic.
+
+This approach provides maximum control but comes with high costs. Every aspect of durability, idempotency, and recovery must be implemented, tested, and maintained in-house. Integration testing must cover an array of failure scenarios: a crash mid-import, a duplicate file drop, an out-of-order register, or a half-processed batch.
+
+While technically possible, this option consumes significant engineering time and carries the greatest risk of subtle bugs slipping into production. For a financial integration, where errors are costly, the risk–reward trade-off is unattractive compared to adopting a runtime like Temporal.
+
+\newpage
+
+\section*{Comparative Analysis}
+
+The following comparison highlights how the four options stack up against the critical requirements of this project:
+
+\begin{itemize}
+\item \textbf{Durable State:} Temporal and iWF provide this inherently; Windmill and custom solutions require external databases.
+\item \textbf{Idempotency:} Temporal’s retry model simplifies idempotency; in Windmill and custom systems, it must be engineered explicitly.
+\item \textbf{Partial Recovery:} Temporal and iWF replays make retries safe. Windmill and custom solutions must detect and handle duplicates manually.
+\item \textbf{Long Waits:} Temporal supports durable timers and activity heartbeats; Windmill requires polling; custom systems need schedulers.
+\item \textbf{Auditability:} Temporal and iWF record complete histories; Windmill provides per-job logs; custom requires manual logging.
+\item \textbf{Learning Curve:} Temporal has a steep curve; iWF lowers it; Windmill is very approachable; custom is familiar but deceptively complex.
+\end{itemize}
+
+There are other open-source workflow / orchestration engines that might be contenders. None seem strictly ``better'' than Temporal for our exact set of requirements (completeness, no duplicates, auditability, durable state, etc.), but knowing them helps us make a more informed decision. In the next section I’ll survey several, compare them vs Temporal on our specific integration use-case, and highlight trade-offs.
+
+\newpage
+
+\section*{Alternatives}
+
+Temporal is not the only open source workflow engine available. 
+Other projects have emerged with overlapping capabilities. 
+In this section we survey several alternatives---Cadence, Zeebe/Camunda, 
+Flowable, Airflow and its cousins, and Netflix Conductor---and evaluate 
+their suitability for a financial integration scenario where correctness, 
+durability, and auditability are critical.
+
+\subsection*{Cadence}
+
+Cadence, originally developed at Uber, is in many ways the precursor to Temporal \textit{(Temporal is a fork of Cadence, both written by the same principle developers: Maxim Fateev and Samar Abbas, now shifting roles as CEO/CTO at Temporal)}. The two share the same fundamental model: durable workflow histories, deterministic replay, and automatic activity retries. For the use case of importing General Ledger registers into Visma, Cadence would offer nearly identical semantics to Temporal.
+
+The main difference is ecosystem and maturity. Temporal has an active community, multiple language SDKs, and broad industry adoption. Cadence is stable but less widely used outside of Uber's environment. For a team already experienced in Temporal, the advantages of switching to Cadence would be minimal.
+
+\subsection*{Zeebe and Camunda}
+
+Camunda 8, powered by the Zeebe engine, is a modern BPMN-based \textit{(Business Process Model and Notation)} workflow platform. It provides durable execution, message correlation, and strong tooling around business process modeling.
+
+For scenarios requiring human task integration or compliance with process diagrams, Zeebe is attractive. However, BPMN modeling can become cumbersome for purely machine-to-machine integrations. Expressing simple ledger imports as BPMN diagrams introduces overhead, and idempotency semantics must be engineered with care. Zeebe provides durability, but its abstraction is oriented toward business processes rather than deterministic, code-centric workflows.
+
+\subsection*{Flowable and Activiti}
+
+Flowable and Activiti are mature Java-based BPMN workflow engines. They are strong in modeling complex enterprise processes, especially those involving human interaction and approvals.
+
+For financial system integration, they can certainly model the import pipeline. However, achieving strict guarantees such as exactly-once voucher import and durable replay requires additional design. These engines are most valuable in Java-heavy organizations that already rely on BPMN for process governance.
+
+\subsection*{Airflow and Similar Dataflow Engines}
+
+Apache Airflow, and newer projects such as Prefect, Dagster, and Flyte, are designed for data pipelines, ETL, and analytics workflows. They represent workflows as directed acyclic graphs (DAGs) with scheduled or event-driven execution.
+
+While effective for batch data processing, these tools are less suited to long-lived, transactional workflows. Airflow does not provide deterministic replay; retries rerun tasks but cannot reconstruct durable workflow state. For ledger imports that require waiting on external systems and ensuring no duplicates, Airflow-like engines impose a significant engineering burden.
+
+\subsection*{Netflix Conductor}
+
+Conductor was built at Netflix for microservice orchestration. It offers a JSON-based DSL for defining workflows, retries, and compensation strategies.
+
+Conductor can handle long-running workflows and has support for durable state. However, its model is less focused on deterministic replay and idempotent activity semantics. For financial integration, additional infrastructure would be required to achieve Temporal's guarantees of auditability and exactly-once effects.
+
+\newpage
+
+\section*{Discussion}
+
+When evaluated against the requirements of the General Ledger import pipeline---\textit{completeness, no duplication, durability, auditability, and resilience}---none of the surveyed engines surpass Temporal.
+
+\begin{itemize}
+  \item \textbf{Cadence} is closest in semantics but offers no clear 
+  advantage over Temporal, especially given team expertise in Temporal.
+  \item \textbf{Zeebe/Camunda} shine in business process modeling but 
+  introduce complexity for machine-to-machine pipelines.
+  \item \textbf{Flowable/Activiti} are similar in trade-offs, better for 
+  BPMN-centric organizations.
+  \item \textbf{Airflow and its cousins} are strong for ETL but lack 
+  durable workflow semantics.
+  \item \textbf{Conductor} provides orchestration but requires additional 
+  logic for financial-grade correctness.
+\end{itemize}
+
+Temporal remains uniquely well-aligned to the needs of this integration. While other engines may be a better fit for different contexts---for example BPMN tools for compliance-driven workflows, or Airflow for data engineering---they do not offer stronger guarantees for correctness in financial integrations. Given the high cost of subtle accounting errors, Temporal's deterministic and durable execution model makes it the safer choice.
+
+\newpage
+
+\section*{Conclusion}
+
+For this integration, the core requirements — correctness, resilience, auditability — align strongly with \textbf{Temporal’s design philosophy}. Temporal was created to orchestrate long-running, stateful workflows in environments where retries and failures are inevitable.
+
+\textbf{iWF} offers the same guarantees as Temporal while lowering the barrier to entry through a declarative workflow API. It is well suited if the team wants to avoid Temporal’s replay and determinism learning curve.
+
+\textbf{Windmill} and \textbf{custom state management} can technically achieve the same outcome, but only at the cost of significant additional engineering. Windmill is best reserved for lightweight automation flows, not financial ledger imports where correctness is paramount. A custom solution may seem attractive for control, but it is likely to cost more in development and testing than adopting a proven orchestration runtime.
+
+\subsection*{In summary}
+
+\begin{itemize}
+\item \textbf{Temporal (or iWF)} is the right foundation for financial-grade integration.
+\item \textbf{Windmill} is useful for simpler automations but insufficient on its own here.
+\item \textbf{Custom state logic} is viable but costly and risky.
+\end{itemize}
+
+
+
+%% \begin{figure*}[t]
+%%   \centering
+%%   \includegraphics[width=\textwidth]{puml/operating-rhythm.eps}
+%%   \label{oprhythm}
+%% \end{figure*}
+
+%% \begin{figure}[h]
+%%   %% \centering
+%%   \includegraphics[width=\textwidth]{puml/operating-rhythm.eps}
+%%   \label{oprhythm}
+%% \end{figure}
+
+%% \begin{description}
+%% 	\item[First] This is the first item
+%% 	\item[Last] This is the last item
+%% \end{description}
+
+%% \begin{table}
+%% 	\caption{Example table}
+%% 	\centering
+%% 	\begin{tabular}{llr}
+%% 		\toprule
+%% 		\multicolumn{2}{c}{Name} \\
+%% 		\cmidrule(r){1-2}
+%% 		First Name & Last Name & Grade \\
+%% 		\midrule
+%% 		John & Doe & $7.5$ \\
+%% 		Richard & Miles & $5$ \\
+%% 		\bottomrule
+%% 	\end{tabular}
+%% \end{table}
+
+%------------------------------------------------
+
+%% \begin{figure}
+%% 	\includegraphics[width=\linewidth]{bear.jpg} % Figure image
+%% 	\caption{A majestic grizzly bear} % Figure caption
+%% 	\label{bear} % Label for referencing with \ref{bear}
+%% \end{figure}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+%% \printbibliography[title={Bibliography}] % Print the bibliography, section title in curly brackets
+
+%\vspace*{\fill}
+
+%% \clearpage
+%% \AtBeginShipoutNext{\pdfpageattr{/Rotate 90}}
+
+%% \begin{landscape}
+
+%% %% \section*{\rotatebox{-90}{Outcome-driven Digitalization Platform}}
+%% \section*{C4-Style Container View: Outcome-driven Digitalization Platform}
+
+%% \vspace*{\fill}
+
+%% \begin{center}
+%% %% \includegraphics[angle=-90,width=0.7\textwidth,keepaspectratio]{puml/digitalization-platform.eps}
+%% \includegraphics[width=\linewidth,keepaspectratio]{puml/digitalization-platform.eps}
+%% \end{center}
+
+%% \vspace*{\fill}
+
+%% \end{landscape}
+
+%% \twocolumn
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
