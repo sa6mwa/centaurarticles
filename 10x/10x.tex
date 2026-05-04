@@ -221,7 +221,7 @@ maintaining shared understanding as primary bottlenecks~\citep{brooks1995mythica
 plan-driven methods to agile and DevOps practices---can be understood as
 structured responses to those constraints, seeking to economize on scarce human
 attention and to manage the flow of information through teams and hierarchies
-\citep{cockburn2001,highsmith2001agile,humble2015leanenterprise,galbraith1974,
+\citep{cockburn2001,highsmith2002agile,humble2015leanenterprise,galbraith1974,
 burnsstalker1961}.
 
 Around 2025, a qualitatively different situation emerged. A new class of
@@ -230,9 +230,10 @@ it practically feasible for experienced engineers to offload substantial
 portions of design, coding, testing, and operational tasks to AI systems,
 without spending more time correcting errors than the tools saved. Empirical
 studies of AI-assisted programming already indicate significant productivity
-gains for certain task types, alongside mixed effects on code quality and
-security \citep{peng2023copilot,hamza2025humanaise,ercin2025,
-oladele2025aivulnerabilities,schreiber2025aicodevuln}. At the same time,
+gains for certain task types \citep{peng2023copilot}, while the broader
+evidence base reports mixed effects on code quality \citep{
+ercin2025,schreiber2025aicodevuln} and security \citep{oladele2025aivulnerabilities,schreiber2025aicodevuln}.
+At the same time,
 research on human--AI collaboration and AI ``teammates'' highlights novel
 coordination challenges, including trust calibration, responsibility
 attribution, and the management of opaque model behaviour
@@ -315,7 +316,7 @@ Process models and delivery frameworks can thus be understood as mechanisms to
 manage these structural constraints. Plan-driven approaches formalized control
 through sequential stages and documentation; agile methods shifted the emphasis
 toward short feedback cycles, shared understanding, and direct collaboration
-\citep{cockburn2001,highsmith2001agile}. Practices such as Scrum
+\citep{cockburn2001,highsmith2002agile}. Practices such as Scrum
 \citep{schwaber2017scrum} and Extreme Programming \citep{beck1999xp} sought to
 minimize misalignment through stable teams, bounded work-in-progress, and
 iterative planning. DevOps and Lean Enterprise variants
@@ -347,10 +348,10 @@ the locus of expertise shifts from handcrafted output to directing,
 interpreting, and governing machine activity.
 
 Parallel streams in human--AI teaming research emphasize similar dynamics.
-Seeber et al. \citep{seeber2020machines} outline coordination, trust, and
-responsibility as persistent challenges when AI systems act as teammates rather
+Seeber et al. \citep{seeber2020machines} frame coordination, trust, and
+responsibility as central design concerns when AI systems act as teammates rather
 than tools. Work on human-centered AI \citep{shneiderman2020human} stresses the
-importance of oversight structures and predictable interaction patterns.
+importance of oversight structures and balanced human--AI control boundaries.
 Emerging studies of AI-assisted programming identify both productivity benefits
 \citep{peng2023copilot,hamza2025humanaise} and new risks associated with opaque
 model behavior and security vulnerabilities in AI-generated code
@@ -410,9 +411,9 @@ context handling, more reliable tool use, iterative code-editing capabilities,
 and tighter integration between natural-language specifications and executable
 artifacts. Empirical studies of AI-assisted programming already show meaningful
 productivity improvements on well-scoped tasks \citep{peng2023copilot}, while
-also identifying limitations and risks in areas such as security, correctness,
-and maintainability \citep{ercin2025,oladele2025aivulnerabilities,
-schreiber2025aicodevuln}. These findings align with broader observations in
+also identifying limitations and risks in areas such as correctness and
+maintainability \citep{ercin2025,schreiber2025aicodevuln}, and security \citep{oladele2025aivulnerabilities,schreiber2025aicodevuln}. These findings align with
+broader observations in
 human--AI teaming research, which emphasize that AI systems can extend human
 capability but also introduce new coordination demands
 \citep{seeber2020machines,schmutz2024aiteaming}.
@@ -583,7 +584,7 @@ limiting factor in complex, interdependent work.
 Software delivery frameworks encode coordination strategies derived from these
 principles. Agile methods emphasize synchronous communication, shared
 responsibility, and cross-functional teams to reduce misalignment costs
-\citep{cockburn2001,highsmith2001agile}. Scrum operationalizes coordination
+\citep{cockburn2001,highsmith2002agile}. Scrum operationalizes coordination
 through timeboxed events and role distinctions \citep{schwaber2017scrum}. Extreme
 Programming promotes tight feedback loops and collective code ownership
 \citep{beck1999xp}. Kanban \citep{anderson2010kanban} and Lean perspectives focus
@@ -602,8 +603,7 @@ calibration, and responsibility attribution as recurring challenges when AI
 systems act as collaborators rather than tools. Schmutz et al.\
 \citep{schmutz2024aiteaming} emphasize the need for clear interaction patterns
 and governance structures to support mixed human--AI teams. Human-centered AI
-work \citep{shneiderman2020human} similarly stresses oversight, transparency, and
-predictable behavior as prerequisites for safe and effective collaboration.
+work \citep{shneiderman2020human} similarly stresses oversight and reliable, safe, and trustworthy operation as prerequisites for effective collaboration.
 
 The post-2025 centaur development reality alters the distribution of
 coordination effort. In a human-only team, coordination costs arise primarily
@@ -908,7 +908,7 @@ autonomy of centaur micro-units.
 \subsection*{O2: Decentralization of Decision Authority}
 
 Galbraith’s information-processing view \citep{galbraith1974} and agile
-organizational principles \citep{highsmith2001agile} emphasize that decisions
+organizational principles \citep{highsmith2002agile} emphasize that decisions
 should be made where information resides. For centaur development, this is the
 human--AI unit. We evaluate:
 
@@ -3255,7 +3255,7 @@ The reality diverged sharply from these expectations. The first end-to-end itera
 
 \subsection*{Why It Happened}
 
-This acceleration occurred because the centaur model collapses the execution bottleneck while preserving---and in places intensifying---the cognitive bottleneck. The AI coding agent removed much of the friction traditionally associated with implementation, refactoring, and exploratory branching. Structural changes could be attempted and reversed in minutes, and alternative designs sketched and evaluated in hours rather than weeks. This dynamic aligns with empirical findings on AI-assisted development \citep{ercin2025, schreiber2025aicodevuln} and long-standing theories of distributed cognition \citep{hutchins1995}. However, reduced execution cost produced a new form of cognitive load for the human half of the centaur. Instead of reasoning locally about a subsystem, the engineer had to sustain global coherence across an actively shifting architecture, acting simultaneously as architect, reviewer, integrator, and governor--roles that human–AI teaming research identifies as cognitively demanding under rapid system change \citep{seeber2020machines, schmutz2024aiteaming}. The load was not heavier in quantity but broader in scope: an ambient, whole-system cognitive strain few existing practices prepare individuals to manage.
+This acceleration occurred because the centaur model collapses the execution bottleneck while preserving---and in places intensifying---the cognitive bottleneck. The AI coding agent removed much of the friction traditionally associated with implementation, refactoring, and exploratory branching. Structural changes could be attempted and reversed in minutes, and alternative designs sketched and evaluated in hours rather than weeks. This dynamic aligns with empirical findings on AI-assisted development \citep{ercin2025} and long-standing theories of distributed cognition \citep{hutchins1995}. However, reduced execution cost produced a new form of cognitive load for the human half of the centaur. Instead of reasoning locally about a subsystem, the engineer had to sustain global coherence across an actively shifting architecture, acting simultaneously as architect, reviewer, integrator, and governor--roles that human–AI teaming research identifies as cognitively demanding under rapid system change \citep{seeber2020machines, schmutz2024aiteaming}. The load was not heavier in quantity but broader in scope: an ambient, whole-system cognitive strain few existing practices prepare individuals to manage.
 
 \newpage
 \subsection*{What We Learned}
@@ -3264,7 +3264,7 @@ The most important lesson is not simply that more features can now be produced m
 
 This cognitive posture is best understood as an applied form of systems thinking. The engineer can no longer occupy a single layer of the stack; he must inhabit all layers simultaneously, continuously integrating behaviour across concurrency primitives, storage abstractions, query semantics, operational concerns, and evolving extension points. This aligns closely with foundational work on systems thinking \citep{senge1990, richmond1993, sterman2000} and contemporary definitions of the skill as the ability to reason about interconnected structures, feedback loops, and dynamic complexity \citep{arnoldwade2015}. What is notable is that even a developer with nearly thirty years of experience in distributed systems experiences this as qualitatively new cognitive terrain. Centaur development does not merely magnify traditional expertise; it reconfigures it.
 
-These observations resonate with broader societal forecasts. The World Economic Forum’s \emph{Future of Jobs} reports \citep{wef2023, wef2020, wef2018} increasingly identify systems thinking--and its close relative, systems analysis and evaluation--as among the core cognitive skills expected to grow in importance over the coming decade. These reports argue that as technological and socio-technical environments become more complex, human value creation depends less on narrow task execution and more on integrative reasoning across interconnected systems. This prediction mirrors exactly the shift observed in centaur development: as execution accelerates, architectural boundaries, governance mechanisms, and verification strategies become the primary leverage points.
+These observations resonate with broader societal forecasts. The World Economic Forum’s \emph{Future of Jobs} reports \citep{wef2023,wef2018} explicitly identify systems thinking--and its close relative, systems analysis and evaluation--as among the core cognitive skills expected to grow in importance over the coming decade. The 2020 report \citep{wef2020} similarly emphasizes the rising value of analytical, critical, and reskilling-oriented capabilities as work systems become more complex. These reports argue that as technological and socio-technical environments become more complex, human value creation depends less on narrow task execution and more on integrative reasoning across interconnected systems. This prediction mirrors exactly the shift observed in centaur development: as execution accelerates, architectural boundaries, governance mechanisms, and verification strategies become the primary leverage points.
 
 Seen in this light, the centaur developer becomes a micro-scale embodiment of the emerging skill profile anticipated by both organizational theory and labour-market research. The human contribution shifts from manual production to the orchestration of complex systems in partnership with increasingly capable machines. The earlier sections of this article analyze how delivery frameworks and organizational structures might adapt to such autonomous units; this AAR adds the corresponding cognitive dimension. It underscores that what distinguishes effective centaur developers is not the ability to type faster or recall more APIs, but the ability to expand one's system boundary without losing conceptual integrity or ethical responsibility.
 
