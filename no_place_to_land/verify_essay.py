@@ -5,6 +5,8 @@ from pathlib import Path
 import re
 import subprocess
 import unicodedata
+import json
+from urllib.parse import unquote
 
 from pypdf import PdfReader
 
@@ -36,6 +38,13 @@ def outline_titles(items):
             yield str(item.title)
 
 
+def bibliography_records():
+    return json.loads(subprocess.run(
+        ['pandoc', 'references.bib', '--from=biblatex', '--to=csljson'],
+        check=True, capture_output=True, text=True,
+    ).stdout)
+
+
 def verify(path):
     reader = PdfReader(path)
     assert reader.metadata.title == 'No Place To Land', 'Incorrect PDF title'
@@ -57,8 +66,18 @@ def verify(path):
         text.append(extracted)
     body = normalized('\n'.join(text))
     paragraphs = [p for p in manuscript_part('body').split('\n\n') if p.strip()]
+    position = 0
     for paragraph in paragraphs:
-        assert normalized(paragraph) in body, f'Manuscript text missing: {paragraph[:100]}'
+        # Only inserted author-year citations may interrupt the manuscript text.
+        fragments = [normalized(p) for p in re.split(r'\[@[^\]]+\]', paragraph)]
+        previous_end = None
+        for fragment in filter(None, fragments):
+            start = body.find(fragment, position)
+            assert start >= 0, f'Manuscript text missing: {paragraph[:100]}'
+            if previous_end is not None:
+                assert start - previous_end <= 250, 'Unexpected text between citation fragments'
+            position = start + len(fragment)
+            previous_end = position
 
     links = []
     for page in reader.pages:
@@ -69,16 +88,41 @@ def verify(path):
     for uri in ('https://c89.systems/10x.pdf', 'https://c89.systems/10x.md',
                 'mailto:mike@c89.systems'):
         assert uri in links, f'Missing publication link: {uri}'
-    research_links = set(re.findall(r'\]\((https://[^)]+)\)',
-                                    Path('no-place-to-land.md').read_text()))
-    assert research_links.issubset(set(links)), \
-        f'Research links missing: {research_links.difference(links)}'
+    records = bibliography_records()
+    research_links = {unquote(r['URL']) for r in records if r.get('URL')}
+    research_links.update('https://doi.org/' + unquote(r['DOI'])
+                          for r in records if r.get('DOI'))
+    actual_links = {unquote(uri) for uri in links}
+    assert research_links.issubset(actual_links), \
+        f'Bibliography links missing: {research_links.difference(actual_links)}'
     assert not any('pkt.systems/10x' in uri for uri in links), 'Old 10x URL retained'
+
+    cited = set(re.findall(r'\[@([\w-]+)\]', Path('no-place-to-land.md').read_text()))
+    assert cited == {r['id'] for r in records}, 'Missing or uncited bibliography entries'
+    destinations = reader.named_destinations
+    for key in cited:
+        assert f'cite.0@{key}' in destinations, f'Bibliography destination missing: {key}'
+    bibliography_page = min(reader.get_destination_page_number(destinations[f'cite.0@{key}'])
+                            for key in cited)
+    assert 'References' in '\n'.join(page.extract_text()
+                                    for page in reader.pages[bibliography_page:])
+    for page in reader.pages[2:bibliography_page]:
+        for annotation in page.get('/Annots', []):
+            action = annotation.get_object().get('/A', {})
+            assert not action.get('/URI') or action['/URI'] == 'https://c89.systems', \
+                'External source link retained inside essay prose'
+    for record in records:
+        page = reader.get_destination_page_number(destinations[f"cite.0@{record['id']}"])
+        nearby = '\n'.join(p.extract_text() for p in reader.pages[page:page + 2])
+        nearby = re.sub(r'Page\s+\d+\s+of\s+\d+', '', nearby)
+        nearby = nearby.replace('No Place To Land', '').replace('C89 Systems', '')
+        assert normalized(record['title']) in normalized(nearby), \
+            f"Bibliography title missing: {record['id']}"
 
     titles = list(outline_titles(reader.outline))
     expected = ['Introduction'] + re.findall(r'^## (\d+\. .+)$',
                                             Path('no-place-to-land.md').read_text(), re.M)
-    expected += ['Conclusion — From Coordination to Conversion']
+    expected += ['Conclusion — From Coordination to Conversion', 'References']
     for title in expected:
         assert title in titles, f'PDF bookmark missing: {title}'
         assert normalized(title) in normalized(contents), f'Contents entry missing: {title}'
@@ -90,8 +134,8 @@ def verify(path):
         assert abs(float(page.mediabox.width) - 595.276) < 1
         assert abs(float(page.mediabox.height) - 841.89) < 1
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript '
-          f'blocks retained; {len(research_links)} source URLs, cover abstract, '
-          f'metadata, and navigation verified')
+          f'blocks retained; {len(cited)} references, citation destinations, '
+          f'cover abstract, metadata, source URLs, and navigation verified')
 
 
 if __name__ == '__main__':

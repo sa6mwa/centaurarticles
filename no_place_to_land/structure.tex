@@ -124,4 +124,8 @@
 }
 
 
-% The essay retains inline source links from the manuscript.
+% Same author-year bibliography and natbib-compatible citation commands as 10x.
+\usepackage[backend=bibtex,style=authoryear,natbib=true,maxbibnames=99,useprefix=true]{biblatex}
+\addbibresource{references.bib}
+\AtBeginBibliography{\interlinepenalty=10000} % Keep each reference together.
+\usepackage[autostyle=true]{csquotes}

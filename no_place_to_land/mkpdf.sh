@@ -24,7 +24,7 @@ while [[ $PASS -lt $MAX_PASSES ]]; do
   need_bibtex=false
   if ! grep -qF "\\bibdata" "$OUTDIR/$BASENAME.aux"; then
     need_bibtex=false
-  elif [[ ! -s "$OUTDIR/$BASENAME.bbl" ]]; then
+  elif [[ $PASS -eq 0 || ! -s "$OUTDIR/$BASENAME.bbl" ]]; then
     need_bibtex=true
   elif grep -q "Please (re)run BibTeX" "$OUTDIR/$BASENAME.log"; then
     need_bibtex=true

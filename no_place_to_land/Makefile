@@ -7,10 +7,10 @@ SOURCES = $(wildcard *.tex *.bib *.png) abstract.tex body.tex $(LOGOS) mkpdf.sh
 
 # Manuscript fragments are generated; layout and front matter live in the main TeX.
 abstract.tex: $(NAME).md manuscript.lua
-	pandoc $< --from=markdown --to=latex --lua-filter=manuscript.lua -M part=abstract --output=$@
+	pandoc $< --from=markdown --to=latex --natbib --lua-filter=manuscript.lua -M part=abstract --output=$@
 
 body.tex: $(NAME).md manuscript.lua
-	pandoc $< --from=markdown --to=latex --lua-filter=manuscript.lua -M part=body --output=$@
+	pandoc $< --from=markdown --to=latex --natbib --lua-filter=manuscript.lua -M part=body --output=$@
 
 assets/%.pdf: assets/%.svg
 	rsvg-convert --format=pdf --output=$@ $<
@@ -56,7 +56,7 @@ release: all
 	rm -f $(NAME).zip
 	rm -rf .tempdir
 	mkdir -p .tempdir/$(NAME)
-	cp $(NAME).pdf $(NAME)-squeezed.pdf *.md *.tex *.lua *.py *.sh *.png Makefile .tempdir/$(NAME)/
+	cp $(NAME).pdf $(NAME)-squeezed.pdf *.md *.bib *.tex *.lua *.py *.sh *.png Makefile .tempdir/$(NAME)/
 	cp -r assets tests .tempdir/$(NAME)/
 	cd .tempdir && zip -r ../$(NAME).zip $(NAME)
 	rm -rf .tempdir
