@@ -150,6 +150,15 @@ def verify(path):
         assert title in titles, f'PDF subsection bookmark missing: {title}'
         assert normalized(title) not in normalized(contents), \
             f'Subsection retained in chapter-only contents: {title}'
+    producer = next(entry for entry in entries if entry.title == 'When the producer moves ahead')
+    producer_page = reader.get_destination_page_number(producer)
+    assert producer_page == starts[expected[1]] + 1, \
+        'Producer subsection must remain on the second page of chapter 1'
+    page_box = reader.pages[producer_page].mediabox
+    assert float(producer.left) > float(page_box.width) / 2, \
+        'Producer subsection must start in the right column'
+    assert float(producer.top) > float(page_box.height) - 100, \
+        'Producer subsection must start at the top of its column'
     assert re.search(r'\.(?:\s*\.){4,}', contents), 'Contents dotted leaders missing'
     assert reader.pages[2].extract_text().count('Introduction') >= 1, \
         'The complete contents must fit on page 2, with the essay beginning on page 3'

@@ -14,7 +14,13 @@ function Pandoc(doc)
       result:insert(block)
     elseif part == 'body' and in_body then
       -- Markdown H2/H3 become article sections/subsections.
-      if block.t == 'Header' then block.level = block.level - 1 end
+      if block.t == 'Header' then
+        -- In the two-column essay, newpage advances to the next column.
+        if block.identifier == 'when-the-producer-moves-ahead' then
+          result:insert(pandoc.RawBlock('latex', '\\newpage'))
+        end
+        block.level = block.level - 1
+      end
       result:insert(block)
     end
   end

@@ -14,6 +14,8 @@ site, open terrain, and strong boundaries designed to remain readable at its
 165 mm placement. The legend is native LaTeX text.
 The introduction occupies its own page. Each numbered chapter and the
 conclusion begins on a fresh page; subsections flow within their chapters.
+“When the producer moves ahead” starts in the next column, using a `\newpage`
+inserted by `manuscript.lua`; chapter starts continue to use `\clearpage`.
 
 ## Manuscript and layout
 
