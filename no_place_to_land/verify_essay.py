@@ -30,12 +30,12 @@ def manuscript_part(part):
     return 'Introduction\n' + body
 
 
-def outline_titles(items):
+def outline_entries(items):
     for item in items:
         if isinstance(item, list):
-            yield from outline_titles(item)
+            yield from outline_entries(item)
         else:
-            yield str(item.title)
+            yield item
 
 
 def bibliography_records():
@@ -124,13 +124,24 @@ def verify(path):
         assert normalized(record['title']) in normalized(nearby), \
             f"Bibliography title missing: {record['id']}"
 
-    titles = list(outline_titles(reader.outline))
+    entries = list(outline_entries(reader.outline))
+    titles = [str(entry.title) for entry in entries]
     expected = ['Introduction'] + re.findall(r'^## (\d+\. .+)$',
                                             Path('no-place-to-land.md').read_text(), re.M)
     expected += ['Conclusion — From Coordination to Conversion', 'References']
     for title in expected:
         assert title in titles, f'PDF bookmark missing: {title}'
         assert normalized(title) in normalized(contents), f'Contents entry missing: {title}'
+    starts = {str(entry.title): reader.get_destination_page_number(entry)
+              for entry in entries if str(entry.title) in expected}
+    assert len(set(starts.values())) == len(expected), \
+        'Major sections must start on separate pages'
+    assert starts['Introduction'] == 2 and starts[expected[1]] == 3, \
+        'The introduction must occupy page 3, with chapter 1 starting on page 4'
+    for title, number in starts.items():
+        beginning = reader.pages[number].extract_text().replace('No Place To Land', '')
+        assert normalized(beginning).startswith(normalized(title)), \
+            f'Major section does not begin at the top of its page: {title}'
     navigation = [a.get_object().get('/A', {})
                   for a in reader.pages[1].get('/Annots', [])]
     assert sum(a.get('/S') == '/GoTo' for a in navigation) >= len(expected), \
@@ -147,7 +158,8 @@ def verify(path):
         assert abs(float(page.mediabox.height) - 841.89) < 1
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript '
           f'blocks retained; {len(cited)} references, citation destinations, '
-          f'cover abstract, metadata, source URLs, and navigation verified')
+          f'cover abstract, metadata, source URLs, navigation, and '
+          f'{len(starts)} major section page starts verified')
 
 
 if __name__ == '__main__':

@@ -30,7 +30,8 @@
 \setcounter{tocdepth}{1}    % Keep the contents at chapter level.
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \setlength{\cftbeforesecskip}{9pt}
-\pretocmd{\section}{\Needspace{7\baselineskip}}{}{}
+% A major section starts on a fresh page, rather than the next column.
+\pretocmd{\section}{\clearpage}{}{}
 \pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
 \lfoot{\footnotesize\href{https://c89.systems}{C89 Systems}}
 

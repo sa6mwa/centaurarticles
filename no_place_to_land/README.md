@@ -12,6 +12,8 @@ Below the contents, a transparent landscape illustrates sustained use and the
 wider capability frontier. The image has a small settlement, a construction
 site, open terrain, and strong boundaries designed to remain readable at its
 165 mm placement. The legend is native LaTeX text.
+The introduction occupies its own page. Each numbered chapter and the
+conclusion begins on a fresh page; subsections flow within their chapters.
 
 ## Manuscript and layout
 
