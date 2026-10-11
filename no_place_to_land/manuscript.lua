@@ -3,6 +3,7 @@ local art_before = {
   ['co-invention-why-technology-is-never-the-whole-system'] = {command='FactoryRetrofitArt', wide=true},
   ['ai-inside-yesterdays-organization'] = {command='CoInventionArt', wide=true},
   ['different-economic-outcomes'] = {command='MeasurementArt'},
+  ['beyond-tasks-organizational-recomposition'] = {command='ProductionComparisonArt', wide=true},
   ['no-place-to-land-1'] = {command='RecompositionArt', wide=true},
   ['markets-built-around-the-old-unit-of-production'] = {command='FragmentedAssignmentArt'},
   ['the-applied-technology-gap'] = {command='ComplementaryAssetsArt', wide=true},

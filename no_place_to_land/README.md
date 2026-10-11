@@ -18,13 +18,18 @@ conclusion begins on a fresh page; subsections flow within their chapters.
 `multicols`, with an explicit `\columnbreak` at that subsection and `\clearpage`
 before each major section. The last columns balance before a wide illustration.
 
-Eight numbered body figures add visual pauses across the chapters: five
+Nine numbered body figures add visual pauses across the chapters: six
 imagegen scenes (painting, caricature, and diorama), plus native drawings of
 measurement questions, quotation-service responsibility, and the versioned
-operating blueprint retained through handover. Two figures use a column; six
+operating blueprint retained through handover. Two figures use a column; seven
 span the text width. The factory panorama occupies the bottom of page 5.
 The quotation figure states our prediction and cites its research basis;
 the images themselves are conceptual illustrations.
+The chapter 3 comparison fills the lower part of page 11. A local
+`\enlargethispage{\baselineskip}` at the measurement drawing keeps the preceding
+economic-outcomes paragraph together on page 10; the prose is unchanged.
+The handover blueprint uses three spaced rows in each panel and a Git history
+with branch commits and a merge.
 
 ## Manuscript and layout
 
@@ -49,7 +54,7 @@ cover composition, branding, contents, and the cover fade settings; edit
 `structure.tex` for typography and page geometry. The generated TeX fragments
 are committed so the essay's typeset source is inspectable.
 Body illustration sizes, drawings, and captions live in `body-illustrations.tex`;
-`manuscript.lua` assigns them to stable heading identifiers. All five selected
+`manuscript.lua` assigns them to stable heading identifiers. All six selected
 generated body images are saved beside the main TeX for the existing squeeze workflow.
 
 The four original SVG branding assets are copied into `assets/`. The build
@@ -97,6 +102,6 @@ Cover generation provenance and the complete prompt are in `cover-art.md`.
 Contents illustration prompts and concept history are in
 `illustrations/concepts.json`; the selected asset is `frontier-landscape-v2.png`.
 Body artwork prompts, media, captions, and asset paths are in
-`illustrations/body-art.json`. `make check` also verifies all eight captions,
-the five raster placements, native drawing text, and the mix of widths.
+`illustrations/body-art.json`. `make check` also verifies all nine captions,
+the six raster placements, native drawing text, and the mix of widths.
 Superseded body variants are retained in `illustrations/` with their provenance.

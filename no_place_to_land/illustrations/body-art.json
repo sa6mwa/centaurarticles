@@ -40,7 +40,21 @@
       "tool": "native LaTeX/TikZ"
     },
     {
+      "label": "fig:production-comparison",
+      "width": "text",
+      "medium": "imagegen-painting",
+      "caption": "Task measurement observes a component; evaluating a production unit includes its accepted result, waiting, verification, and recovery. The customer objective and required constraints remain comparable.",
+      "file": "../production-comparison-v2.png",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: illustration-story\nAsset type: full-width editorial illustration beneath the end of Chapter 3 in the research essay No Place To Land.\nPrimary request: Make the distinction between measuring an isolated software task and evaluating an entire operating responsibility visually concrete. This is a conceptual comparison, not a claimed empirical case or measured productivity result.\nComposition: a wide 16:9 diptych, two substantial scenes of comparable visual weight, separated by a clean transparent gutter. Both concern the same manufacturing enquiry and the same intended customer objective; the difference is the boundary of the evaluation, not a stupid worker versus a genius.\nLeft scene: a deliberately close, cropped test-bench view. A competent developer works on one bounded software component at a monitor. A modest timing instrument and a large outlined testing frame make it clear that the observer measures that one component. The rest of the operating setting is visibly outside this narrow frame.\nRight scene: a wider cutaway view of a coherent operating service, not an office meeting. A responsible operator works at a modern service console; the same enquiry is handled alongside live capacity information, an explicit exception being resolved with an operating owner, and a retained recovery state. A customer-facing usable offer is being considered at the service boundary. Depict two or three broad connected operating areas, with clear purposeful human gestures and large readable objects; no cluttered wall of dashboards. Completion, checking, waiting and recovery belong inside this wider view. Do not suggest extra generated artifacts automatically mean customer value, or that we have already proved a universal performance gain.\nStyle: sophisticated painted editorial realism with architectural clarity, warm stone and off-white materials, navy and restrained cobalt accents. This must reward scrutiny and have a clear thesis at about 160 mm printed width. Contemporary digital operation, no paper handover, no binders, telephones, keys, stock corporate props, robots, triumphant lone geniuses, villainous bureaucracy, flowchart arrows or jigsaw metaphors.\nText: no text, numbers, logos, watermark or fake readable interfaces. Headings and explanation will be typeset separately in LaTeX.\nBackground: genuinely transparent alpha outside both scenes, clean organic edges, substantial but restrained scene depth, no black or blue rectangular background. About 16:9, designed to occupy the lower half of an A4 essay page.",
       "number": 4,
+      "original": "production-comparison-v1.png",
+      "edit_prompts": [
+        "Use case: compositing\nAsset type: research essay illustration, full-width 160 mm by approximately 88 mm.\nEdit only composition and edge cleanup of the supplied diptych. Preserve the two scenes, competent participants, close developer timing view on the left, wider operating service with customer interaction, exception handling and recovery on the right, the current color palette and painted editorial realism.\nMake both scenes substantially taller within the same 16:9 overall canvas so their actual visible content occupies about 90 percent of the canvas height. Recompose the surroundings and people rather than stretching them. Remove the large empty transparent bands at the top and bottom; preserve just a thin natural transparent perimeter and a modest transparent gutter separating the scenes. Remove every detached faint fragment below the right scene. Keep complete heads, hands and major consoles; no arbitrary clipping of important objects. No text, numbers, logos or watermark, no paper handover. Keep genuinely transparent alpha outside the scenes.\nThe sole goal is a fuller, tighter composition that does not leave blank padding between the native headings, the art, and the caption when printed."
+      ]
+    },
+    {
+      "number": 5,
       "label": "fig:recomposition",
       "width": "text",
       "medium": "native-drawing",
@@ -53,7 +67,7 @@
       ]
     },
     {
-      "number": 5,
+      "number": 6,
       "label": "fig:fragmented-assignment",
       "width": "column",
       "medium": "imagegen-cartoon",
@@ -63,7 +77,7 @@
       "prompt": "Use case: illustration-story\nAsset type: research-essay body illustration, Fully occupied, commissioned in fragments.\nAn intelligent editorial cartoon with gently caricatured people, expressive but respectful. A skilled software practitioner is FULLY OCCUPIED working at a broad integrated desk that supports design, implementation, testing and operation together. Across from that desk, an established business counter offers four narrow separate service windows, each receiving a fragment of the same interconnected work. The practitioner is actively handling a single commissioned fragment while the wider integrated workspace remains available. Through a nearby unfinished opening, participants from both sides are jointly considering a broader arrangement; leave its outcome provisional. Make the mismatch between integrated scope and divided assignments readable through architecture and activity. Do not depict an unemployed engineer begging for work, poor business sense, a superior genius, foolish customers, or a known customer-value treasure waiting to be claimed. Two or three prominent human figures, four windows suggested simply, no tiny office clutter. Bold shapes, warm natural colors with cobalt accents, contemporary magazine cartoon craft. Landscape 1.8:1, readable at 80 mm wide. Genuine transparent background, clean cutout edges, no words, no labels, no speech bubbles, no robots or watermark."
     },
     {
-      "number": 6,
+      "number": 7,
       "label": "fig:complements",
       "width": "text",
       "medium": "imagegen-diorama",
@@ -78,7 +92,7 @@
       "prompt": "Use case: illustration-story\nAsset type: substantive editorial illustration for the essay No Place To Land, a manufacturing quotation service that depends on independently controlled complements.\nPrimary request: Replace generic business still-life imagery with a concrete architectural scene of WHO CONTROLS THE OPERATING CONDITIONS. The manuscript's example is a compact software-enabled quotation unit serving a manufacturer: the customer can commission the result, but an existing interface provider controls access to the business systems and a factory operating owner controls dependable capacity information and commitments. Engineering capability does not itself own those contributions. They can be made workable through cooperation, not by depicting the other parties as fools or villains.\nScene: a beautiful cutaway architectural diorama, wide landscape about 2:1, on a genuinely transparent background. Three distinct but neighboring operating spaces form one coherent composition. In the foreground-left a capable practitioner operates a compact quotation service console, with a prospective customer discussing the offered service. In the middle a real interface-provider technician manages the gateway into the manufacturer's shared systems. On the right the factory capacity owner works beside an active small production floor, with a clearly visible scheduling display and just two or three large machine masses. Show their respective control through local workstations and bounded operating areas, not through padlocks, keys, binders or generic phones. One shared service connection is being established cooperatively across those boundaries; a partly open boundary or unfinished floor connection shows the needed commitment, while the production unit itself is ready.\nThe central visual point is that usable scope depends on contributions held by different parties. Do not imply customer value is already a universally known input, and do not portray this as an engineer lacking business sense. No generic meeting around a table, no lone genius, no robot, no gadget prototype seeking a market, no jigsaw pieces.\nStyle: sophisticated contemporary editorial realism with sculptural architectural clarity, warm neutral materials and restrained navy/cobalt accents; substantial human gestures and bold readable structures. Rich enough to reward looking but simple enough to read at 160 mm width. A meaningful operating scene, not stock corporate clipart, not a flowchart or boxes connected by arrows.\nText: only three brief, well-set labels identifying the concrete contributions, exact wording: \"CUSTOMER MANDATE\", \"INTERFACE ACCESS\", \"CAPACITY COMMITMENT\". Keep labels large enough for print and near their respective spaces. No other text, interface gibberish, logos or watermark. Transparent alpha outside the scene with clean cutout edges."
     },
     {
-      "number": 7,
+      "number": 8,
       "label": "fig:reusable-co-invention",
       "width": "text",
       "medium": "imagegen-diorama",
@@ -88,7 +102,7 @@
       "prompt": "Use case: stylized-concept\nAsset type: research-essay body illustration, What the next application inherits.\nA sculptural editorial diorama depicting a tested construction method being used in a second compatible operating setting. Two small, visibly DIFFERENT building sites stand on different pieces of local terrain. At the first, a tested reusable scaffold or assembly jig is established; at the second, people adapt the same practical method around different local constraints. Each site has its own operating owner examining its own records and site conditions. The second inherits a method and tested knowledge, not the first site's permission or identical organization. Small retained field guides and test fixtures accompany the scaffold. No copy-paste buildings, no universal key, no guaranteed growth, no factory production line of identical customers. Two sites, one clear common reusable method, broad readable forms and an unfinished second application. Natural colors with understated cobalt, matte sculptural materials, warm daylight. Wide landscape 2:1 for 160 mm width, genuine transparent background with a clean organic cutout. No text, arrows, flowchart boxes, infinity signs, labels or watermarks."
     },
     {
-      "number": 8,
+      "number": 9,
       "label": "fig:handover",
       "width": "text",
       "medium": "native-drawing",

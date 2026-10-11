@@ -50,7 +50,7 @@ def bibliography_records():
 def verify_body_art(reader, path):
     plan_path = Path('illustrations/body-art.json')
     figures = json.loads(plan_path.read_text())['figures']
-    assert len(figures) == 8, 'The body illustration set must contain eight figures'
+    assert len(figures) == 9, 'The body illustration set must contain nine figures'
     text = '\n'.join(page.extract_text() for page in reader.pages[2:])
     text = re.sub(r'Page\s+\d+\s+of\s+\d+', '', text).replace('No Place To Land', '')
     raster_count = 0
@@ -84,21 +84,29 @@ def verify_body_art(reader, path):
                 assert widths and max(widths) > 440, 'Factory scene must span both columns'
         if figure['width'] == 'text':
             wide_count += 1
-    assert raster_count == 5 and wide_count == 6, 'Illustration media or width balance changed'
+    assert raster_count == 6 and wide_count == 7, 'Illustration media or width balance changed'
     for detail in ('Task effort', 'Completed work', 'Wages and hours',
                    'Contributions kept separate', 'Completion held together', 'Ordinary offers',
                    'The versioned operating blueprint', 'Git history', 'service/', 'runbooks/',
-                   'Deployable artifacts', 'Recoverable state', 'Verification evidence',
-                   'Access and authority', 'Next authorised operator',
+                   'Deployable artifacts', 'Recoverable state and records', 'Verification evidence',
+                   'Decision limits and authority', 'Next authorised operator',
                    'The service continues'):
         assert normalized(detail) in normalized(text), f'Native drawing detail missing: {detail}'
-    for number, detail in ((4, 'Ordinary offers'), (8, 'The versioned operating blueprint')):
+    for label, detail in (('fig:recomposition', 'Ordinary offers'),
+                          ('fig:handover', 'The versioned operating blueprint')):
+        number = next(figure['number'] for figure in figures if figure['label'] == label)
         page = reader.get_destination_page_number(reader.named_destinations[f'figure.{number}'])
         assert normalized(detail) in normalized(reader.pages[page].extract_text()), \
             f'Native drawing separated from its caption: figure {number}'
     assert 'Customer benefit remains a separate proposition to test' not in text
     factory_page = reader.get_destination_page_number(reader.named_destinations['figure.1'])
     assert factory_page == 4, 'The full-width factory illustration must remain on page 5'
+    sentence = normalized('The evidence should be used to locate the change, rather than compressed into a verdict that AI either works or does not.')
+    assert sentence in normalized(reader.pages[9].extract_text()), \
+        'The economic-outcomes paragraph must finish on page 10'
+    comparison = next(figure for figure in figures if figure['label'] == 'fig:production-comparison')
+    comparison_page = reader.get_destination_page_number(reader.named_destinations[f"figure.{comparison['number']}"])
+    assert comparison_page == 10, 'The production comparison must occupy the open space on page 11'
     return len(figures)
 
 
