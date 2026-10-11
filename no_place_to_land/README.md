@@ -5,8 +5,9 @@ Author: Michel Blomgren, <mike@c89.systems>.
 This is the initial LaTeX layout, derived from the `10x/` article template:
 XCharter body text, sans-serif headings, A4 pages, and a two-column essay body.
 The cover has new blue-on-black synthwave artwork, the C89 Systems vector logo,
-and the complete manuscript abstract. A single-column chapter contents page
-precedes the essay. PDF bookmarks also include its subsections.
+and the complete manuscript abstract. A single-column contents page with dotted
+leaders includes every chapter and subsection. PDF bookmarks include the same
+headings.
 
 ## Manuscript and layout
 

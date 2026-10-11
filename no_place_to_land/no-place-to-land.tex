@@ -7,6 +7,7 @@
 \usetikzlibrary{fadings}
 \usepackage{needspace}
 \usepackage{etoolbox}
+\usepackage[titles]{tocloft}
 \usepackage{hyperref}
 \hypersetup{
   colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=black,
@@ -26,7 +27,11 @@
 \tikzfading[name=coverFade,bottom color=transparent!0,top color=transparent!100]
 
 \setcounter{secnumdepth}{0} % Manuscript chapter numbers are part of their headings.
-\setcounter{tocdepth}{1}    % A compact chapter-level contents page.
+\setcounter{tocdepth}{2}    % Include chapters and their subsections.
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{2.5pt}
+\setlength{\cftbeforesubsecskip}{0pt}
+\cftsetindents{subsection}{14pt}{0pt}
 \pretocmd{\section}{\Needspace{7\baselineskip}}{}{}
 \pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
 \lfoot{\footnotesize\href{https://c89.systems}{C89 Systems}}
@@ -76,15 +81,17 @@
 \null
 \clearpage
 
+\begingroup
+\fontsize{9.5}{10.5}\selectfont
 \tableofcontents
+\endgroup
 \vfill
-\noindent\includegraphics[width=37mm]{assets/c89-systems-black.pdf}\par
-\vspace{4mm}
-\noindent\textbf{Michel Blomgren}\quad\href{mailto:mike@c89.systems}{mike@c89.systems}\par
-\vspace{3mm}
-\noindent This essay extends \textit{The Coordination Shift}, available as
+\noindent\includegraphics[width=24mm]{assets/c89-systems-black.pdf}%
+\hfill{\footnotesize\textbf{Michel Blomgren}\quad\href{mailto:mike@c89.systems}{mike@c89.systems}}\par
+\vspace{2mm}
+\noindent{\footnotesize This essay extends \textit{The Coordination Shift}, available as
 \href{https://c89.systems/10x.pdf}{PDF} and
-\href{https://c89.systems/10x.md}{Markdown}.\par
+\href{https://c89.systems/10x.md}{Markdown}.}\par
 
 \twocolumn
 \input{body.tex}
