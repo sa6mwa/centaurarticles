@@ -1,0 +1,7 @@
+build/
+.tempdir/
+*.zip
+.temporary.txt
+__pycache__/
+10x/10x.pdf
+10x/10x-squeezed.pdf

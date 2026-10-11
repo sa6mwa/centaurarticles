@@ -1,0 +1,677 @@
+\documentclass[11pt, a4paper, twocolumn]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column)
+
+\newcommand{\point}[2]{\item \textbf{#1}\\ #2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    %% linkcolor={rgb:hex(FF,00,00)},
+    %% citecolor={rgb:hex(00,00,FF)},
+    %% urlcolor={rgb:hex(00,80,00)}
+    linkcolor=blue,
+    citecolor=black,
+    urlcolor=blue
+}
+
+\usepackage[absolute,overlay]{textpos} % For absolute positioning
+
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+
+%%%%%%
+
+
+%% \usepackage[margin=1in]{geometry}
+%% \usepackage{microtype}
+%% \usepackage{hyperref}
+%% \usepackage{enumitem}
+%% \usepackage{csquotes}
+
+%% \setlength{\parindent}{0pt}
+%% \setlength{\parskip}{0.6em}
+
+
+
+\begin{filecontents*}{references.bib}
+@misc{Blomgren2025CoordinationShift,
+  author       = {Blomgren, Michel},
+  title        = {10$\times$ The Coordination Shift: Software Engineering in the Centaur Era},
+  year         = {2025},
+  url          = {https://github.com/sa6mwa/centaurarticles/blob/main/pub/10x.pdf}
+}
+
+@article{AshforthMael1989SocialIdentity,
+  author  = {Ashforth, Blake E. and Mael, Fred},
+  title   = {Social Identity Theory and the Organization},
+  journal = {Academy of Management Review},
+  year    = {1989},
+  volume  = {14},
+  number  = {1},
+  pages   = {20--39},
+  doi     = {10.5465/amr.1989.4278999}
+}
+
+@article{BaumeisterEtAl2001Bad,
+  author  = {Baumeister, Roy F. and Bratslavsky, Ellen and Finkenauer, Catrin and Vohs, Kathleen D.},
+  title   = {Bad Is Stronger than Good},
+  journal = {Review of General Psychology},
+  year    = {2001},
+  volume  = {5},
+  number  = {4},
+  pages   = {323--370},
+  doi     = {10.1037/1089-2680.5.4.323}
+}
+
+@article{BigmanGray2018MoralMachines,
+  author  = {Bigman, Yochanan E. and Gray, Kurt},
+  title   = {People are averse to machines making moral decisions},
+  journal = {Cognition},
+  year    = {2018},
+  volume  = {181},
+  pages   = {21--34},
+  doi     = {10.1016/j.cognition.2018.08.003}
+}
+
+@article{CasteloBosLehmann2019TaskDependent,
+  author  = {Castelo, Noah and Bos, Maarten W. and Lehmann, Donald R.},
+  title   = {Task-Dependent Algorithm Aversion},
+  journal = {Journal of Marketing Research},
+  year    = {2019},
+  volume  = {56},
+  number  = {5},
+  pages   = {809--825},
+  doi     = {10.1177/0022243719851788}
+}
+
+@article{DeciRyan2000WhatWhy,
+  author  = {Deci, Edward L. and Ryan, Richard M.},
+  title   = {The ``What'' and ``Why'' of Goal Pursuits: Human Needs and the Self-Determination of Behavior},
+  journal = {Psychological Inquiry},
+  year    = {2000},
+  volume  = {11},
+  number  = {4},
+  pages   = {227--268},
+  doi     = {10.1207/S15327965PLI1104_01}
+}
+
+@article{DietvorstSimmonsMassey2015Aversion,
+  author  = {Dietvorst, Berkeley J. and Simmons, Joseph P. and Massey, Cade},
+  title   = {Algorithm Aversion: People Erroneously Avoid Algorithms after Seeing Them Err},
+  journal = {Journal of Experimental Psychology: General},
+  year    = {2015},
+  volume  = {144},
+  number  = {1},
+  pages   = {114--126},
+  doi     = {10.1037/xge0000033}
+}
+
+@article{DietvorstSimmonsMassey2018Overcoming,
+  author  = {Dietvorst, Berkeley J. and Simmons, Joseph P. and Massey, Cade},
+  title   = {Overcoming Algorithm Aversion: People Will Use Imperfect Algorithms If They Can (Even Slightly) Modify Them},
+  journal = {Management Science},
+  year    = {2018},
+  volume  = {64},
+  number  = {3},
+  pages   = {1155--1170},
+  doi     = {10.1287/mnsc.2016.2643}
+}
+
+@article{DillardShen2005Reactance,
+  author  = {Dillard, James Price and Shen, Lijiang},
+  title   = {On the Nature of Reactance and Its Role in Persuasive Health Communication},
+  journal = {Communication Monographs},
+  year    = {2005},
+  volume  = {72},
+  number  = {2},
+  pages   = {144--168},
+  doi     = {10.1080/03637750500111815}
+}
+
+@article{Festinger1954SocialComparison,
+  author  = {Festinger, Leon},
+  title   = {A Theory of Social Comparison Processes},
+  journal = {Human Relations},
+  year    = {1954},
+  volume  = {7},
+  number  = {2},
+  pages   = {117--140},
+  doi     = {10.1177/001872675400700202}
+}
+
+@book{Festinger1957Dissonance,
+  author    = {Festinger, Leon},
+  title     = {A Theory of Cognitive Dissonance},
+  year      = {1957},
+  publisher = {Stanford University Press},
+  location  = {Stanford, CA}
+}
+
+@article{FiskeCuddyGlickXu2002SCM,
+  author  = {Fiske, Susan T. and Cuddy, Amy J. C. and Glick, Peter and Xu, Jun},
+  title   = {A Model of (Often Mixed) Stereotype Content: Competence and Warmth Respectively Follow from Perceived Status and Competition},
+  journal = {Journal of Personality and Social Psychology},
+  year    = {2002},
+  volume  = {82},
+  number  = {6},
+  pages   = {878--902},
+  doi     = {10.1037/0022-3514.82.6.878}
+}
+
+@article{GliksonWoolley2020TrustReview,
+  author  = {Glikson, Ella and Woolley, Anita Williams},
+  title   = {Human Trust in Artificial Intelligence: Review of Empirical Research},
+  journal = {Academy of Management Annals},
+  year    = {2020},
+  volume  = {14},
+  number  = {2},
+  pages   = {627--660},
+  doi     = {10.5465/annals.2018.0057}
+}
+
+@article{GrayGrayWegner2007MindPerception,
+  author  = {Gray, Heather M. and Gray, Kurt and Wegner, Daniel M.},
+  title   = {Dimensions of Mind Perception},
+  journal = {Science},
+  year    = {2007},
+  volume  = {315},
+  number  = {5812},
+  pages   = {619},
+  doi     = {10.1126/science.1134475}
+}
+
+@article{GrayWegner2009Typecasting,
+  author  = {Gray, Kurt and Wegner, Daniel M.},
+  title   = {Moral Typecasting: Divergent Perceptions of Moral Agents and Moral Patients},
+  journal = {Journal of Personality and Social Psychology},
+  year    = {2009},
+  volume  = {96},
+  number  = {3},
+  pages   = {505--520},
+  doi     = {10.1037/a0013748}
+}
+
+@article{Haidt2001Intuition,
+  author  = {Haidt, Jonathan},
+  title   = {The Emotional Dog and Its Rational Tail: A Social Intuitionist Approach to Moral Judgment},
+  journal = {Psychological Review},
+  year    = {2001},
+  volume  = {108},
+  number  = {4},
+  pages   = {814--834},
+  doi     = {10.1037/0033-295X.108.4.814}
+}
+
+@article{HancockEtAl2011TrustMeta,
+  author  = {Hancock, Peter A. and Billings, Deborah R. and Schaefer, Kirsten E. and Chen, Jessie Y. C. and de Visser, Ewart J. and Parasuraman, Raja},
+  title   = {A Meta-Analysis of Factors Affecting Trust in Human-Robot Interaction},
+  journal = {Human Factors},
+  year    = {2011},
+  volume  = {53},
+  number  = {5},
+  pages   = {517--527},
+  doi     = {10.1177/0018720811417254}
+}
+
+@incollection{Hutchins2001DistributedCognition,
+  author    = {Hutchins, Edwin},
+  title     = {Distributed Cognition},
+  booktitle = {International Encyclopedia of the Social \& Behavioral Sciences},
+  year      = {2001},
+  publisher = {Elsevier},
+  pages     = {2068--2072},
+  doi       = {10.1016/B0-08-043076-7/01636-3}
+}
+
+@article{Joo2024AIFault,
+  author  = {Joo, Minjoo},
+  title   = {It{'}s the AI{'}s fault, not mine: Mind perception increases blame attribution to AI},
+  journal = {PLOS ONE},
+  year    = {2024},
+  volume  = {19},
+  number  = {12},
+  pages   = {e0314559},
+  doi     = {10.1371/journal.pone.0314559}
+}
+
+@article{JostBanaji1994SystemJustification,
+  author  = {Jost, John T. and Banaji, Mahzarin R.},
+  title   = {The Role of Stereotyping in System-Justification and the Production of False Consciousness},
+  journal = {British Journal of Social Psychology},
+  year    = {1994},
+  volume  = {33},
+  number  = {1},
+  pages   = {1--27},
+  doi     = {10.1111/j.2044-8309.1994.tb01008.x}
+}
+
+@article{JostBanajiNosek2004Decade,
+  author  = {Jost, John T. and Banaji, Mahzarin R. and Nosek, Brian A.},
+  title   = {A Decade of System Justification Theory: Accumulated Evidence of Conscious and Unconscious Bolstering of the Status Quo},
+  journal = {Political Psychology},
+  year    = {2004},
+  volume  = {25},
+  number  = {6},
+  pages   = {881--919},
+  doi     = {10.1111/j.1467-9221.2004.00402.x}
+}
+
+@article{Kunda1990MotivatedReasoning,
+  author  = {Kunda, Ziva},
+  title   = {The Case for Motivated Reasoning},
+  journal = {Psychological Bulletin},
+  year    = {1990},
+  volume  = {108},
+  number  = {3},
+  pages   = {480--498},
+  doi     = {10.1037/0033-2909.108.3.480}
+}
+
+@article{LeeSee2004TrustAutomation,
+  author  = {Lee, John D. and See, Katrina A.},
+  title   = {Trust in Automation: Designing for Appropriate Reliance},
+  journal = {Human Factors},
+  year    = {2004},
+  volume  = {46},
+  number  = {1},
+  pages   = {50--80},
+  doi     = {10.1518/hfes.46.1.50_30392}
+}
+
+@article{LoggMinsonMoore2019Appreciation,
+  author  = {Logg, Jennifer M. and Minson, Julia A. and Moore, Don A.},
+  title   = {Algorithm Appreciation: People Prefer Algorithmic to Human Judgment},
+  journal = {Organizational Behavior and Human Decision Processes},
+  year    = {2019},
+  volume  = {151},
+  pages   = {90--103},
+  doi     = {10.1016/j.obhdp.2018.12.005}
+}
+
+@article{MezulisEtAl2004SelfServing,
+  author  = {Mezulis, Amy H. and Abramson, Lyn Y. and Hyde, Janet Shibley and Hankin, Benjamin L.},
+  title   = {Is There a Universal Positivity Bias in Attributions? A Meta-Analytic Review of Individual, Developmental, and Cultural Differences in the Self-Serving Attributional Bias},
+  journal = {Psychological Bulletin},
+  year    = {2004},
+  volume  = {130},
+  number  = {5},
+  pages   = {711--747},
+  doi     = {10.1037/0033-2909.130.5.711}
+}
+
+@article{NassMoon2000Mindlessness,
+  author  = {Nass, Clifford and Moon, Youngme},
+  title   = {Machines and Mindlessness: Social Responses to Computers},
+  journal = {Journal of Social Issues},
+  year    = {2000},
+  volume  = {56},
+  number  = {1},
+  pages   = {81--103},
+  doi     = {10.1111/0022-4537.00153}
+}
+
+@article{ParasuramanSheridanWickens2000Levels,
+  author  = {Parasuraman, Raja and Sheridan, Thomas B. and Wickens, Christopher D.},
+  title   = {A Model for Types and Levels of Human Interaction with Automation},
+  journal = {IEEE Transactions on Systems, Man, and Cybernetics - Part A: Systems and Humans},
+  year    = {2000},
+  volume  = {30},
+  number  = {3},
+  pages   = {286--297},
+  doi     = {10.1109/3468.844354}
+}
+
+@article{Petriglieri2011UnderThreat,
+  author  = {Petriglieri, Jennifer L.},
+  title   = {Under Threat: Responses to and the Consequences of Threats to Individuals' Identities},
+  journal = {Academy of Management Review},
+  year    = {2011},
+  volume  = {36},
+  number  = {4},
+  pages   = {641--662},
+  doi     = {10.5465/amr.2009.0087}
+}
+
+@article{PrenticeMiller1993Pluralistic,
+  author  = {Prentice, Deborah A. and Miller, Dale T.},
+  title   = {Pluralistic Ignorance and Alcohol Use on Campus: Some Consequences of Misperceiving the Social Norm},
+  journal = {Journal of Personality and Social Psychology},
+  year    = {1993},
+  volume  = {64},
+  number  = {2},
+  pages   = {243--256},
+  doi     = {10.1037/0022-3514.64.2.243}
+}
+
+@article{Rains2013ReactanceMeta,
+  author  = {Rains, Stephen A.},
+  title   = {The Nature of Psychological Reactance Revisited: A Meta-Analytic Review},
+  journal = {Human Communication Research},
+  year    = {2013},
+  volume  = {39},
+  number  = {1},
+  pages   = {47--73},
+  doi     = {10.1111/j.1468-2958.2012.01443.x}
+}
+
+@article{TverskyKahneman1974Heuristics,
+  author  = {Tversky, Amos and Kahneman, Daniel},
+  title   = {Judgment under Uncertainty: Heuristics and Biases},
+  journal = {Science},
+  year    = {1974},
+  volume  = {185},
+  number  = {4157},
+  pages   = {1124--1131},
+  doi     = {10.1126/science.185.4157.1124}
+}
+
+@article{WaytzEpleyCacioppo2010Unbound,
+  author  = {Waytz, Adam and Epley, Nicholas and Cacioppo, John T.},
+  title   = {Social Cognition Unbound: Psychological Insights into Anthropomorphism and Dehumanization},
+  journal = {Current Directions in Psychological Science},
+  year    = {2010},
+  volume  = {19},
+  number  = {1},
+  pages   = {58--62},
+  doi     = {10.1177/0963721409359302}
+}
+
+@article{Weiner1985Attribution,
+  author  = {Weiner, Bernard},
+  title   = {An Attributional Theory of Achievement Motivation and Emotion},
+  journal = {Psychological Review},
+  year    = {1985},
+  volume  = {92},
+  number  = {4},
+  pages   = {548--573},
+  doi     = {10.1037/0033-295X.92.4.548}
+}
+
+@article{YangSundar2024MachineHeuristic,
+  author  = {Yang, Hyun and Sundar, S. Shyam},
+  title   = {Machine heuristic: concept explication and development of a measurement scale},
+  journal = {Journal of Computer-Mediated Communication},
+  year    = {2024},
+  doi     = {10.1093/jcmc/zmae019}
+}
+\end{filecontents*}
+
+\usepackage[
+  backend=bibtex,
+  style=authoryear,
+  natbib=true,
+  doi=true,
+  url=true,
+  isbn=false,
+  eprint=false
+]{biblatex}
+\addbibresource{references.bib}
+
+\DeclareFieldFormat{doi}{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
+\DeclareFieldFormat{url}{\url{#1}}
+
+
+
+
+% pageref
+
+\newcommand{\namerefp}[1]{\hyperref[#1]{\nameref{#1} (p.~\pageref{#1})}}
+
+% background
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{fadings}
+
+% === knobs you can tune (NO math, just constants) ===
+\newcommand*\BGimage{cover.png}
+% Darkness above the fade band (0..1)
+\newcommand*\TopOpacity{0}
+% Extra opacity layer used for the bottom & the fade band (0..1).
+% NOTE: The final bottom darkness will be:
+%   total_bottom = 1 - (1 - TopOpacity)*(1 - ExtraOpacity)
+% Pick this so the bottom looks as dark as you want.
+\newcommand*\ExtraOpacity{0.50}
+% Fade band bounds (dimensions, measured from bottom of the page)
+\newcommand*\FadeTop{0.4\paperheight}     % where the fade ends (higher up)
+\newcommand*\FadeBottom{0.2\paperheight}  % where the fade meets the solid bottom
+% Tiny overlap to kill any hairline seam
+\newcommand*\Overlap{0.05pt}
+% A fading that is opaque at the bottom edge of the shape and
+% transparent at the top edge (we'll clip it to our band).
+\tikzfading[name=opaqueAtBottom, bottom color=transparent!0, top color=transparent!100]
+
+%% \usepackage[firstpage=true]{background}
+%% \backgroundsetup{
+%% scale=1,
+%% color=white,
+%% opacity=1,
+%% angle=0,
+%% position=current page,
+%% vshift=0pt,
+%% hshift=0pt,
+%% contents={\includegraphics[width=\paperwidth,height=\paperheight]{cashregister.jpeg}}
+%% }
+
+% end of background settings
+
+\newcommand{\TitleMain}{Talking Down The Machine}
+%\newcommand{\TitleMainFont}{\usefont{T1}{SourceSansPro-TLF}{bx}{n}}
+\newcommand{\TitleMainFont}{\usefont{T1}{Montserrat-TLF}{b}{n}}
+
+\newcommand{\TitleSubtitle}{Status, Attribution, and Coordination in Responses to Generative AI}
+\newcommand{\FullTitle}{\TitleMain: \TitleSubtitle}
+%\newcommand{\FullTitle}{\TitleSubtitle}
+%\newcommand{\TitleSubtitleDisplay}{Status, Attribution, and Coordination in Responses to Generative AI}
+\newcommand{\TitleSubtitleDisplay}{\TitleSubtitle}
+\input{structure.tex} % Specifies the document structure and loads requires packages
+
+\chead{\textit{\FullTitle}}
+
+\makeatletter
+\newcommand{\makecustomtitle}{%
+  \begingroup
+  \thispagestyle{firstpage}%
+  \vspace*{-30pt}%
+  \noindent\makebox[\textwidth][l]{\color{yellow}\fontsize{34}{44}\TitleMainFont\TitleMain}\par
+  \vspace{0.8em}%
+  {\noindent\raggedright\fontsize{15}{18}\usefont{OT1}{phv}{b}{n}\color{yellow}\TitleSubtitleDisplay\par}
+  \vspace{1.5cm}%
+  {\noindent\raggedright\color{yellow}\authorstyle{Michel Blomgren}\par}
+  {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com} --- \href{https://pkt.systems}{pkt.systems}}}\par
+  \vspace{9cm}%
+%  {\centering\color{yellow}\@date\par}
+%  \vspace{1em}%
+  \endgroup
+}
+\makeatother
+
+% Make subsections 1. 2. 3., not 1.1., 1.2., etc.
+\renewcommand\thesubsection{\arabic{subsection}.}
+
+%% \usepackage{lscape}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{\FullTitle}
+
+\author{%
+  \authorstyle{Michel Blomgren}\\
+  \institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}%
+}
+
+\date{December 7, 2025} % Set a fixed article date instead of render date
+
+%----------------------------------------------------------------------------------------
+
+
+\begin{document}
+
+% --- start of faded background filter --- add directly after \begin{document}
+% High-resolution draw to avoid sub-pixel seams
+\pdfimageresolution=6000
+% 0) Full-bleed background image (overscan and anchor to lower-left)
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{%
+    \includegraphics[width=\dimexpr\paperwidth+6pt\relax,height=\dimexpr\paperheight+6pt\relax]{\BGimage}%
+  }%
+}
+% 1–3) Overlays (opacity + fades)
+\AddToShipoutPictureBG*{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % Base constant overlay everywhere
+    \fill[black, opacity=\TopOpacity]
+      (current page.south west) rectangle (current page.north east);
+
+    % Fade band: from FadeTop down to FadeBottom
+    \begin{scope}
+      \clip ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+            rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity, path fading=opaqueAtBottom]
+        ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+        rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+    \end{scope}
+
+    % Solid bottom extension: keep darkest below FadeBottom (with slight overlap)
+    \begin{scope}
+      \clip (current page.south west)
+            rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity]
+        (current page.south west)
+        rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+    \end{scope}
+  \end{tikzpicture}%
+}
+% --- end of faded background filter ---
+
+\hypersetup{urlcolor=yellow}
+
+\twocolumn[{\makecustomtitle}]
+
+\hypersetup{urlcolor=blue}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\lettrineabstract{}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\color{white}
+
+%\vspace*{1cm}
+
+\vspace*{\fill}
+
+\noindent
+\makeatletter
+\@date\par
+\makeatother
+
+\vspace*{0.2cm}
+
+\lettrine[lines=3,lhang=0.1,findent=1pt]{I}n the movie \emph{Sneakers} (1992), Liz walks out of a disastrous date with a toy-company engineer and sighs, \textit{``This is my last computer date.''} Cosmo, the antagonist, overhears and snaps: \textit{``Wait. A computer matched her with him? I don't think so.''} In two lines the film separates two attitudes toward machines: Liz experiences ``the computer'' as a disappointing black box, while Cosmo instantly infers that a human has gamed the system. He respects what computers can and cannot do, and that epistemic discipline---not optimism or pessimism about technology itself---is exactly the distinction this essay is about.
+
+\newpage
+\vspace*{\fill}
+
+%\section*{TL;DR}
+\paragraph{TL;DR:} This essay asks why people loudly mock ``dumb'' AI at the same time as they stream AI-generated music, ship AI-assisted code, and quietly depend on algorithmic systems in everyday work. It argues that much of the trash talk is not about model quality at all, but about human status, identity, and control: AI is held to unrealistically high standards, its rare but salient mistakes are used to justify public skepticism, successes are re-attributed to the human operator, and office banter becomes a way of reassuring one another that we are still in charge. Under the surface, however, teams that treat AI as a fallible but powerful partner---designing for calibrated trust, verification, and clear accountability---already operate at a different level of competence. The essay maps the psychological mechanisms behind the paradox and sketches how adopting this ``centaur'' style of work can turn noisy resentment into a durable strategic advantage, for individuals and organizations willing to lean into the new coordination problem instead of denying it.
+
+\clearpage
+\color{Black}
+
+\section*{Context}
+
+In many workplaces the same people who denounce an AI system as ``dumb'' when it produces a bizarre or context-misaligned output will, minutes later, accept an AI-assisted draft as ``good enough''---or even superior to what a typical colleague would have produced. This looks like hypocrisy. It is better understood as a \emph{dual-economy problem}: humans evaluate AI in (i) a \textbf{performance economy} (does this output help me ship?) and (ii) a \textbf{status economy} (what does this imply about my competence, autonomy, and rank?). The two economies reward different behaviors, and the resulting equilibrium can be: \emph{private adoption plus public derogation}.
+
+The coordination literature on human--AI work suggests why this equilibrium is stable. As tools reduce the marginal cost of producing drafts, options, and code, the bottleneck shifts from \textit{``can we produce?''} to \textit{``can we coordinate meaningfully?''} \citep{Blomgren2025CoordinationShift,Hutchins2001DistributedCognition}. In that regime, talk about AI is not merely opinion; it is a coordination signal about identity, norms, and accountability.
+
+The remainder of this short essay offers an integrated explanation: status threat drives derogation, cognitive biases amplify visible failures, attribution processes reallocate credit and blame, and social norms govern what can be admitted publicly.
+
+\section*{Mechanism I: Status And Identity Defense}
+
+\textbf{Status threats create predictable derogation.} Professional identity is sustained through comparison and distinctiveness \citep{Festinger1954SocialComparison,AshforthMael1989SocialIdentity}. Generative AI compresses visible differences in output quality, which is precisely the substrate that many knowledge-work status hierarchies are built on. When an external agent suddenly produces credible artifacts, the simplest identity-preserving move is not to deny the artifact; it is to deny the agent: ``the tool is worthless'' or ``it is just stochastic parroting.''
+
+This is a classic identity-threat response. When an identity-relevant domain is threatened, individuals and groups engage in defensive sensemaking, including derogation of the threatening source \citep{Petriglieri2011UnderThreat}. At the societal level, system-justification research predicts the same pattern: people, including those disadvantaged by the status quo, often bolster existing hierarchies via rationalizations that make change feel illegitimate or unsafe \citep{JostBanaji1994SystemJustification,JostBanajiNosek2004Decade}. In organizations, that maps cleanly onto: ``real engineers write code'' versus ``prompting is not engineering.''
+
+\textbf{Ambivalent stereotypes explain the emotional texture.} The stereotype content model predicts that targets perceived as \emph{high competence, low warmth} elicit envy and resentment rather than admiration \citep{FiskeCuddyGlickXu2002SCM}. Generative AI is commonly framed as extremely capable but socially cold and morally ungrounded. In this frame, disparagement is not an error; it is the socially licensed affect that accompanies perceived competitive threat.
+
+\section*{Mechanism II: Error Salience, Inflated Expectations, and Algorithm Aversion}
+
+If identity threat supplies the motive force, cognitive biases supply the fuel.
+
+\textbf{Bad is stronger than good.} Humans overweight negative, salient events \citep{BaumeisterEtAl2001Bad}. A single hallucinated API call can dominate memory more than ten correct refactor suggestions. This is not unique to AI; it is a general feature of attention and learning under uncertainty \citep{TverskyKahneman1974Heuristics}. But the effect is magnified because AI errors are often \emph{confidently phrased} and therefore socially embarrassing when repeated.
+
+\textbf{Machine heuristic raises the standard, then punishes deviation.} People carry a ``machine heuristic''---a shortcut expecting mechanical systems to be objective, consistent, and correct \citep{YangSundar2024MachineHeuristic}. That heuristic creates an asymmetric threshold: minor human errors are \emph{normal}, minor AI errors are \emph{disqualifying}. The empirical algorithm-aversion literature captures this: after observing an algorithm err, people avoid it even when it remains objectively better than human judgment \citep{DietvorstSimmonsMassey2015Aversion}.
+
+\textbf{The paradox is compatible with algorithm appreciation.} Humans can simultaneously distrust \emph{delegation} to algorithms and appreciate \emph{advice} from algorithms \citep{LoggMinsonMoore2019Appreciation}. In practice, office behavior often becomes: ``I will use the model as a drafting engine, but I will not grant it authority.'' This mixed stance can look like contempt paired with dependence, but it is often a crude attempt at appropriate reliance \citep{LeeSee2004TrustAutomation}.
+
+\textbf{Control is the release valve.} Providing even slight ability to modify an algorithm's output increases willingness to use it \citep{DietvorstSimmonsMassey2018Overcoming}. This aligns with autonomy theory: perceived loss of control evokes reactance, and reactance predicts resistance and derogation \citep{DeciRyan2000WhatWhy,Rains2013ReactanceMeta,DillardShen2005Reactance}. ``Back talk'' is frequently a linguistic form of reactance aimed at reasserting agency: \emph{I am still the principal; the machine is the servant.}
+
+\section*{Mechanism III: Attribution, Blame, and Moralization}
+
+The most important asymmetry is not technical; it is \emph{moral}.
+
+\textbf{Attribution shifts credit to self and blame to other.} Self-serving attribution biases are large and robust \citep{MezulisEtAl2004SelfServing}, and attribution theory explains how people assign responsibility to protect self-worth \citep{Weiner1985Attribution}. In AI-assisted work this yields a stable pattern:
+\begin{itemize}[leftmargin=*]
+  \item If the result is good, the human ``used the tool well'' (credit to operator).
+  \item If the result is bad, the tool ``is dumb'' (blame to system).
+\end{itemize}
+This asymmetric mapping is socially useful because it lowers reputational risk for adopters: one can take credit for wins while externalizing losses.
+
+\textbf{Mind perception turns engineering artifacts into moral actors.} Humans readily apply social cognition to nonhumans \citep{NassMoon2000Mindlessness,WaytzEpleyCacioppo2010Unbound}. When an AI is perceived to have agency and experience, it becomes eligible for moral appraisal \citep{GrayGrayWegner2007MindPerception}. Moral typecasting further predicts that agents are judged primarily as doers (eligible for blame) rather than as patients (eligible for sympathy) \citep{GrayWegner2009Typecasting}. The result: users feel licensed to ridicule and punish the system for ``transgressions''.
+
+Recent evidence makes the scapegoating mechanism explicit: perceiving more ``mind'' in AI increases blame directed toward AI and can reduce blame toward human stakeholders \citep{Joo2024AIFault}. In other words, anthropomorphism does not guarantee empathy; it can increase punitive blame.
+
+\textbf{Moral domains amplify aversion.} People are especially resistant to machines making moral decisions \citep{BigmanGray2018MoralMachines,Haidt2001Intuition}. This matters in office settings because professional identity is moralized: craftsmanship, originality, and responsibility are treated as sacred values. Once the discourse becomes sacred, technical counter-arguments (benchmarks, defect rates) become less persuasive than signals of loyalty and purity.
+
+\section*{Mechanism IV: Public Talk VS Normative Coordination}
+
+A final ingredient explains why even ``smart'' people participate in disparagement while privately benefiting.
+
+\textbf{Pluralistic ignorance makes the room louder than the truth.} Groups routinely misperceive what the group believes, leading individuals to conform outwardly to a norm that few privately endorse \citep{PrenticeMiller1993Pluralistic}. When AI use is simultaneously valuable (productivity) and threatening (status), the socially safe public posture is often mild contempt. That posture communicates: ``I am not replaceable; I am not cheating; I remain competent.''
+
+In this sense, trash talk is a coordination device: it enforces a boundary around what counts as legitimate skill, regulates who receives credit, and defines what failures are tolerable. It is less a belief about AI than a negotiation over rank in the new production system \citep{AshforthMael1989SocialIdentity,JostBanajiNosek2004Decade}.
+
+\newpage
+\section*{The ``Centaurs''}
+
+The ``one with the machine'' minority is usually not experiencing a different technology. They are operating a different \emph{socio-technical system}.
+
+First, they treat the unit of cognition as distributed across human and artifacts \citep{Hutchins2001DistributedCognition}. Second, they calibrate trust and responsibility: knowing when to rely, when to verify, and when to refuse \citep{LeeSee2004TrustAutomation,ParasuramanSheridanWickens2000Levels,HancockEtAl2011TrustMeta,GliksonWoolley2020TrustReview}. Third, they build control loops: tests, eval harnesses, constraints, and review rituals that turn a stochastic generator into a predictable production process \citep{DietvorstSimmonsMassey2018Overcoming}.
+
+In the coordination-shift framing, the ``10$\times$'' effect is rarely raw typing speed. It is the ability to (i) specify intent, (ii) allocate work to machine strengths, and (iii) perform fast verification and integration in a high-option environment \citep{Blomgren2025CoordinationShift}. Many organizations have not yet made these practices normal, teachable, or rewarded---so the advantage concentrates.
+
+\section*{Implications \& What To Do}
+
+\textbf{If you lead teams;} if you want less hostility and more performance, stop treating this as a persuasion problem and treat it as a \emph{coordination and accountability design} problem:
+
+\begin{enumerate}[leftmargin=*]
+  \item \textbf{Redefine competence publicly.} Make ``orchestration + verification'' an explicit skill standard, not a guilty secret \citep{Blomgren2025CoordinationShift}.
+  \item \textbf{Normalize calibrated reliance.} Train teams on appropriate reliance (when to trust, when to test), rather than demanding unconditional enthusiasm or skepticism \citep{LeeSee2004TrustAutomation,ParasuramanSheridanWickens2000Levels}.
+  \item \textbf{Give people control.} Adopt workflows where humans can modify, constrain, and iteratively refine outputs; this directly reduces aversion \citep{DietvorstSimmonsMassey2018Overcoming,DeciRyan2000WhatWhy}.
+  \item \textbf{Fix the credit economy.} Establish attribution norms (e.g., logging prompts, crediting review and integration) so that using AI does not imply moral taint, and so that failures are treated as system failures, not personal shame \citep{Petriglieri2011UnderThreat,PrenticeMiller1993Pluralistic}.
+  \item \textbf{Instrument quality.} Replace anecdotal ``it hallucinated yesterday'' narratives with measured failure modes and targeted mitigations; this counters negativity-driven overgeneralization \citep{BaumeisterEtAl2001Bad,TverskyKahneman1974Heuristics}.
+\end{enumerate}
+
+\section*{Conclusion}
+
+The apparent contradiction---ridiculing AI while consuming its outputs---is not primarily a failure of intelligence. It is a predictable human adaptation to a shifting production regime. Status threats motivate derogation \citep{Petriglieri2011UnderThreat,JostBanajiNosek2004Decade}; cognitive biases over-index visible errors \citep{BaumeisterEtAl2001Bad,TverskyKahneman1974Heuristics}; machine heuristics raise the expectation bar \citep{YangSundar2024MachineHeuristic}; attribution mechanisms reallocate credit and blame to protect the self \citep{MezulisEtAl2004SelfServing,Weiner1985Attribution}; and group norms shape what can be safely said aloud \citep{PrenticeMiller1993Pluralistic}. Other motives clearly exist---simple caution about opaque systems, residual ``big design up front'' habits, and organizational risk-avoidance---but in environments where AI is already ubiquitous in day-to-day work, contempt paired with dependence is better explained by status, identity, and attribution dynamics than by error rates or safety concerns alone.
+
+``Centaur'' practitioners break the loop by designing calibrated, controlled, instrumented workflows that convert stochastic generation into reliable coordination \citep{DietvorstSimmonsMassey2018Overcoming,LeeSee2004TrustAutomation,Blomgren2025CoordinationShift}. In short: people insult the machine because they are negotiating who they are in the new hierarchy, not because they have accurately evaluated what the machine can do.
+
+\newpage
+\printbibliography
+
+
+\end{document}

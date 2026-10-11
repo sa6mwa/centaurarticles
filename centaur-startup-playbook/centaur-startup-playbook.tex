@@ -1,0 +1,1084 @@
+\documentclass[10pt, a4paper, twocolumn]{article} % 10pt font size (11 and 12 also possible), A4 paper (letterpaper for US letter) and two column layout (remove for one column)
+
+\newcommand{\point}[2]{\item \textbf{#1}\\ #2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[bookmarks=false]{hyperref}
+\hypersetup{
+    colorlinks=true,
+    %% linkcolor={rgb:hex(FF,00,00)},
+    %% citecolor={rgb:hex(00,00,FF)},
+    %% urlcolor={rgb:hex(00,80,00)}
+    linkcolor=blue,
+    citecolor=black,
+    urlcolor=blue
+}
+
+\usepackage[absolute,overlay]{textpos} % For absolute positioning
+
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{amsmath}
+
+
+%%%%%%
+
+
+%% \usepackage[margin=1in]{geometry}
+%% \usepackage{microtype}
+%% \usepackage{hyperref}
+%% \usepackage{enumitem}
+%% \usepackage{csquotes}
+
+%% \setlength{\parindent}{0pt}
+%% \setlength{\parskip}{0.6em}
+
+
+
+\begin{filecontents*}[overwrite]{references-inline.bib}
+@misc{blomgren2025coordination,
+  author       = {Blomgren, Michel},
+  title        = {10$\times$ The Coordination Shift: Software Engineering in the Centaur Era},
+  year         = {2025},
+  month        = nov,
+  url          = {https://github.com/sa6mwa/centaurarticles/blob/main/pub/10x.pdf},
+}
+
+@book{ries2011lean,
+  author       = {Ries, Eric},
+  title        = {The Lean Startup},
+  year         = {2011},
+  publisher    = {Crown Business},
+}
+
+@book{bland2019testing,
+  author       = {Bland, David J. and Osterwalder, Alexander},
+  title        = {Testing Business Ideas: A Field Guide for Rapid Experimentation},
+  year         = {2019},
+  publisher    = {John Wiley \& Sons},
+}
+
+@book{osterwalder2014vpd,
+  author       = {Osterwalder, Alexander and Pigneur, Yves and Bernarda, Greg and Smith, Alan},
+  title        = {Value Proposition Design},
+  year         = {2014},
+  publisher    = {John Wiley \& Sons},
+}
+
+@book{fitzpatrick2013mom,
+  author       = {Fitzpatrick, Rob},
+  title        = {The Mom Test},
+  year         = {2013},
+  publisher    = {Fitzpatrick},
+}
+
+@book{torres2021continuous,
+  author       = {Torres, Teresa},
+  title        = {Continuous Discovery Habits},
+  year         = {2021},
+  publisher    = {Product Talk Press},
+}
+
+@book{forsgren2018accelerate,
+  author       = {Forsgren, Nicole and Humble, Jez and Kim, Gene},
+  title        = {Accelerate: The Science of Lean Software and DevOps},
+  year         = {2018},
+  publisher    = {IT Revolution},
+}
+
+@book{skelton2019teamtopologies,
+  author       = {Skelton, Matthew and Pais, Manuel},
+  title        = {Team Topologies},
+  year         = {2019},
+  publisher    = {IT Revolution},
+}
+\end{filecontents*}
+
+\usepackage[
+  backend=bibtex,
+  style=authoryear,
+  natbib=true,
+  doi=true,
+  url=true,
+  isbn=false,
+  eprint=false
+]{biblatex}
+\addbibresource{references-inline.bib}
+
+\DeclareFieldFormat{doi}{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
+\DeclareFieldFormat{url}{\url{#1}}
+
+
+
+
+% pageref
+
+\newcommand{\namerefp}[1]{\hyperref[#1]{\nameref{#1} (p.~\pageref{#1})}}
+
+% background
+
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{fadings}
+
+% === knobs you can tune (NO math, just constants) ===
+\newcommand*\BGimage{cover.png}
+% Darkness above the fade band (0..1)
+\newcommand*\TopOpacity{0}
+% Extra opacity layer used for the bottom & the fade band (0..1).
+% NOTE: The final bottom darkness will be:
+%   total_bottom = 1 - (1 - TopOpacity)*(1 - ExtraOpacity)
+% Pick this so the bottom looks as dark as you want.
+\newcommand*\ExtraOpacity{0.80}
+% Fade band bounds (dimensions, measured from bottom of the page)
+\newcommand*\FadeTop{0.7\paperheight}     % where the fade ends (higher up)
+\newcommand*\FadeBottom{0.4\paperheight}  % where the fade meets the solid bottom
+% Tiny overlap to kill any hairline seam
+\newcommand*\Overlap{0.05pt}
+% A fading that is opaque at the bottom edge of the shape and
+% transparent at the top edge (we'll clip it to our band).
+\tikzfading[name=opaqueAtBottom, bottom color=transparent!0, top color=transparent!100]
+
+%% \usepackage[firstpage=true]{background}
+%% \backgroundsetup{
+%% scale=1,
+%% color=white,
+%% opacity=1,
+%% angle=0,
+%% position=current page,
+%% vshift=0pt,
+%% hshift=0pt,
+%% contents={\includegraphics[width=\paperwidth,height=\paperheight]{cashregister.jpeg}}
+%% }
+
+% end of background settings
+
+\newcommand{\TitleMain}{Centaur Startup Playbook}
+%\newcommand{\TitleMainFont}{\usefont{T1}{SourceSansPro-TLF}{bx}{n}}
+\newcommand{\TitleMainFont}{\usefont{T1}{Montserrat-TLF}{b}{n}}
+
+\newcommand{\TitleSubtitle}{A practical guide for a domain expert and an AI-augmented senior software engineer}
+\newcommand{\FullTitle}{\TitleMain}
+%\newcommand{\FullTitle}{\TitleMain: \TitleSubtitle}
+%\newcommand{\FullTitle}{\TitleSubtitle}
+%\newcommand{\TitleSubtitleDisplay}{Status, Attribution, and Coordination in Responses to Generative AI}
+\newcommand{\TitleSubtitleDisplay}{\TitleSubtitle}
+\input{structure.tex} % Specifies the document structure and loads requires packages
+
+\chead{\textit{\FullTitle}}
+
+\makeatletter
+\newcommand{\makecustomtitle}{%
+  \begingroup
+  \thispagestyle{firstpage}%
+  \vspace*{-30pt}%
+  \noindent\makebox[\textwidth][l]{\color{yellow}\fontsize{35}{44}\TitleMainFont\TitleMain}\par
+  \vspace{0.8em}%
+  {\noindent\raggedright\fontsize{20}{24}\usefont{OT1}{phv}{b}{n}\color{yellow}\TitleSubtitleDisplay\par}
+  \vspace{1.0cm}%
+  {\noindent\raggedright\color{yellow}\authorstyle{Michel Blomgren}\par}
+  {\noindent\raggedright\color{yellow}\institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com} --- \href{https://pkt.systems}{pkt.systems}}}\par
+  \vspace{7cm}%
+%  {\centering\color{yellow}\@date\par}
+%  \vspace{1em}%
+  \endgroup
+}
+\makeatother
+
+% Toggleable subsection numbering:
+%   \numberedsubstrue  -> show "1. 2. ..." with spacing
+%   \numberedsubsfalse -> hide numbers (like \subsection*), no leading gap
+\newif\ifnumberedsubs
+\numberedsubsfalse % flip to \numberedsubstrue when you want numbered subsections
+
+\makeatletter
+\ifnumberedsubs
+  \renewcommand\thesubsection{\arabic{subsection}.}
+  \newcommand{\format@subsection}{\thesubsection\quad}
+\else
+  \renewcommand\thesubsection{}
+  \newcommand{\format@subsection}{} % suppress printed label and following space
+\fi
+
+\renewcommand{\@seccntformat}[1]{%
+  \ifcsname format@#1\endcsname
+    \csname format@#1\endcsname
+  \else
+    \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+% Make \section behave like an unnumbered section that still advances the section
+% counter (so \subsection numbers reset per section). Use \section* for a truly
+% unnumbered, non-advancing heading (standard behaviour).
+\makeatletter
+\let\orig@section\section % save the original \section (with normal star behaviour)
+\renewcommand{\section}{%
+  \@ifstar{\orig@section*}{\unnumberedsteppingsection}%
+}
+\newcommand{\unnumberedsteppingsection}[1]{%
+  \refstepcounter{section}% advance counter (resets subordinate counters)
+  \orig@section*{#1}% typeset like \section (no visible number)
+}
+\makeatother
+
+%% \usepackage{lscape}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{\FullTitle}
+
+\author{%
+  \authorstyle{Michel Blomgren}\\
+  \institution{\textbf{Software Engineer \& Solution Architect}\\\href{mailto:sa6mwa@gmail.se}{sa6mwa@gmail.com}}%
+}
+
+\date{December 10, 2025} % Set a fixed article date instead of render date
+
+%----------------------------------------------------------------------------------------
+
+
+\begin{document}
+
+% --- start of faded background filter --- add directly after \begin{document}
+% High-resolution draw to avoid sub-pixel seams
+\pdfimageresolution=6000
+% 0) Full-bleed background image (overscan and anchor to lower-left)
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{%
+    \includegraphics[width=\dimexpr\paperwidth+6pt\relax,height=\dimexpr\paperheight+6pt\relax]{\BGimage}%
+  }%
+}
+% 1–3) Overlays (opacity + fades)
+\AddToShipoutPictureBG*{%
+  \begin{tikzpicture}[remember picture,overlay]
+    % Base constant overlay everywhere
+    \fill[black, opacity=\TopOpacity]
+      (current page.south west) rectangle (current page.north east);
+
+    % Fade band: from FadeTop down to FadeBottom
+    \begin{scope}
+      \clip ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+            rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity, path fading=opaqueAtBottom]
+        ([yshift=\dimexpr \FadeBottom - \Overlap\relax]current page.south west)
+        rectangle ([yshift=\dimexpr \FadeTop \relax]current page.south east);
+    \end{scope}
+
+    % Solid bottom extension: keep darkest below FadeBottom (with slight overlap)
+    \begin{scope}
+      \clip (current page.south west)
+            rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+      \fill[black, opacity=\ExtraOpacity]
+        (current page.south west)
+        rectangle ([yshift=\dimexpr \FadeBottom + \Overlap\relax]current page.south east);
+    \end{scope}
+  \end{tikzpicture}%
+}
+% --- end of faded background filter ---
+
+\hypersetup{urlcolor=yellow}
+
+\twocolumn[{\makecustomtitle}]
+
+\hypersetup{urlcolor=blue}
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\lettrineabstract{}
+
+%----------------------------------------------------------------------------------------
+%	ARTICLE CONTENTS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\DomainLead}{domain expert}
+\newcommand{\BuildLead}{senior engineer/architect}
+
+\color{white}
+\hypersetup{citecolor=white} % keep citations white for the white intro text
+
+%\vspace*{1cm}
+
+\vspace*{\fill}
+
+\noindent
+\makeatletter
+\@date\par
+\makeatother
+
+\vspace*{0.2cm}
+
+\lettrine[lines=3,lhang=0.1,findent=1pt]{I}n most startups of the last decades, turning a serious idea into a working product required a team. Founders needed designers, frontend and backend developers, infrastructure specialists, and often an external agency just to reach a first release. The bottleneck was execution: how fast a group of people could turn ideas into working software.
+
+That constraint has shifted. A single senior engineer, working with modern AI-assisted tooling, can now design, build, and operate systems that previously demanded an entire product team. At the same time, a strong domain expert with a real network can use AI to generate collateral, interview scripts, prototypes, and experiments at a pace that would once have been unrealistic. Together, this pair can behave like a small company: they can find a painful problem, validate that someone will pay to solve it, and ship a product without hiring a traditional team \citep{ries2011lean,bland2019testing,fitzpatrick2013mom,osterwalder2014vpd,blomgren2025coordination}.
+
+\newpage
+
+\vspace*{\fill}
+
+This playbook is written for exactly that configuration: a non-technical domain expert and an AI-augmented senior engineer or architect. It assumes a world where execution is cheap but truth is not. The hard part is no longer typing code; the hard part is deciding what to build, verifying that it matters, and keeping the resulting system coherent, secure, and operable while moving at high speed \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+\paragraph{The goal} is not to provide a grand theory, but a practical way of working: a small set of shared principles, a handful of living artifacts, and a stage-by-stage pipeline that takes a two-person team from vague pains in the market to a paid pilot and, eventually, a repeatable product. It is deliberately designed for the smallest effective company: \textit{two humans and their machines}.
+
+\clearpage
+\color{Black}
+\hypersetup{citecolor=black} % restore normal citation color for the main body
+
+% --- SECTION 1 -------------------------------------------------------------
+
+
+\section{The smallest effective company}
+
+How small can a team be and still ship a serious B2B product? Before widespread AI assistance the answer was “a team,” because execution was the bottleneck: writing code, wiring infrastructure, testing, and iterating interfaces took time and required many hands. Even very lean startups needed multiple roles just to reach a dependable first release.
+
+That bottleneck has shifted. A senior engineer with strong AI tools can now design, build, and operate most of the stack, from backend scaffolding to tests and deployment. A domain expert can, with similar assistance, generate collateral, run interviews, synthesise findings, and prototype realistic workflows. In practice the pair can behave like a complete micro-company rather than half a team \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+The two roles remain complementary. The domain expert keeps the work anchored in real budgets, politics, and pains; the engineer turns validated insights into running systems and keeps them coherent. AI accelerates both sides but does not remove the need for judgment. The power of the pair is that each tackles a different constraint while sharing the same context.
+
+As execution gets cheaper, the scarce resources move: access to real buyers, crisp hypotheses, verification, and architectural coherence now matter more than raw implementation speed \citep{ries2011lean,bland2019testing,blomgren2025coordination}. Two people can manage these if they operate deliberately and keep feedback loops short; copying the process of a ten-person team only adds overhead without adding insight.
+
+\subsection{Who this playbook is for}
+
+This guide is for a two-person company. One is a domain expert who knows the sector’s workflows, metrics, and buyers, and wants AI help to run discovery: identify pains worth paying to fix, design and conduct interviews, synthesise what is learned, and frame testable problem statements.
+
+The other is a senior engineer or architect already using AI to design, build, and operate software. They need a way to channel that speed into disciplined discovery, to avoid speculative building, and to decide when to invest in architecture, verification, and operations versus shipping the next feature.
+
+There is no product manager or middle layer. The pair makes the calls together, shares the same evidence, and moves fast. The structure here exists to keep those decisions coherent and to keep both perspectives aligned while velocity is high.
+
+\newpage
+
+\subsection{What you will get out of this}
+
+The rest of the document provides a practical operating model for this two-person company. It does not try to compress decades of engineering or domain experience into a few pages, because that is impossible. Instead, it focuses on the interface between the two roles and on the patterns of work that make the pair effective.
+
+Concretely, by the end of the playbook the domain expert and the engineer should be able to:
+
+\begin{itemize}
+  \item understand why a two-person team, with AI assistance, can now do work that previously required a small department, and where the real limits of that model lie;
+  \item run a simple, staged discovery pipeline that moves from a large set of pains to one or two validated problems, and from there to a paid pilot and eventually a repeatable product, without skipping critical validation steps \citep{ries2011lean,bland2019testing};
+  \item use AI on both sides of the partnership: on the domain side to generate and refine business artefacts, and on the engineering side to generate and refactor code and prototypes, without drowning in complexity or noise;
+  \item recognise and avoid common traps: building ahead of evidence, sliding into bespoke consulting with a product label, accumulating unmanageable prototype debt, and ignoring security and governance until late in the process.
+\end{itemize}
+
+The document is written as a guide, not as a manifesto. It assumes a near-future in which AI-augmented work is normal, and tries to give the smallest possible team a realistic way to exploit that fact without losing contact with reality.
+
+
+\newpage
+
+% --- SECTION 2 -------------------------------------------------------------
+
+\section{The new physics of building products}
+
+To understand why a two-person company is realistic, it is useful to look at how the “physics” of building products has changed. The underlying complexity of organisations, markets, and technology has not become simpler. What has changed is the cost of turning an idea into working software and the distribution of work between humans and machines.
+
+In the past, the main limitations were human. Writing code, designing interfaces, wiring up infrastructure, and integrating with other systems were all relatively slow and manual. Even highly capable individuals were constrained by how much they could do in a day. A founding pair might be able to define a vision, talk to customers, and sketch rough prototypes, but they still needed a team around them to build and operate a serious system. Coordination was expensive but unavoidable: there were simply too many distinct activities for one or two people to handle at speed.
+
+AI tools have changed that balance. Large language models, coding assistants, and increasingly capable automation now act as a force multiplier on skills that an experienced engineer already has. Tasks that used to take days or weeks can often be reduced to hours. At the same time, similar tools have become available on the “business side” for drafting, analysing, and synthesising information. The constraints have not disappeared, but they have moved.
+
+\subsection{From teams to pairs}
+
+A decade ago, a typical B2B SaaS startup needed, at minimum, a founding team with complementary skills and a small engineering group. In very rough terms, the pattern looked like this:
+
+\begin{itemize}
+  \item a founder focused on customers and commercial strategy,
+  \item one or more engineers to design and implement the software,
+  \item design and product support to shape interfaces and flows,
+  \item and often external contractors or an offshore team to handle additional work.
+\end{itemize}
+
+The speed of the company was bounded by how quickly this collection of people could coordinate. The sequence from idea to working product to first customer deployment was measured in months or years, and much of that time went into synchronising different roles and handovers.
+
+In the current environment, a single senior engineer with strong AI tooling can handle a surprising share of what used to be team work. That engineer can use conversational interfaces to explore design alternatives, generate and refine code in multiple languages, scaffold infrastructure, and write tests and scripts. On the other side, a domain expert can use similar tools to prepare interviews, summarise notes, generate collateral, and even mock up interfaces and workflows that are realistic enough for early feedback \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+The result is that many of the activities that once required several people can now be done by one, given the right augmentation. The combination of a domain expert and a senior engineer therefore starts to look less like “half a team” and more like a very compact company. That does not mean the pair will never need additional help, but it does mean they can reach meaningful validation and a first product without growing beyond two.
+
+\subsection{Execution got cheap; coordination got expensive}
+
+When a constraint relaxes in one part of a system, another constraint becomes dominant. As AI reduces the cost of execution—writing code, drafting documents, producing prototypes—the relative cost of coordination, verification, and judgement increases. In practical terms:
+
+\begin{itemize}
+  \item It is much cheaper to generate code, documents, and designs.
+  \item It is not proportionally cheaper to check whether those artefacts are correct, safe, and aligned with reality.
+  \item It is not cheaper to have serious conversations with buyers or to navigate internal politics in a customer organisation.
+\end{itemize}
+
+In other words, the bottleneck shifts from “how fast can we type” to “how clearly can we define what matters” and “how reliably can we tell whether what we have is any good” \citep{ries2011lean,bland2019testing,blomgren2025coordination}. If a pair responds to AI by simply building more, faster, without changing how they decide what to build, they will quickly drown in their own output. The code, prototypes, and documents will multiply; clarity will not.
+
+This playbook assumes the opposite reaction. It treats cheap execution as a reason to invest more in discovery, framing, and verification. If it becomes cheaper to generate a prototype, the bar for when it is justified to build one should rise, not fall. If AI can produce twenty alternative landing pages in an afternoon, the pair should be more, not less, demanding about which experiments are worth running and what will count as a meaningful result.
+
+For a two-person company, this shift has a practical consequence. The main limit is no longer individual productivity. It is the pair’s ability to coordinate with each other, to coordinate with buyers, and to keep track of what has been learned. The operating system described in the next sections exists to support exactly that.
+
+\subsection{Why small is a feature, not a bug}
+
+Smallness, in this context, is not a regrettable starting point on the way to a “real” company. It is a design choice. A two-person structure minimises internal coordination overhead and maximises shared context. Both people can attend important customer conversations. Both can see the connection between problem, prototype, pilot, and product. Decisions can be made quickly because there is nobody else to convince.
+
+This does not mean that a pair is always sufficient. Some domains require additional roles from the beginning: legal expertise in highly regulated industries, for example, or specialised data-science competence for certain kinds of products. It is also likely that successful ventures will eventually need more people for sales, support, and operations as usage grows.
+
+However, for the purpose of discovering and validating a first product, a small structure is often an advantage. Fewer internal stakeholders means fewer competing agendas. Changes in direction can be made in days rather than quarters. Most importantly, the same people who are close to the code are close to the customer conversations. The feedback loop is short.
+
+The price of this smallness is that the pair must be more disciplined about how they work. With AI amplifying both sides, it is possible to generate more than enough activity to feel busy without actually moving toward a viable business. The rest of this document can be read as a way to harness the new physics—cheap execution, expensive coordination—so that the smallest effective company can act like a focused, learning organisation rather than a fast-moving noise generator.
+
+
+
+
+
+% --- SECTION 3 -------------------------------------------------------------
+
+\section{The centaur team}
+
+This section describes the two roles in the company and the minimum understanding each needs of the other. The language of ``centaurs'' is useful here: instead of imagining AI as a separate agent, it is more accurate to imagine each person as a human--machine composite. The domain expert combines human judgment, experience, and network with AI-driven assistance for research and communication. The engineer combines design and implementation skill with AI-assisted coding, refactoring, and system exploration \citep{blomgren2025coordination}.
+
+The power of the team does not come from the tools alone. It comes from the way these two roles interact: one anchoring the work in real organisational pain and buying behaviour, the other ensuring that any proposed solution can be built, verified, and operated as the company scales.
+
+\newpage
+
+\subsection{The domain expert}
+
+The domain expert is the team's connection to reality. This person brings lived experience from the target industry: how work actually happens outside slide decks, where processes break down, which metrics matter, and how politics shapes decisions. Without that grounding, it is easy to build technically impressive systems that do not map to any buying process.
+
+In practical terms, the domain expert sources and prioritises candidate problem areas, runs buyer/user conversations, and captures evidence: direct quotes, rough numbers, workflow examples, and concrete objections. The domain expert maps who feels the pain, who benefits, who could block a purchase, and who signs. Based on this evidence, the domain expert proposes which problems and experiments to pursue next.
+
+The domain expert is not expected to write code. The required skill is basic AI literacy plus structured discovery: framing tasks as clear prompts, using AI to draft and refine interviews, emails, and documents, asking AI to analyse notes and surface patterns, and knowing when to return to raw transcripts. The domain expert stays close to the market, not to the code.
+
+\subsection{The senior engineer}
+
+The senior engineer is the team's connection to the solution space, translating validated needs into data models, interfaces, workflows, and infrastructure. With AI assistance, one experienced engineer can produce and evolve systems at a pace that once required a small team \citep{forsgren2018accelerate,blomgren2025coordination}. That speed helps only when pointed at the right problems and kept under control.
+
+The engineer clarifies what is easy, hard, or risky to build, defines boundaries and interfaces early, builds prototypes and thin slices to support experiments, and creates verification harnesses—tests, telemetry, and guardrails. Later, in productization, the same person hardens the system so it can tolerate real use, with reliability and security built in.
+
+The engineer is not expected to become a salesperson, but some discovery literacy is essential. Understanding that enthusiastic feedback is weak evidence, recognising the gap between users and buyers, and seeing how procurement and risk shape decisions all lead to better architecture. That understanding comes from hearing customer conversations and from the structured practices in The Mom Test and Continuous Discovery Habits \citep{fitzpatrick2013mom,torres2021continuous}.
+
+\newpage
+
+\subsection{What each must understand about the other}
+
+Decades of experience in either domain cannot be transferred through a playbook. What can be transferred is a small set of mental models that reduce the risk of expensive misunderstandings.
+
+For the domain expert, a minimum of engineering literacy is particularly important in four areas. First, boundaries matter. A request that looks like a small change on the surface can be highly disruptive if it crosses a system boundary or violates an implicit contract between components. Second, data is central. Access, quality, and lineage of data often determine whether a solution is possible at all, regardless of how attractive it looks in a mock-up. Third, security and compliance are not something to be deferred. In many B2B environments, security and compliance reviews are the primary gates that decide whether anything can be piloted. Fourth, prototypes may be fake, but they must not be misleading. It is entirely acceptable to simulate parts of a system during discovery, as long as everyone involved understands what is simulated and what is real.
+
+For the senior engineer, a minimum of discovery literacy is equally important. Opinions are cheap; polite encouragement from potential buyers should not be confused with willingness to pay \citep{fitzpatrick2013mom}. The person who uses a tool is not always the person who signs the purchase order, and features that delight operators but cannot pass budget or security review will not lead to a sustainable business. Distribution is itself a feature: a solvable problem with reachable buyers is more valuable than an elegant solution to a rare or politically unsellable issue. Above all, evidence beats elegance. A less sophisticated system built on strong validation is preferable to a beautiful architecture for a problem nobody will fund \citep{ries2011lean,bland2019testing}.
+
+The rest of the playbook is designed to give this pair a shared structure. Neither role is expected to become the other. Each instead learns enough about the adjacent discipline to make joint decisions and to keep the company small, fast, and grounded in reality.
+
+
+\clearpage
+% --- SECTION 4 -------------------------------------------------------------
+
+\section{Principles and shared operating system}
+
+A two-person company can be extremely fast, especially when both people are heavily augmented by AI. That speed is an asset only if it is directed and observable. Without a shared way of working, the pair risks generating a large volume of code, documents, and experiments with very little cumulative learning. The purpose of this section is to define a small operating system for the company: a set of principles and a handful of shared artefacts that keep work aligned and verifiable without introducing heavy process.
+
+The intent is not to reproduce a full agile framework at miniature scale. Most of the rituals and roles of a larger organisation exist to manage communication across many people. In a two-person setting, those structures can easily become theatre. What you need instead are a few clear rules and some simple documents that make the state of the work visible to both of you and, when needed, to AI tools that help with analysis and synthesis \citep{ries2011lean,bland2019testing,blomgren2025coordination}.
+
+\subsection{Core principles}
+
+The operating system rests on a small set of principles. They are deliberately conservative. Each one addresses a specific failure mode that appears repeatedly in small, ambitious teams.
+
+\paragraph{Artifact-first}
+
+The first principle is that if something matters, it should be written down. In a two-person company, it is tempting to rely on memory and ad-hoc conversations. That works at low speed. Once AI starts generating code, designs, and documents on demand, the volume of change increases, and verbal agreements are quickly forgotten or misremembered.
+
+Writing down problems, assumptions, experiments, and decisions does not require long reports. In practice, it usually means a one-page problem description, a short experiment card, or a few lines in a decision log. The benefit is disproportionate. Short, structured artefacts let the pair recover context after a busy week, allow AI to operate on your own history, and reduce the number of times you need to revisit the same debate.
+
+\paragraph{Riskiest assumption first}
+
+The second principle comes from Lean Startup and related work: always test the riskiest assumption first \citep{ries2011lean,bland2019testing}. At any given moment, some belief you hold is both crucial and likely to be wrong. It might be that buyers really care about a particular pain, that security will allow a certain data flow, or that you can deliver value within a given timeframe.
+
+The default behaviour of many teams is to work around these uncertainties by building more software. The two-person company does not have that luxury. The practical application of this principle is simple: whenever you plan work, explicitly ask what must be true for your current plan to make sense, identify the most fragile of those assumptions, and design a small test around it before committing further effort.
+
+\paragraph{No stealth consulting}
+
+The third principle is to avoid sliding into consulting without realising it. B2B environments are full of specific requests. Every organisation has its own terminology, its own reporting requirements, and its own local tweaks to a process. Saying yes to every request can feel like progress, but often leads to a situation where the company delivers a series of custom projects while calling the work a “product”.
+
+In this playbook, custom work is not forbidden. It is treated as a tool with a clear purpose: to learn something that could not be learned otherwise. When you agree to do something special for a buyer, you do so explicitly, you record why you are doing it, and you note when the learning objective has been met. If the same kind of custom request appears repeatedly across different buyers, you can then consider folding that pattern into the product. Until then, you treat it as consulting and price it accordingly.
+
+\paragraph{Privacy and governance by default}
+
+The fourth principle is to treat privacy, security, and governance as first-class design constraints, not as issues to be deferred until later. A small company has limited capacity to recover from a serious trust breach. At the same time, AI tools make it easy to copy and paste sensitive information into environments that are not under your control.
+
+Practically, this means using synthetic or anonymised data whenever possible during discovery and prototyping, asking early about security and compliance policies in target organisations, and capturing those constraints in your own notes. Many modern delivery practices emphasise building in quality and reliability from the start \citep{forsgren2018accelerate}. For a two-person B2B company, doing the same for governance is equally important.
+
+\newpage
+\paragraph{Evidence over opinions}
+
+The final principle is to anchor decisions in evidence rather than stories. Both roles in the company are likely to be persuasive. AI tools can make that persuasion even slicker, generating narratives, mock-ups, and pitch decks that look convincing long before anyone has committed to using or paying for the product.
+
+The discipline here is to treat compliments, excitement, and internal enthusiasm as weak signals. Stronger signals include buyers sharing real workflows and constraints, committing time to pilot design, bringing in decision-makers, and agreeing to pay for a trial \citep{fitzpatrick2013mom,bland2019testing}. The operating system described in the following sections is organised around capturing and evaluating those signals systematically.
+
+\subsection{Shared artefacts}
+
+To make the principles concrete, the company maintains a small set of shared artefacts. These documents are not paperwork for its own sake. They act as the memory and coordination layer of the two-person organisation.
+
+\paragraph{Problem brief}
+
+A problem brief is a one-page description of a candidate problem. It names the type of customer, describes the job they are trying to get done, explains what hurts today, and notes how often the pain occurs and what triggers it. The brief includes a sketch of current workarounds, a rough sense of what those workarounds cost in time, risk, and money, and a first hypothesis about who would sign a purchase order to make the problem go away \citep{osterwalder2014vpd}.
+
+The problem brief is not a solution document. It is a compact statement of reality as seen from the buyer’s side. During discovery, the domain expert creates and revises these briefs; during design and implementation, the engineer uses them as a reference when deciding what the system must actually support.
+
+\paragraph{Evidence log}
+
+The evidence log is a chronological record of what you have heard and observed. It contains notes from interviews, fragments of call transcripts, examples of spreadsheets and reports, and summaries of experiments. The log should include dates, roles, companies (or anonymised identifiers), and enough context to interpret each entry later.
+
+AI tools are particularly useful here. Transcripts and rough notes can be summarised, clustered, and tagged automatically, but only if the raw material is stored somewhere accessible. The evidence log is that place. It is also the main defence against wishful thinking: when a disagreement arises about “what customers want”, the log is where you go to check.
+
+\paragraph{Assumption map}
+
+An assumption map lists the key assumptions for each problem and ranks them by risk. The map usually includes problem assumptions (is this pain real and frequent?), buyer assumptions (who signs and why?), value assumptions (is the improvement worth paying for?), and feasibility assumptions (can the company deliver the promised outcome reliably?).
+
+The map is updated frequently. Whenever you learn something that strengthens or weakens an assumption, you change its status. The riskiest items on the map drive the design of the next experiments. In effect, the assumption map is the link between the qualitative content of interviews and the quantitative structure of testing \citep{ries2011lean,bland2019testing}.
+
+\paragraph{Experiment cards}
+
+Every experiment you run is represented by an experiment card. The card describes the hypothesis under test, the method you will use, the pass and fail criteria, the expected cost and timeframe, and the owner. After the experiment, the card is updated with the result and a link to any relevant evidence.
+
+This format forces clarity. Before you run a test, you must say explicitly what you expect to happen and what would count as success or failure. After the test, you must decide whether the outcome changes any assumptions. Over time, a collection of experiment cards becomes a record of how the company learned its way toward (or away from) particular opportunities \citep{bland2019testing}.
+
+\paragraph{Prototype library}
+
+The prototype library is a catalogue of the artefacts you use to make ideas concrete during discovery and sales. It may contain screenshots, clickable mock-ups, demo scripts, short videos, and sample outputs or reports. For each prototype, the library notes what is real and what is simulated, and which assumptions the prototype was designed to probe.
+
+Keeping prototypes organised matters because, in an AI-accelerated environment, it is easy to generate new ones continually. Without a library, you risk losing track of which version was shown to which buyer and what you were trying to learn. With even minimal discipline, you can reuse and adapt prototypes systematically instead of reinventing them.
+
+\newpage
+\paragraph{Decision log}
+
+The decision log is a simple document that lists important decisions, along with the rationale and the evidence that supported them at the time. Entries might include choosing one problem over another, changing the target segment, defining the scope of a pilot, or deciding to invest in a specific feature or integration.
+
+The point of the log is not to justify yourself in hindsight. It is to prevent the same arguments from recurring every few weeks and to make it easier to revisit decisions when new evidence arrives. In a two-person company, this kind of memory is particularly important. When both people are busy, the path of least resistance is often to continue on the current course simply because it is familiar.
+
+\paragraph{Risk notes}
+
+Finally, the company maintains a set of risk notes covering privacy, security, compliance, and operational constraints. These notes include data classifications, integration dependencies, regulatory considerations, expected uptime and support levels, and anything else that could invalidate the business if ignored.
+
+In many B2B settings, these factors are not secondary. They are central to whether a pilot can be approved at all \citep{forsgren2018accelerate}. Recording them explicitly ensures that the engineer does not design systems that cannot be deployed and that the domain expert does not promise outcomes that are impossible under a customer’s policies.
+
+\newpage
+\subsection{Working agreements}
+
+The principles and artefacts only function if the pair adopts a few explicit working agreements. These can be stated simply:
+
+\begin{itemize}
+  \item Important information about problems, assumptions, experiments, prototypes, and decisions is captured in the shared artefacts rather than in private notes or chat threads.
+  \item Every experiment is defined with a clear hypothesis and pass/fail criteria before it is run.
+  \item Custom work for a buyer is treated as consulting unless and until the same pattern appears across multiple customers and is consciously folded into the product.
+  \item Privacy, security, and governance constraints are considered early and updated as you learn more, rather than being deferred to a vague future phase.
+  \item When planning work, the pair focuses first on the riskiest assumptions identified in the assumption map.
+\end{itemize}
+
+These agreements are deliberately light, but they are not optional. They are what distinguish two people with powerful tools from a very small but real company that can learn, decide, and execute in a coherent way.
+
+
+
+
+
+\clearpage
+% --- SECTION 5 -------------------------------------------------------------
+
+\section{The discovery pipeline}
+
+The discovery pipeline is the spine of this playbook. It is the sequence of steps that takes a two-person company from vague market pains to one or two validated problems with real buyer commitment. Everything else in the document exists to support this pipeline or to make its outputs shippable.
+
+The pipeline has three early stages:
+
+\begin{itemize}
+  \item Stage 1: problem harvesting.
+  \item Stage 2: problem qualification.
+  \item Stage 3: evidence-first testing.
+\end{itemize}
+
+The logic is simple. First, you collect many pains without judging them. Then, you decide which of those pains are even worth the effort of testing. Finally, you design and run tests that confront your riskiest assumptions directly. Only after these three stages does it make sense to move into heavier prototyping or pilot discussions \citep{ries2011lean,bland2019testing}.
+
+\subsection{Overview and the evidence ladder}
+
+In B2B work, not all signals are equal. It is easy to be encouraged by positive conversations, polite enthusiasm, or appreciative comments about an idea. Those signals are pleasant, but weak. They do not tell you whether any buyer will actually invest time, political capital, or money.
+
+It is useful to think in terms of an evidence ladder. Lower rungs are cheap for the buyer; higher rungs are costly:
+
+\begin{enumerate}
+  \item Polite interest: ``This sounds interesting''.
+  \item Stated intent: ``We would use something like this''.
+  \item Time commitment: agreeing to a follow-up call or demo.
+  \item Access commitment: sharing real workflows, documents, or data samples.
+  \item Political commitment: introducing you to a decision-maker or bringing security and procurement into the conversation.
+  \item Process commitment: entering some form of internal evaluation or procurement process.
+  \item Financial commitment: agreeing to a paid pilot.
+\end{enumerate}
+
+The discovery pipeline is designed to move you up this ladder as cheaply and quickly as possible, without building more technology than is required at each step. The domain expert focuses on creating and interpreting these signals; the engineer focuses on providing just enough artefacts and prototypes to make the next step possible.
+
+\subsection{Stage 1: problem harvesting}
+
+Stage 1 is about gathering candidate problems without trying to filter too early. A ``problem'' in this sense is more than a complaint. It has several components:
+
+\begin{itemize}
+  \item a \emph{pain}: something costly, frustrating, risky, or slow;
+  \item a \emph{trigger}: an event or condition that makes the pain appear (for example month-end close, audits, onboarding, outages, regulatory changes);
+  \item a \emph{workaround}: the way people currently cope with the pain (spreadsheets, manual checks, extra meetings, extra staff);
+  \item an \emph{owner}: a person or role who is held responsible when things go wrong;
+  \item a potential \emph{budget holder}: someone who can, in principle, pay to reduce or remove the pain.
+\end{itemize}
+
+The domain expert leans heavily on existing experience and network in this stage. The practical work consists of calling former clients, colleagues, and contacts, asking about what currently hurts in their day-to-day work, and listening carefully. The Mom Test offers a useful pattern here: focus on specific past events and current behaviour, not on hypothetical future tools \citep{fitzpatrick2013mom}. Questions such as “tell me about the last time this went wrong” produce much better input than “would you use a tool that\ldots”.
+
+The engineer is present in Stage 1, but not dominant. When joining calls, the engineer mostly listens, asking occasional clarification questions when a technical constraint or integration complexity is implied, but resisting the urge to propose solutions. The goal of Stage 1 is to build a ``pain inventory'', not to sell or design.
+
+AI tools are helpful in this stage as well. The domain expert can use them to draft outreach emails and interview guides, and to summarise and cluster notes after conversations. Automatic summarisation is not a substitute for reading raw notes, but it can accelerate the process of spotting repeated patterns and language.
+
+Stage 1 is complete when the company has collected on the order of 20--50 concrete pain statements, clustered into perhaps 5--10 problem areas. Each area should be represented by one or more problem briefs and backed by quotes and examples in the evidence log. If the list is shorter, it is usually worth doing more conversations before moving on.
+
+\newpage
+\subsection{Stage 2: problem qualification}
+
+In Stage 2, the company moves from ``many pains'' to a small set of problems that are even worth testing. This is where discipline starts to matter. With a fast engineer and AI assistance, it is entirely possible to build prototypes for half a dozen problems in parallel. That is rarely a good use of time. It is almost always better to choose one or two candidates and pursue them properly.
+
+To do that, the pair scores each problem area on a few simple dimensions:
+
+\begin{itemize}
+  \item \emph{Severity}: how bad is the pain when it occurs?
+  \item \emph{Frequency}: how often does it occur?
+  \item \emph{Urgency}: what happens if nothing changes? Is there a forcing function, such as regulation or growth?
+  \item \emph{Buyer clarity}: is it obvious who would sign a purchase order?
+  \item \emph{Budget realism}: do organisations already spend money in this area?
+  \item \emph{Repeatability}: does the problem appear in a similar shape across many organisations, or is it highly idiosyncratic?
+  \item \emph{Distribution advantage}: does the domain expert have unusually good access to the people affected?
+\end{itemize}
+
+This scoring is not a precise calculation. It is a way of forcing explicit discussion. The domain expert usually leads the assessment on severity, frequency, urgency, buying behaviour, and access. The engineer contributes a different perspective: likely integration complexity, data requirements, security friction, and how much of a potential solution could be reused across customers.
+
+Competitors are part of this conversation as well. A complete lack of competitors is often a warning sign rather than an opportunity. It may mean that no budget exists or that organisations do not feel enough pain to seek solutions. On the other hand, heavily served markets can still harbour a viable wedge if existing solutions are expensive, clumsy, or misaligned with what buyers actually want. The point of Stage 2 is to make these trade-offs visible.
+
+The outcome is a shortlist of one to three problem candidates. Each of these has a clear problem brief, a first version of an assumption map, and a short qualitative justification for why it belongs on the list. Problems that do not make the cut are not thrown away; they remain in the inventory and can be revisited later if new information arrives.
+
+\newpage
+\subsection{Stage 3: evidence-first testing}
+
+Stage 3 is where the company begins to confront its assumptions with reality in a structured way. For each shortlisted problem, the domain expert and the engineer jointly list the assumptions that would have to hold for a product to make sense. These assumptions usually fall into a few categories:
+
+\begin{itemize}
+  \item \emph{Problem assumptions}: the pain is real, frequent, and costly enough to justify action.
+  \item \emph{Buyer assumptions}: the person who feels the pain has influence over the person who signs, and there is a plausible buying process.
+  \item \emph{Value assumptions}: a specific improvement---faster, cheaper, safer, more predictable---is worth paying for.
+  \item \emph{Feasibility assumptions}: the company can deliver that improvement with acceptable risk.
+\end{itemize}
+
+For each assumption, the pair designs a simple experiment, using patterns from Lean Startup, Testing Business Ideas, and related work \citep{ries2011lean,bland2019testing}. Common experiments include:
+
+\begin{itemize}
+  \item \emph{Problem interviews}: focused conversations aimed at confirming the presence, frequency, and cost of the pain, as well as current workarounds.
+  \item \emph{Smoke tests}: a landing page, email campaign, or internal communication that describes a proposed solution and invites a concrete action, such as booking a call or requesting a pilot.
+  \item \emph{Concierge tests}: manual delivery of the outcome that a future product would automate, to prove that buyers value the result before investing in automation.
+  \item \emph{Price probes}: questions or offers that explore what level of spend would be considered reasonable and what procurement steps would be involved.
+\end{itemize}
+
+\newpage
+Each experiment is written down as an experiment card with a hypothesis, a method, and clear pass and fail criteria. For example: “If ten operations managers in this segment see a short demo and outcome description, at least three will agree to a ninety-minute pilot-design session within the next two weeks.” If only one agrees, the result is a failure, not a ``maybe''.
+
+In this stage, the domain expert does most of the outward-facing work: scheduling and running interviews, following up on smoke-test responses, and negotiating the details of concierge trials. The engineer supports these efforts by producing whatever minimal artefacts are needed: a simple demo, an illustrative report, or a thin workflow simulation. In many cases, no real backend is required yet. A slide deck and a carefully structured conversation are enough to test the assumption.
+
+The company exits Stage 3 when at least one problem candidate has crossed a qualitative threshold. For that candidate, there is clear evidence that:
+
+\begin{itemize}
+  \item the pain is real and repeated,
+  \item buyers with budget exist and can be reached,
+  \item and at least some of those buyers are willing to commit time, data access, and serious attention to exploring a solution.
+\end{itemize}
+
+At that point, it makes sense to invest in richer prototypes and, eventually, to propose a paid pilot. If no candidate reaches this threshold, the correct response is not to build more. It is to return to Stage 1 and Stage 2 with what has been learned, and to look for a better problem.
+
+
+
+
+
+
+% --- SECTION 6 -------------------------------------------------------------
+
+\section{From prototype to paid pilot and product}
+
+Once a problem has been validated and at least some buyers have shown serious interest, the focus shifts. The company is no longer asking “is this worth solving at all?” but rather “can we make this concrete, low-risk to try, and eventually repeatable?”. The discovery pipeline now feeds into a second sequence of stages:
+
+\begin{enumerate}
+  \item Stage 4: prototype validation.
+  \item Stage 5: paid pilot.
+  \item Stage 6: productization.
+\end{enumerate}
+
+These stages move the work from concept toward operation. The risk profile changes along the way. Early on, the dominant risk is that nobody cares enough to engage. Later, the dominant risks are failing to deliver in the buyer’s environment, underestimating governance and integration constraints, or building something so tailored to one pilot that it cannot be sold again. The purpose of this section is to give the two-person company a clear path through these stages without losing the discipline established earlier.
+
+\subsection{Stage 4: prototype validation}
+
+A prototype, in this context, is not a technology showcase. It is a communication tool. The job of the prototype is to make the proposed value proposition concrete enough that buyers can react to it in detail, to draw out hidden constraints and objections, and to move the conversation toward a specific decision about running a pilot.
+
+There are many possible forms a prototype can take. For a two-person company, the most useful ones are usually simple:
+
+\begin{itemize}
+  \item a scripted demo, where the domain expert walks through a sequence of screens or slides while narrating a realistic scenario;
+  \item a clickable mock-up that allows a buyer to click through a flow and see what the system would do in typical situations;
+  \item a “Wizard-of-Oz” prototype, where a partially automated front-end is backed by manual work or ad-hoc scripts, making the experience feel real without a full implementation \citep{bland2019testing}.
+\end{itemize}
+
+The senior engineer is responsible for producing these artefacts with as little technical inertia as possible. That usually means separating presentation from implementation and being explicit about what is real and what is simulated. It is entirely acceptable for a prototype to rely on fabricated data, mocked integrations, or manual steps behind the scenes, provided that this is clear to the team. The prototype exists to test understanding and interest, not to prove engineering virtuosity.
+
+The domain expert uses the prototype in structured conversations with buyers. A typical prototype session has three parts. First, the buyer is invited to describe the current process in their own words. Second, the domain expert walks through the prototype, connecting each step to elements of that process, and asking where the proposed flow diverges from reality. Third, the conversation turns to practicalities: what would have to be true for a pilot to be worthwhile, what constraints would apply, and who would need to be involved.
+
+AI assistance is useful in this stage as well. Scripts for demos, alternative ways of framing the value proposition, and variations of UI copy or workflows can be generated and refined quickly. The engineer can lean on AI for scaffolding user interface code or visual layouts; the domain expert can use it to experiment with different narratives and objection-handling scripts.
+
+The company exits Stage 4 when prototype-based conversations with buyers consistently reach the higher rungs of the evidence ladder. In practice, that means buyers are willing to invest time in designing a pilot, are bringing in relevant stakeholders such as security or operations, and are discussing concrete constraints rather than treating the whole idea as a hypothetical.
+
+\subsection{Stage 5: paid pilot}
+
+A paid pilot is the strongest validation signal a B2B company can reasonably aim for before a full product. It requires a buyer to invest money, time, and capital, and it surfaces organisational realities that were invisible in earlier conversations. Running a pilot is therefore both an experiment and the beginning of operations.
+
+A good pilot has a few defining characteristics. It is scoped so the two-person company can deliver reliably. It is time-boxed, with a clear start and end date. It has explicit success criteria that both sides agree on up front: metrics, qualitative changes in workflow, or specific outcomes that will be evaluated at the end. Finally, it leads to a decision. When the pilot concludes, the buyer is expected to decide whether to expand, to move into a formal purchase, or to stop.
+
+The practical work of Stage 5 begins with a pilot one-pager. That document describes the goal of the pilot, the scope of what will be attempted, the success metrics and how they will be measured, the timeline, the data and access required, and the expectations on both sides in terms of support and responsiveness. Pricing is included as well, typically at a level that is meaningful to the buyer but small enough to avoid heavy procurement procedures.
+
+The domain expert leads the negotiation of this one-pager. That includes identifying stakeholders, aligning expectations, and dealing with local politics. The senior engineer ensures that the scope is realistic, that the required integrations and data flows are understood, and that the company can instrument the system to measure the agreed success criteria. Modern DevOps and SRE practice emphasises the importance of observability and feedback loops in production systems \citep{forsgren2018accelerate}. A pilot is the first place where those practices become relevant for this company.
+
+The company should treat the pilot as an experiment with explicit hypotheses and risks, not as a guaranteed path to a long-term contract. That framing helps maintain discipline. For example, one hypothesis might be that a particular automation will reduce the time to complete a task by a specific percentage. Another might be that users in a given role will adopt the new flow without excessive resistance. If those hypotheses are not supported by pilot data, the correct response is to learn and adjust, not to assume that production will somehow behave differently.
+
+Stage 5 is complete when a pilot has been signed and delivered, and the company has collected enough information to make a reasoned judgment about whether the opportunity is real. The outcome of a pilot can be positive (the buyer wants to proceed), negative (the buyer prefers to stop), or mixed (some value was delivered, but conditions for a broader rollout are not yet in place). All three outcomes are useful. A clear negative outcome is far better than months of ambiguous interest.
+
+\subsection{Stage 6: productization}
+
+Productization is the process of turning the lessons and assets from a pilot into something that can be sold repeatedly. The central question here is no longer whether the problem matters or whether a single buyer can benefit. The question is whether a stable, maintainable, and economically sound product can be shaped from what has been learned.
+
+At a technical level, productization usually involves defining and enforcing clearer boundaries. The senior engineer decides which parts of the pilot implementation can be retained and which should be refactored or replaced. Ad-hoc scripts and manual glue are either removed or formalised into robust components. Data models are stabilised, interfaces are documented, and security and compliance measures are integrated as first-class concerns rather than exceptions.
+
+At the same time, the company designs a packaging and onboarding story. New customers need a way to adopt the product without the same amount of bespoke attention that the first pilot required. That typically means templates, sensible defaults, simplified configuration, and a path from first contact to first value that is obvious and quick. A small firm cannot afford a high-touch, fully custom onboarding process for every client indefinitely.
+
+The domain expert remains deeply involved during productization. Continuous Discovery Habits emphasises that discovery and delivery should not be separate phases \citep{torres2021continuous}. While the engineer is hardening the system, the domain expert continues to talk to potential customers, tests the clarity of the value proposition and packaging, and checks whether the emerging product shape makes sense across different organisations. Feedback from these conversations informs which pilot-specific features are generalised and which are left behind.
+
+The outcome of productization is not a finished, unchanging product. It is a system that can withstand real use, that can be deployed and maintained without constant emergency intervention from the engineer, and that solves a clearly defined problem in a way that can be explained and sold. Once that baseline has been reached, the pipeline described in the earlier sections does not disappear. It loops. The same principles, artefacts, and stages can be reused for new features, adjacent problems, or entirely new products, with the difference that the company now operates from a stronger and more stable base.
+
+
+
+
+
+\clearpage
+
+% --- SECTION 7 -------------------------------------------------------------
+
+\section{Operating cadence and AI patterns}
+
+A two-person company does not need elaborate process. In fact, importing the ceremonies of a larger organisation almost always slows things down without adding much clarity. At the same time, running purely on instinct and ad-hoc conversations does not work when both people are moving quickly and AI is amplifying their output. What is needed is a minimal cadence: just enough rhythm to ensure that learning accumulates and that the two perspectives stay aligned.
+
+This section describes such a cadence and outlines practical patterns for using AI on both sides of the partnership. The emphasis is on habits that scale with speed. As the engineer and the domain expert accelerate their work with AI tools, these habits prevent the company from drowning in its own artefacts and half-finished ideas \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+\newpage
+\subsection{Daily and weekly rhythm}
+
+A good operating rhythm is light but predictable. It should feel easy to maintain even in busy weeks, and it should produce enough shared context that both people know what is happening without constant meetings.
+
+On a daily basis, most coordination can happen through updates in the shared artefacts. The domain expert spends the majority of each day facing outward: running interviews, following up with prospective buyers, refining problem briefs, and designing or executing experiments. At the end of the day, the key outcomes are written into the evidence log and experiment cards: who was spoken to, what was learned, what objections were raised, and whether any experiments passed or failed.
+
+The senior engineer spends most of each day facing the solution space: designing or implementing small technical slices that unblock the next experiment, refining prototypes, and improving the verification harness around whatever has been built so far. When important technical decisions are made—choosing a particular integration approach, defining a boundary, deciding to discard a prototype—the rationale and implications are captured in the decision log.
+
+Short, asynchronous check-ins are usually enough to keep this daily work aligned. A few lines summarising what has been done and what will be tackled next, linked back to artefacts, can replace a traditional stand-up. The pair can then schedule live conversations only when needed to resolve uncertainty or to discuss major changes in direction.
+
+On a weekly basis, a more deliberate review is valuable. A simple format borrowed from After Action Review practice works well \citep{blomgren2025coordination,torres2021continuous}:
+
+\begin{enumerate}
+  \item What did we expect to happen this week?
+  \item What actually happened?
+  \item Why did it happen (drivers, constraints, surprises)?
+  \item What will we change or sustain next week?
+\end{enumerate}
+
+The important detail is that these questions are answered with reference to the shared artefacts. If an experiment succeeded or failed, the relevant card is updated. If a problem has turned out to be less promising than expected, the assumption map reflects that fact. If a buyer conversation uncovered a new constraint, the risk notes are amended. This practice makes the cadence cumulative: each week becomes a visible step in the company’s learning, rather than a vague impression that “a lot happened”.
+
+\newpage
+
+\subsection{AI working patterns for the domain expert}
+
+For the domain expert, AI is primarily a cognitive assistant. The goal is not to automate judgment or to guess what the market wants; the goal is to reduce the friction of turning intuition and raw information into concrete artefacts that can be shared, tested, and refined. A few patterns are particularly useful:
+
+\begin{itemize}
+  \item \emph{Drafting outreach and scripts}: given a description of a target role and a rough goal for a conversation, AI can produce first versions of emails, LinkedIn messages, or interview guides. The domain expert then edits these drafts to match personal style and local context.
+  \item \emph{Summarising and structuring notes}: transcripts or rough notes from calls can be summarised into lists of pains, triggers, workarounds, and objections. This does not replace reading the original material, but it speeds up the process of updating problem briefs and the evidence log.
+  \item \emph{Generating artefacts}: landing pages, one-page summaries, or internal memos can be drafted with AI and then refined. This makes it easier to run smoke tests and to support champions inside a buyer’s organisation.
+  \item \emph{Designing experiments}: given a problem brief and assumptions, AI can suggest experiments and help phrase hypotheses and pass/fail criteria, drawing on patterns from the experimentation literature \citep{bland2019testing}.
+\end{itemize}
+
+In all cases, the domain expert stays accountable for correctness and tone. AI cannot see the politics or constraints of a buyer. Feed it concrete context—real language, objections, constraints—and treat the output as a starting point, not an oracle.
+
+\newpage
+
+\subsection{AI working patterns for the senior engineer}
+
+For the senior engineer, AI is a powerful accelerant for design and implementation. Used well, it can turn sketches into working code quickly, explore alternative architectures, and lower the cost of refactoring. Used carelessly, it can generate more complexity than the engineer can safely understand or verify.
+
+The engineer’s patterns therefore revolve around coupling AI-driven generation with human-driven verification and boundary management:
+
+\begin{itemize}
+  \item \emph{Scaffolding and exploration}: AI can generate initial versions of services, endpoints, and user interfaces based on high-level descriptions. The engineer then inspects and trims these scaffolds, aligning them with the boundaries and contracts that have been agreed.
+  \item \emph{Refactoring and simplification}: given an existing codebase or prototype, AI can propose ways to simplify, modularise, or improve performance. The engineer chooses which suggestions to adopt, guided by tests and by a sense of what will matter in future pilots and productization.
+  \item \emph{Verification support}: tests, property checks, and even monitoring configurations can be drafted with AI assistance. The engineer reviews and extends these to ensure that critical behaviour is actually covered and that telemetry will reveal the metrics that matter to buyers \citep{forsgren2018accelerate}.
+  \item \emph{Glue and tooling}: scripts, small utilities, and deployment descriptions are often tedious to write by hand. AI can handle this boilerplate, freeing time for higher-level design work.
+\end{itemize}
+
+The key constraint is that no change is considered complete until the engineer understands it well enough to explain and defend it. In a centaur model, AI is not an independent contributor. It is a highly productive assistant whose work is always subject to human review. That review becomes more important, not less, as the volume of generated code increases \citep{blomgren2025coordination}.
+
+\subsection{Keeping the cadence light}
+
+It is easy for a small company to accumulate process; instead, a daily artefact update plus a short weekly review keeps discovery and delivery healthy. AI fits this cadence naturally; the tools prepare, summarise, and connect work, not replace market conversations or the engineer’s responsibility for coherence.
+
+If coordination starts consuming more time than interviews, experiments, and building combined, the process is too heavy. Remove ceremonies and re-centre on the artefacts and questions described here. Most coordination that once required meetings, status reports, and roadmaps can live in a short note attached to concrete work.
+
+
+
+
+
+
+
+\clearpage
+% --- SECTION 8 -------------------------------------------------------------
+
+\section{Common failure modes (and how to avoid them)}
+
+A two-person company, heavily augmented by AI, can move very quickly. Speed, however, amplifies failure modes as easily as it amplifies strengths. Many small teams run into the same kinds of problems, often for the same reasons. Naming those patterns in advance makes it easier to spot them when they appear and to use the playbook as it was intended: as a guardrail, not just a description.
+
+The following subsections describe a few of the most common traps and connect each of them back to specific practices in the earlier sections.
+
+\subsection{Building ahead of evidence}
+
+One of the most attractive failures for an AI-augmented engineer is to build a sophisticated system long before any robust signal from the market exists. The tools make it possible to scaffold architectures, APIs, and interfaces in days. The temptation to “get ahead” of discovery is strong, especially when the problem area feels intuitively compelling.
+
+The warning signs are familiar. The company has a growing codebase and perhaps an impressive demo, but conversations with potential buyers are sporadic, shallow, or consistently end with “this looks great” and no concrete next step. The evidence log is thin, and experiment cards, if they exist, describe tests on the product rather than on the underlying assumptions.
+
+The antidote is the discipline embedded in the discovery pipeline. If Stage 1, Stage 2, and Stage 3 have not been passed with the kind of evidence described earlier, the right response is not to build more features. It is to pause implementation and return to problem harvesting, qualification, and evidence-first testing. Lean Startup and Testing Business Ideas both stress that validated learning, not output, is the core currency in early stages \citep{ries2011lean,bland2019testing}. The two-person company is no exception.
+
+\subsection{Positive conversations, no commitments}
+
+A second common failure mode looks, on the surface, more encouraging. The domain expert is busy. Many calls are happening. Buyers say the idea is interesting. People praise the clarity of the demo or the elegance of the concept. Despite this, nothing moves. No one commits to a pilot, to sharing data, or even to a serious internal evaluation.
+
+This pattern is often the result of treating polite enthusiasm as a strong signal. It is easier to collect compliments than commitments. It is also more comfortable, especially when the pair is emotionally invested in the solution. The Mom Test exists largely to counter exactly this bias by pushing founders to ask about past behaviour and concrete constraints instead of opinions about hypothetical futures \citep{fitzpatrick2013mom}.
+
+The playbook’s answer is to take the evidence ladder seriously. If conversations do not lead to higher rungs—time, access, introductions to decision-makers, procurement steps, or financial commitments—then the signal is weak, regardless of how flattering the words are. In that case, experiment cards need to be rewritten around stronger hypotheses, and interviews need to be reoriented toward understanding why buyers are not willing to move.
+
+\subsection{Sliding into stealth consulting}
+
+A third trap is to drift into consulting while still using product language. In practice, this looks like a series of bespoke projects where each buyer wants different dashboards, integrations, workflows, or reports, and the company says yes to all of them in the hope that a unified product will emerge later.
+
+There is nothing inherently wrong with consulting. It can even be a deliberate funding model. The problem arises when the company believes it is building a product, but the economics and dynamics are those of a project business. The engineer finds it difficult to create reusable components because every engagement is unique. The domain expert spends most of the time managing delivery and expectations for individual clients rather than learning general patterns.
+
+The “no stealth consulting” principle is there to prevent this slide. When a buyer asks for something special, the pair explicitly decides whether it is consulting or product work. If it is consulting, it is treated as such in agreements and pricing, and the learning objective is written down: what the company hopes to understand that might influence the product. If the same kind of request appears across multiple buyers, it can then be considered as a candidate for productization, but that is a conscious decision rather than a side-effect of saying yes too often.
+
+\newpage
+\subsection{Prototype debt becoming product debt}
+
+Prototype debt is a natural consequence of fast experimentation. Shortcuts are taken, integrations are faked, and code is written with the expectation that it can be thrown away if needed. Problems arise when those expectations are quietly abandoned and prototypes are allowed to ossify into the basis of the product.
+
+In an AI-accelerated environment, this risk is magnified. It is easier than ever to build complex prototypes quickly, and it can be painful to discard code that looks substantial. The result, in many teams, is a production system built on layers of experimental scaffolding, with unclear boundaries and brittle behaviour.
+
+The playbook’s response is twofold. First, the prototype library explicitly records which artefacts were created for which experiments and what is real versus simulated. Second, the productization stage is treated as a separate phase with its own questions: which parts of the pilot implementation are fit to keep, which must be refactored, and which should be discarded. The senior engineer’s responsibility here is to resist the sunk-cost fallacy and to rely on tests, telemetry, and architectural judgment rather than on the sheer amount of code written \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+\newpage
+\subsection{Ignoring governance until it blocks deals}
+
+A final recurrent failure mode is to treat privacy, security, and compliance as details that can be handled “later”, after the product has proven itself. In many B2B contexts, those details are in fact the main gate. A solution that cannot pass security review or comply with data-handling policies will never reach production, no matter how much value it could theoretically deliver.
+
+The symptom is a deal that appears promising through early stages. Buyers are engaged, users are enthusiastic, a pilot is even tentatively agreed in principle. Then security, legal, or compliance joins the process. The conversation slows, uncomfortable questions are raised about data flows, retention, and responsibilities, and the opportunity either stretches into months of uncertainty or quietly dies.
+
+The operating system in this document is designed to surface governance constraints earlier. The risk notes are where data classifications, integration dependencies, and compliance considerations are recorded as they are discovered. Questions about data sensitivity and policy constraints are part of problem harvesting and pilot design, not an afterthought. The senior engineer treats security and auditability as part of the architecture from the moment a pilot is considered, drawing on practices from modern DevOps and SRE work where resilience and safety are built in rather than bolted on \citep{forsgren2018accelerate}.
+
+Recognising these failure modes does not eliminate them. The pair will still make mistakes, take wrong turns, and over-invest in some ideas. The value of the playbook is that it provides language and structure for noticing when this is happening early, while the cost to change direction is still tolerable.
+
+
+
+
+
+\clearpage
+% --- SECTION 9 -------------------------------------------------------------
+
+\section{Getting started in the next 30 days}
+
+The previous sections describe a way of working that can support a two-person company over months and years. When you are just starting, that breadth can feel abstract. This section turns the playbook into a concrete, time-boxed plan for the first thirty days. The goal is not to compress everything into a month, but to ensure that the pair moves quickly from theory to grounded evidence.
+
+The plan assumes that the domain expert already has a network in the target space and that the senior engineer has at least a basic AI-augmented development setup. If either of those assumptions is not yet true, the first weeks may need to include additional groundwork. The structure below is a default that can be adapted.
+
+\subsection{Week 1: align and listen}
+
+The first week is about alignment and information, not about building. The pair needs a shared understanding of the playbook, a place to keep artefacts, and a first influx of real-world input.
+
+A practical Week 1 agenda looks like this:
+
+\begin{itemize}
+  \item Read the playbook end to end once, preferably in one sitting, and note any points of confusion or disagreement to discuss.
+  \item Decide where the shared artefacts will live: a folder in a document tool or repository for problem briefs, the evidence log, the assumption map, experiment cards, the prototype library, the decision log, and risk notes.
+  \item The domain expert identifies a short list of people in the existing network who are likely to have relevant pains. The list should be pragmatic: former clients, colleagues, and partners who will answer calls.
+  \item Five to ten short conversations are scheduled and conducted, focusing on current pains and workflows rather than on ideas for solutions. Notes from these conversations are added to the evidence log.
+  \item The senior engineer joins at least a couple of these calls to hear unfiltered descriptions of real work and to begin building an intuition for where technical leverage might exist.
+\end{itemize}
+
+By the end of Week 1, the company should have the skeleton of its operating system in place and a first batch of raw pain statements and quotes. No prototypes are needed yet. The most important output is the evidence log, even if it is rough.
+
+\newpage
+\subsection{Week 2: cluster and choose}
+
+In Week 2, the raw material from the first conversations is turned into structure. The pair moves from a collection of individual frustrations to a set of candidate problem areas.
+
+The work in this week includes:
+
+\begin{itemize}
+  \item Clustering the pain statements from the evidence log into a handful of problem themes. AI support can be useful here: summaries and suggested groupings can accelerate the process, but the final judgement remains with the domain expert.
+  \item Drafting a one-page problem brief for each theme, capturing who experiences the pain, what triggers it, how people cope today, and what the pain seems to cost in time, risk, and money.
+  \item Sketching an initial assumption map for each problem: what must be true about the pain, the buyers, the value, and feasibility for a product to make sense.
+  \item Scoring the problems loosely on severity, frequency, urgency, buyer clarity, budget realism, repeatability, and distribution advantage, as described earlier.
+  \item Choosing one to three problems that appear most promising to take into evidence-first testing.
+\end{itemize}
+
+By the end of Week 2, the company should have a visible shortlist. Each shortlisted problem has a brief, a preliminary assumption map, and a simple rationale. The rest are parked, not discarded. The engineer is still not building much beyond small artefacts that help clarify briefs if needed.
+
+\newpage
+\subsection{Week 3: test before building}
+
+Week 3 is the point where the company starts to confront its assumptions with concrete tests. The emphasis remains on learning, not on output volume.
+
+The key activities are:
+
+\begin{itemize}
+  \item For each shortlisted problem, the pair identifies the three to five riskiest assumptions. These usually relate to the reality and cost of the pain, the existence and behaviour of a buyer, and the feasibility of delivering value within a reasonable time.
+  \item For each assumption, the company designs a small experiment and writes an experiment card with a hypothesis, a method, and clear pass/fail criteria. Problem interviews, smoke tests, concierge offers, and price probes are typical choices \citep{ries2011lean,bland2019testing}.
+  \item The domain expert runs as many of these tests as the week allows, updating the evidence log and experiment cards with results. AI can help in drafting outreach, scripts, and follow-up messages.
+  \item The senior engineer builds only what is required to make the experiments possible: a simple demo slide deck, a mock landing page, a sample report, or a minimal clickable flow. Backend work is still minimal or non-existent.
+\end{itemize}
+
+By the end of Week 3, the pair should have stronger views on each candidate problem. Some assumptions will have been supported; others will have been weakened or disproved. One problem may stand out as clearly more promising, either because buyers engaged deeply or because early commitments climbed higher on the evidence ladder.
+
+\newpage
+\subsection{Week 4: prototype and aim for a pilot}
+
+In Week 4, the goal is to translate the most promising problem into a concrete prototype and to use that prototype to move at least one buyer toward a pilot discussion.
+
+The practical steps are:
+
+\begin{itemize}
+  \item Selecting one problem to focus on, based on the experiments run in Week 3. The decision should be anchored in evidence: which problem produced stronger commitments, clearer paths to buyers, and more reliable signals of pain.
+  \item Designing a simple prototype that expresses the solution to that problem in a way that buyers can react to. In many cases, a scripted demo or a clickable mock-up is sufficient. The engineer implements the prototype with low technical inertia, being explicit about what is simulated.
+  \item Planning and running three to five prototype sessions with buyers. Each session starts with the buyer’s own description of the current situation, continues with a walkthrough of the prototype, and ends with a discussion about whether a pilot would make sense, given local constraints.
+  \item For any buyer who shows serious interest, co-producing a draft pilot one-pager that outlines scope, success criteria, timeline, required access, and a rough price range.
+\end{itemize}
+
+The aim is not to close a pilot contract within a month, although that is sometimes possible. The more realistic objective is to reach at least one conversation where a buyer is considering a pilot in concrete terms and is sharing enough detail about constraints and internal processes that the pair can assess feasibility.
+
+\newpage
+\subsection{What to do after the first month}
+
+At the end of thirty days, the pair should review where they are using the same After Action Review questions that structure the weekly cadence:
+
+\begin{itemize}
+  \item What did we expect to happen when we started?
+  \item What actually happened?
+  \item Why did it happen (market signals, internal choices, constraints)?
+  \item What will we change or sustain in the next thirty days?
+\end{itemize}
+
+If no problem produced strong signals, the correct response may be to return to problem harvesting with new eyes, perhaps in an adjacent domain. If one problem clearly stands out and at least one pilot conversation is active, the next month can focus on solidifying that pilot, running it, and, if the outcome is positive, beginning productization.
+
+In all cases, the principle is the same as throughout the playbook: use the smallest team and the fastest tools to generate real evidence, then make decisions based on that evidence rather than on internal conviction alone. The operating system described here is designed to make that style of work natural for a pair of experienced professionals who now have, thanks to AI, the practical capacity of a much larger firm.
+
+
+\newpage
+% --- AFTERWORDS -----------------------
+
+\section{Closing remarks}
+
+The combination of a strong domain expert and an AI-augmented senior engineer is not a hypothetical thought experiment. In many organisations, those two roles already exist. What has changed is that the tools in front of them now make it possible for the pair to act as a complete, if very compact, company. A decade ago, the same individuals would have needed a larger team around them to get anything substantial off the ground. Today, the constraint is no longer whether two people can build a system. The constraint is whether they can focus on the right problem, obtain real evidence, and keep the resulting system coherent as it grows \citep{forsgren2018accelerate,blomgren2025coordination}.
+
+This playbook has taken a deliberately narrow view of that challenge. It does not try to cover every possible market, funding configuration, or growth path. Instead, it answers a more modest question: given one domain expert and one engineer who take AI seriously, how can they structure their work so that speed becomes an advantage rather than a liability? The answer is to lean into smallness, to treat discovery and validation as first-class work, and to anchor decisions in simple artefacts and experiments rather than in optimism \citep{ries2011lean,bland2019testing,fitzpatrick2013mom}. With that foundation, the pair can use AI as a multiplier without losing sight of reality.
+
+None of this removes uncertainty. There is no guarantee that the first, second, or even third problem the pair investigates will turn into a viable product. What the playbook offers is a way to make those attempts cheaper in time and energy, and to ensure that each iteration leaves behind more understanding than it consumes. The problem briefs, evidence log, assumption maps, experiment cards, prototypes, and pilot results form a body of knowledge. Even when a particular direction is abandoned, the company is not back at zero; it has a clearer map of what does not work and why.
+
+The opportunity, and the responsibility, now sit with the two people who choose to operate in this way. Used well, the practices described here allow a domain expert and a senior engineer to explore and exploit opportunities that were previously reserved for better-funded, larger organisations. Used carelessly, the same tools make it easy to build impressive artefacts for problems no one will pay to solve. The difference lies less in the capabilities of the AI and more in the discipline of the humans. If the pair can hold on to the habit of testing the riskiest assumptions first, of writing down what has been learned, and of treating governance and verification as integral parts of the work, then the smallest effective company can be more than a slogan. It can be a practical way to build real products in the current era.
+
+
+
+
+
+
+
+% --- SECTION 10 ------------------------------------------------------------
+
+\onecolumn
+\section*{Glossary}
+
+\paragraph{Pain} A concrete cost or frustration: time, money, risk, or reputation. “This takes three days every month” or “we always scramble before audits” are pains; “we could be more efficient” is too vague.
+
+\paragraph{Trigger} An event or condition that causes the pain to appear or become urgent. Examples include month-end closing, onboarding a new customer, a regulation change, or a major incident.
+
+\paragraph{Workaround} What people currently do to cope with the pain. Often involves spreadsheets, manual checks, email threads, extra staff, or ad-hoc scripts.
+
+\paragraph{Problem interview} A structured conversation focused on past events and current behaviour, not on hypothetical futures. The goal is to understand pains, triggers, workarounds, and constraints without pitching a solution \citep{fitzpatrick2013mom}.
+
+\paragraph{Smoke test} A minimal public promise of a solution, such as a landing page or internal announcement, combined with a meaningful call to action (for example, “book a call” or “request a pilot”) to measure interest \citep{bland2019testing}.
+
+\paragraph{Concierge test} Manual delivery of the outcome a future product would automate. The company does the work by hand (within reason) to validate that buyers value the result enough to justify automation \citep{bland2019testing}.
+
+\paragraph{Wizard-of-Oz prototype} A prototype that looks automated from the user’s perspective but is partially or entirely driven by humans or ad-hoc scripts behind the scenes. Useful for learning without committing to a full implementation.
+
+\paragraph{Paid pilot} A time-boxed, scoped engagement in which a buyer pays to test the solution in a real environment, under agreed success criteria. The outcome should lead to a clear decision: expand, buy, or stop.
+
+\paragraph{Productization} The process of turning a validated pilot shape into a repeatable, maintainable product: stabilising boundaries, hardening the system, and designing packaging and onboarding.
+
+\newpage
+
+\section*{Templates}
+
+\subsection*{Problem brief}
+
+\begin{itemize}
+  \item \textbf{Customer type:} (e.g. mid-size manufacturing firms, regional clinics).
+  \item \textbf{Key roles:} primary user, champion, buyer, blockers.
+  \item \textbf{Job to be done:} what these roles are trying to achieve.
+  \item \textbf{Pain:} what currently hurts, in concrete terms.
+  \item \textbf{Triggers:} when and why the pain appears.
+  \item \textbf{Workarounds:} how the work is done today.
+  \item \textbf{Cost of pain/workaround:} time, risk, money, reputation.
+  \item \textbf{Initial hypothesis about buyer:} who would sign and why now.
+  \item \textbf{Notable constraints:} data, security, compliance, integration.
+\end{itemize}
+
+\subsection*{Experiment card}
+
+\begin{itemize}
+  \item \textbf{Problem:} reference to the relevant problem brief.
+  \item \textbf{Assumption:} the belief you are testing.
+  \item \textbf{Hypothesis:} “If we do X, Y\% of Z will do W within T days.”
+  \item \textbf{Method:} problem interviews, smoke test, concierge test, price probe, etc.
+  \item \textbf{Pass criteria:} what counts as a clear success.
+  \item \textbf{Fail criteria:} what counts as a clear failure.
+  \item \textbf{Time-box and cost:} how long the test runs and what it costs.
+  \item \textbf{Owner:} domain expert or engineer.
+  \item \textbf{Results:} short summary plus link into the evidence log.
+  \item \textbf{Impact:} which assumptions were strengthened or weakened.
+\end{itemize}
+
+\subsection*{Pilot one-pager}
+
+\begin{itemize}
+  \item \textbf{Goal:} what outcome the pilot is meant to demonstrate.
+  \item \textbf{Scope:} what is included and explicitly excluded.
+  \item \textbf{Success metrics:} how improvement will be measured.
+  \item \textbf{Timeline:} start date, key milestones, end date.
+  \item \textbf{Required access:} systems, data, personnel.
+  \item \textbf{Security and compliance:} known requirements and constraints.
+  \item \textbf{Responsibilities:} who does what on both sides.
+  \item \textbf{Support expectations:} response times, meeting cadence.
+  \item \textbf{Pricing and terms:} cost of the pilot and payment schedule.
+  \item \textbf{Decision at end:} expand, move to full contract, or stop.
+\end{itemize}
+
+\vspace*{\fill}
+
+%\twocolumn
+%\newpage
+\printbibliography
+
+
+\end{document}
