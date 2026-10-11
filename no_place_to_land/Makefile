@@ -57,6 +57,6 @@ release: all
 	rm -rf .tempdir
 	mkdir -p .tempdir/$(NAME)
 	cp $(NAME).pdf $(NAME)-squeezed.pdf *.md *.bib *.tex *.lua *.py *.sh *.png Makefile .tempdir/$(NAME)/
-	cp -r assets tests .tempdir/$(NAME)/
+	cp -r assets illustrations tests .tempdir/$(NAME)/
 	cd .tempdir && zip -r ../$(NAME).zip $(NAME)
 	rm -rf .tempdir

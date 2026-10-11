@@ -8,6 +8,10 @@ The cover has new blue-on-black synthwave artwork, the C89 Systems vector logo,
 and the complete manuscript abstract. A single-column contents page with dotted
 leaders includes the chapters, introduction, conclusion, and references.
 Subsections remain available in the PDF bookmarks.
+Below the contents, a transparent landscape illustrates sustained use and the
+wider capability frontier. The image has a small settlement, a construction
+site, open terrain, and strong boundaries designed to remain readable at its
+165 mm placement. The legend is native LaTeX text.
 
 ## Manuscript and layout
 
@@ -71,3 +75,5 @@ packages both PDFs and their buildable sources in `no-place-to-land.zip`.
 build recreates them.
 
 Cover generation provenance and the complete prompt are in `cover-art.md`.
+Contents illustration prompts and concept history are in
+`illustrations/concepts.json`; the selected asset is `frontier-landscape-v2.png`.

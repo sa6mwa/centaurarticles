@@ -1,7 +1,9 @@
 {
   "generated_on": "2026-10-11",
   "tool": "built-in image_gen",
-  "status": "Concept previews for comparison; not yet included in the PDF",
+  "status": "Concept history; simplified colored frontier selected for the contents page",
+  "selected_asset": "../frontier-landscape-v2.png",
+  "selected_record": "frontier-landscape-v2.json",
   "concepts": [
     {
       "file": "frontier-landscape-v1.png",

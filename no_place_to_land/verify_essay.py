@@ -57,6 +57,11 @@ def verify(path):
     assert 'Michel Blomgren' in cover and 'mike@c89.systems' in cover
     contents = reader.pages[1].extract_text()
     assert 'Contents' in contents and 'Conclusion' in contents
+    assert 'Sustained use' in contents and 'Capability frontier' in contents, \
+        'Contents illustration legend missing'
+    assert len(reader.pages[1].images) == 1, 'Contents landscape image missing'
+    assert reader.pages[1].images[0].image.mode == 'RGBA', \
+        'Contents landscape must preserve its transparent background'
 
     text = []
     for page in reader.pages[2:]:
