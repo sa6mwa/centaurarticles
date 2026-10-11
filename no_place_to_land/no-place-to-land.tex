@@ -1,0 +1,91 @@
+\documentclass[11pt,a4paper,twocolumn]{article}
+
+\newcommand{\EssayTitle}{No Place To Land}
+\input{structure.tex}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usetikzlibrary{fadings}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=black,
+  pdftitle={No Place To Land}, pdfauthor={Michel Blomgren},
+  pdfsubject={AI-enabled capability, organizational recomposition, and co-invention},
+  pdfkeywords={AI, customer value, organizational productivity, co-invention, C89 Systems},
+  bookmarksopen=true, bookmarksnumbered=false
+}
+
+\definecolor{CoverBlue}{HTML}{8ACFFF}
+\definecolor{CoverInk}{HTML}{020713}
+\newcommand{\CoverImage}{cover.png}
+\newcommand{\CoverTopShade}{0.12}
+\newcommand{\CoverBottomShade}{0.72}
+\newcommand{\CoverFadeTop}{0.36\paperheight}
+\newcommand{\CoverFadeBottom}{0.24\paperheight}
+\tikzfading[name=coverFade,bottom color=transparent!0,top color=transparent!100]
+
+\setcounter{secnumdepth}{0} % Manuscript chapter numbers are part of their headings.
+\setcounter{tocdepth}{1}    % A compact chapter-level contents page.
+\pretocmd{\section}{\Needspace{7\baselineskip}}{}{}
+\pretocmd{\subsection}{\Needspace{5\baselineskip}}{}{}
+\lfoot{\footnotesize\href{https://c89.systems}{C89 Systems}}
+
+\begin{document}
+\onecolumn
+\thispagestyle{firstpage}
+
+% Full-bleed artwork and a tunable bottom fade protect the abstract's contrast.
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight]{\CoverImage}}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[CoverInk,opacity=\CoverTopShade]
+      (current page.south west) rectangle (current page.north east);
+    \fill[CoverInk,opacity=\CoverBottomShade,path fading=coverFade]
+      ([yshift=\CoverFadeBottom]current page.south west)
+      rectangle ([yshift=\CoverFadeTop]current page.south east);
+    \fill[CoverInk,opacity=\CoverBottomShade]
+      (current page.south west)
+      rectangle ([yshift=\CoverFadeBottom+0.1pt]current page.south east);
+  \end{tikzpicture}%
+}
+
+% All cover copy and branding remain native typeset text and vector artwork.
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north west,inner sep=0pt]
+    at ([xshift=20mm,yshift=-17mm]current page.north west)
+    {\includegraphics[width=43mm]{assets/c89-systems.pdf}};
+  \node[anchor=north west,inner sep=0pt,text width=170mm]
+    at ([xshift=20mm,yshift=-43mm]current page.north west) {%
+      \raggedright\color{CoverBlue}
+      {\fontsize{56}{59}\usefont{T1}{Montserrat-TLF}{b}{n}No\hspace{0.25em}Place\\To\hspace{0.25em}Land\par}
+      \vspace{7mm}
+      {\large\usefont{OT1}{phv}{b}{n}\color{white}Michel Blomgren\par}
+      \vspace{1.5mm}
+      {\small\usefont{OT1}{phv}{m}{n}\color{CoverBlue}
+        \hypersetup{urlcolor=CoverBlue}\href{mailto:mike@c89.systems}{mike@c89.systems}\par}
+    };
+  \node[anchor=south west,inner sep=0pt,text width=170mm]
+    at ([xshift=20mm,yshift=18mm]current page.south west) {%
+      \color{white}
+      {\small\usefont{OT1}{phv}{b}{n}\color{CoverBlue}ABSTRACT\par}
+      \vspace{3mm}
+      {\fontsize{11}{14}\selectfont\noindent\input{abstract.tex}\par}
+    };
+\end{tikzpicture}
+\null
+\clearpage
+
+\tableofcontents
+\vfill
+\noindent\includegraphics[width=37mm]{assets/c89-systems-black.pdf}\par
+\vspace{4mm}
+\noindent\textbf{Michel Blomgren}\quad\href{mailto:mike@c89.systems}{mike@c89.systems}\par
+\vspace{3mm}
+\noindent This essay extends \textit{The Coordination Shift}, available as
+\href{https://c89.systems/10x.pdf}{PDF} and
+\href{https://c89.systems/10x.md}{Markdown}.\par
+
+\twocolumn
+\input{body.tex}
+\end{document}
