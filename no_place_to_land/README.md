@@ -6,8 +6,8 @@ This is the initial LaTeX layout, derived from the `10x/` article template:
 XCharter body text, sans-serif headings, A4 pages, and a two-column essay body.
 The cover has new blue-on-black synthwave artwork, the C89 Systems vector logo,
 and the complete manuscript abstract. A single-column contents page with dotted
-leaders includes every chapter and subsection. PDF bookmarks include the same
-headings.
+leaders includes the chapters, introduction, conclusion, and references.
+Subsections remain available in the PDF bookmarks.
 
 ## Manuscript and layout
 

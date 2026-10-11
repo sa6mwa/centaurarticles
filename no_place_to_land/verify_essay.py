@@ -123,14 +123,17 @@ def verify(path):
     expected = ['Introduction'] + re.findall(r'^## (\d+\. .+)$',
                                             Path('no-place-to-land.md').read_text(), re.M)
     expected += ['Conclusion — From Coordination to Conversion', 'References']
-    expected += re.findall(r'^### (.+)$', Path('no-place-to-land.md').read_text(), re.M)
     for title in expected:
         assert title in titles, f'PDF bookmark missing: {title}'
         assert normalized(title) in normalized(contents), f'Contents entry missing: {title}'
     navigation = [a.get_object().get('/A', {})
                   for a in reader.pages[1].get('/Annots', [])]
     assert sum(a.get('/S') == '/GoTo' for a in navigation) >= len(expected), \
-        'Contents entries must link to every chapter and subsection'
+        'Contents entries must link to every chapter'
+    for title in re.findall(r'^### (.+)$', Path('no-place-to-land.md').read_text(), re.M):
+        assert title in titles, f'PDF subsection bookmark missing: {title}'
+        assert normalized(title) not in normalized(contents), \
+            f'Subsection retained in chapter-only contents: {title}'
     assert re.search(r'\.(?:\s*\.){4,}', contents), 'Contents dotted leaders missing'
     assert reader.pages[2].extract_text().count('Introduction') >= 1, \
         'The complete contents must fit on page 2, with the essay beginning on page 3'
