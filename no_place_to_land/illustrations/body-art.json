@@ -1,0 +1,105 @@
+{
+  "generated_on": "2026-10-11",
+  "purpose": "Illustrative body artwork, not source evidence; balanced pictorial and native drawings",
+  "figures": [
+    {
+      "number": 1,
+      "label": "fig:factory-retrofit",
+      "width": "text",
+      "medium": "imagegen-painting",
+      "caption": "Illustrative retrofit: a new power source can leave the inherited production layout intact.",
+      "file": "../factory-retrofit-v2.png",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: historical-scene\nAsset type: research-essay body illustration, A new motor in the old production layout.\nAn editorial historical illustration of an early twentieth-century factory interior. A compact electric motor has been installed, but it still drives one overhead shaft and belts serving the same three big machines in the inherited arrangement. The new power source is visually distinct, while the old transmission and work layout persist. Two workers carry on ordinary work, no heroic inventor. This is a conceptual historical illustration, not an archival photograph or a claim about a specific factory. Warm stone and charcoal with restrained cobalt-blue accents. Bold, painterly forms, strong silhouettes, only three machine masses, a single clearly visible shaft and belts. Readable at 80 mm wide, landscape about 1.8:1. No tiny details, no labels, no text, no watermark. Paper-friendly softly fading white margins around the scene, white background. Sophisticated painted editorial picture with tangible depth, not a technical schematic or diagram.",
+      "original": "factory-retrofit-v1.png",
+      "edit_prompts": [
+        "Use case: compositing\nAsset type: full-width bottom-of-page editorial factory illustration in a LaTeX research essay.\nRecompose the supplied historical factory painting into a true 3:1 panoramic composition, approximately 1800 by 600 pixels or wider proportionally. The picture will print about 160 mm wide and 53 mm high. Preserve the story: a compact cobalt electric motor still drives the inherited overhead shaft and belt transmission serving three large machine masses. Preserve warm painterly realism, the two ordinary workers, the old stone industrial interior, the clear single shaft and belts, and restrained cobalt on the motor. Actually make the composition wider and shallower, arranging the motor and three machines across the panorama; reduce tall ceiling and redundant foreground. Do not squeeze or distort the original, do not merely add blank margins, and do not cut off the motor, machine bodies or workers. The new motor and old transmission must be immediately readable. White paper-friendly softly fading edges, no labels or text, no arrows, logos or watermark."
+      ]
+    },
+    {
+      "number": 2,
+      "label": "fig:co-invention",
+      "width": "text",
+      "medium": "imagegen-painting",
+      "caption": "Co-invention develops the operating use alongside the mechanism: meanings, permitted actions, and acceptance must become workable together.",
+      "file": "../co-invention-workshop-v2.png",
+      "original": "co-invention-workshop-v1.png",
+      "edit_prompts": [
+        "Recompose the supplied co-invention workshop illustration into a substantially TALLER 4:3 landscape composition suitable for a 160 mm wide, roughly 115 mm high research-essay illustration. Preserve the same three people, their thoughtful collaborative gestures, their relationship as equals, and the developing operating model at the shared table. Keep the records and working screen as supporting objects, but reduce the wide lateral spread and foreground paper stacks; make the faces, hands and shared work fill a taller, tighter composition. Do not merely add blank padding above or below a wide picture: actually recompose the scene. Their shared operating arrangement remains unfinished and is being developed together. Keep the warm editorial-painted realism, navy and cobalt accents, no legible text, no arrows, no logos, and the genuinely transparent background with clean natural fade-to-alpha edges. Retain complete heads and hands without cropping them off."
+      ],
+      "tool": "built-in image_gen",
+      "prompt": "Use case: illustration-story\nAsset type: research-essay body illustration, Inventing the operating use together.\nA wide painted editorial scene: an engineer, an experienced operations worker, and a business decision-maker jointly construct an operating method at a shared worktable. Two inconsistent record sets, a working software screen, movable pieces representing unresolved record meanings, a partly assembled operating model, and shared notes with no legible text. Their hands revise the same developing arrangement. A working mechanism is only one part of the scene; permitted actions, acceptance and exception handling are being worked out through the collaboration. The result is unfinished rather than a predetermined solution the engineer sells to passive customers. No lone genius, no ignorant buyer, no sales presentation, no glowing AI robot. Few broad objects, clearly differentiated participants, strong readable gestures. Natural warm color with slate and cobalt accents, high-quality painterly editorial realism, landscape 2:1, designed for 160 mm wide placement. White-to-transparent edge treatment on a genuinely transparent background. No text, arrows, flowcharts, logos or watermarks."
+    },
+    {
+      "number": 3,
+      "label": "fig:measurement",
+      "width": "column",
+      "medium": "native-drawing",
+      "caption": "Different measures observe different changes; they do not supply one interchangeable estimate of AI's economic effect.",
+      "source": "../body-illustrations.tex",
+      "tool": "native LaTeX/TikZ"
+    },
+    {
+      "number": 4,
+      "label": "fig:recomposition",
+      "width": "text",
+      "medium": "native-drawing",
+      "caption": "Quotation recomposition: we predict lower coordination costs, earlier usable offers, and more small or variable orders becoming economical to serve",
+      "source": "../body-illustrations.tex",
+      "tool": "native LaTeX/TikZ",
+      "citations": [
+        "milgrom1995complementarities",
+        "dellacqua2026teammate"
+      ]
+    },
+    {
+      "number": 5,
+      "label": "fig:fragmented-assignment",
+      "width": "column",
+      "medium": "imagegen-cartoon",
+      "caption": "Being fully occupied does not establish an assignment for the integrated scope a producer can carry.",
+      "file": "../fragmented-assignment.png",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: illustration-story\nAsset type: research-essay body illustration, Fully occupied, commissioned in fragments.\nAn intelligent editorial cartoon with gently caricatured people, expressive but respectful. A skilled software practitioner is FULLY OCCUPIED working at a broad integrated desk that supports design, implementation, testing and operation together. Across from that desk, an established business counter offers four narrow separate service windows, each receiving a fragment of the same interconnected work. The practitioner is actively handling a single commissioned fragment while the wider integrated workspace remains available. Through a nearby unfinished opening, participants from both sides are jointly considering a broader arrangement; leave its outcome provisional. Make the mismatch between integrated scope and divided assignments readable through architecture and activity. Do not depict an unemployed engineer begging for work, poor business sense, a superior genius, foolish customers, or a known customer-value treasure waiting to be claimed. Two or three prominent human figures, four windows suggested simply, no tiny office clutter. Bold shapes, warm natural colors with cobalt accents, contemporary magazine cartoon craft. Landscape 1.8:1, readable at 80 mm wide. Genuine transparent background, clean cutout edges, no words, no labels, no speech bubbles, no robots or watermark."
+    },
+    {
+      "number": 6,
+      "label": "fig:complements",
+      "width": "text",
+      "medium": "imagegen-diorama",
+      "caption": "A commission becomes operable through contributions held by different parties: the customer's mandate, the interface provider's access, and the factory owner's capacity commitment.",
+      "file": "../complements-operating-access-v2.png",
+      "tool": "built-in image_gen",
+      "rejected_variant": {
+        "file": "complements-still-life-v1.png",
+        "prompt": "Use case: photorealistic-natural\nAsset type: research-essay body illustration, The complements around technical capability.\nA staged editorial photograph, not documentary evidence: an open laptop with an abstract unreadable working software interface sits on a shared business desk alongside a closed records binder, a telephone, an ordinary access key and a small schedule book. These objects represent operating information, customer relationships, authority/access, and continuity arrangements beyond engineering. They are equal participants in the composition, not obstacles surrounding a magical invention. No physical prototype, robot, locks on chains, wall of approvals or frustrated engineer. Strongly composed close still life with just five broad objects, realistic texture, natural side daylight, warm paper and wood with slate-blue accents. No legible screen content, numbers, writing or logos. Landscape 1.8:1 and readable at 80 mm width. White background blending cleanly into the white page, soft contained shadows, no large dark rectangle. This should provide photographic visual variety within a serious research essay.",
+        "reason": "Generic desk objects did not illustrate control over consequential operating contributions."
+      },
+      "prompt": "Use case: illustration-story\nAsset type: substantive editorial illustration for the essay No Place To Land, a manufacturing quotation service that depends on independently controlled complements.\nPrimary request: Replace generic business still-life imagery with a concrete architectural scene of WHO CONTROLS THE OPERATING CONDITIONS. The manuscript's example is a compact software-enabled quotation unit serving a manufacturer: the customer can commission the result, but an existing interface provider controls access to the business systems and a factory operating owner controls dependable capacity information and commitments. Engineering capability does not itself own those contributions. They can be made workable through cooperation, not by depicting the other parties as fools or villains.\nScene: a beautiful cutaway architectural diorama, wide landscape about 2:1, on a genuinely transparent background. Three distinct but neighboring operating spaces form one coherent composition. In the foreground-left a capable practitioner operates a compact quotation service console, with a prospective customer discussing the offered service. In the middle a real interface-provider technician manages the gateway into the manufacturer's shared systems. On the right the factory capacity owner works beside an active small production floor, with a clearly visible scheduling display and just two or three large machine masses. Show their respective control through local workstations and bounded operating areas, not through padlocks, keys, binders or generic phones. One shared service connection is being established cooperatively across those boundaries; a partly open boundary or unfinished floor connection shows the needed commitment, while the production unit itself is ready.\nThe central visual point is that usable scope depends on contributions held by different parties. Do not imply customer value is already a universally known input, and do not portray this as an engineer lacking business sense. No generic meeting around a table, no lone genius, no robot, no gadget prototype seeking a market, no jigsaw pieces.\nStyle: sophisticated contemporary editorial realism with sculptural architectural clarity, warm neutral materials and restrained navy/cobalt accents; substantial human gestures and bold readable structures. Rich enough to reward looking but simple enough to read at 160 mm width. A meaningful operating scene, not stock corporate clipart, not a flowchart or boxes connected by arrows.\nText: only three brief, well-set labels identifying the concrete contributions, exact wording: \"CUSTOMER MANDATE\", \"INTERFACE ACCESS\", \"CAPACITY COMMITMENT\". Keep labels large enough for print and near their respective spaces. No other text, interface gibberish, logos or watermark. Transparent alpha outside the scene with clean cutout edges."
+    },
+    {
+      "number": 7,
+      "label": "fig:reusable-co-invention",
+      "width": "text",
+      "medium": "imagegen-diorama",
+      "caption": "A later application can inherit tested methods and operating knowledge; its local facts and authority must still be established.",
+      "file": "../reusable-co-invention.png",
+      "tool": "built-in image_gen",
+      "prompt": "Use case: stylized-concept\nAsset type: research-essay body illustration, What the next application inherits.\nA sculptural editorial diorama depicting a tested construction method being used in a second compatible operating setting. Two small, visibly DIFFERENT building sites stand on different pieces of local terrain. At the first, a tested reusable scaffold or assembly jig is established; at the second, people adapt the same practical method around different local constraints. Each site has its own operating owner examining its own records and site conditions. The second inherits a method and tested knowledge, not the first site's permission or identical organization. Small retained field guides and test fixtures accompany the scaffold. No copy-paste buildings, no universal key, no guaranteed growth, no factory production line of identical customers. Two sites, one clear common reusable method, broad readable forms and an unfinished second application. Natural colors with understated cobalt, matte sculptural materials, warm daylight. Wide landscape 2:1 for 160 mm width, genuine transparent background with a clean organic cutout. No text, arrows, flowchart boxes, infinity signs, labels or watermarks."
+    },
+    {
+      "number": 8,
+      "label": "fig:handover",
+      "width": "text",
+      "medium": "native-drawing",
+      "caption": "Continuity resides in a versioned operating blueprint: executable code, runbooks, deployable artifacts, recoverable state, and verification evidence that another authorised operator can use.",
+      "tool": "native LaTeX/TikZ",
+      "rejected_variant": {
+        "file": "handover-operation-v1.png",
+        "prompt": "Use case: photorealistic-natural\nAsset type: research-essay body illustration, A responsibility that continues beyond its original operator.\nA carefully staged editorial photograph showing dependable handover in a software-enabled operating service. Two experienced people, equal in stature, work at a modest desk. One passes an open operating notebook to the other while both examine the same calm software workstation. A compact record folder and one simple checklist sheet support the exchange; no legible writing or interface text. The incoming operator is already engaged in the work, rather than posing for a ceremonial handshake. The scene communicates intelligible records, operating knowledge and continuation beyond the original practitioner. It does not imply a completed product success story or a real observed company. Close human composition, only two people and a few broad objects, natural window light, realistic candid editorial photography, subdued navy clothing and warm neutral surroundings. Landscape 1.8:1, readable at 80 mm wide. White margins or naturally light background to blend on a printed white page. No robot, no celebratory handshake, no logo, no arrows, no watermark.",
+        "reason": "Paper notebook exchange misrepresented contemporary operational handover."
+      },
+      "source": "../body-illustrations.tex"
+    }
+  ]
+}

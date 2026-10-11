@@ -1,0 +1,24 @@
+{
+  "reviewed_on": "2026-10-11",
+  "figure": "fig:recomposition",
+  "author_prediction": "Recomposing ordinary quotation work lowers coordination overhead, supplies earlier usable offers, and makes some small or variable orders economical to serve.",
+  "economic_derivation": "For an order with positive contribution after production and fulfilment, reducing total quotation overhead below that contribution changes the order from uneconomic to economic. The proposed unit completes ordinary offers within agreed commercial limits, avoiding repeated departmental assembly and clearance. The cost comparison includes checking, exceptions, and continuing operation.",
+  "sources": [
+    {
+      "key": "milgrom1995complementarities",
+      "url": "https://milgrom.people.stanford.edu/wp-content/uploads/1995/05/Complementarities-and-fit.pdf",
+      "locator": "Printed pages 193-196, especially the flexibility/product-variety example and the account of the 1990 manufacturing model",
+      "finding": "Production flexibility complements a broader product range and smaller lots. Reduced computation and communication costs favour coordinated changes including quicker order processing and delivery. Technical and organizational choices work together.",
+      "evidence_type": "Theoretical complementarity analysis with manufacturing illustrations"
+    },
+    {
+      "key": "dellacqua2026teammate",
+      "url": "https://pubsonline.informs.org/doi/10.1287/orsc.2025.20702",
+      "locator": "Sections 5.5 and 6, especially the discussion of solution balance and individual AI-assisted knowledge integration",
+      "finding": "In the P&G product-innovation experiment, individuals using AI produced balanced technical and commercial solutions resembling integration otherwise supplied by cross-functional collaboration.",
+      "evidence_type": "Randomized field experiment in product-innovation workshops"
+    }
+  ],
+  "inference": "We extend the complementarity mechanism and observed integration of expertise to the specified quotation unit. Earlier buyer choices and additional viable orders are our predicted consequences of completing offers at lower total overhead; they are not reported outcomes of an observed quotation deployment.",
+  "editorial_decision": "State the prediction and its mechanism in the essay and cite the research basis in the caption. The author supplies the argument rather than assigning its validation to the reader."
+}

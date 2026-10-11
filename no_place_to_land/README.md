@@ -14,16 +14,28 @@ site, open terrain, and strong boundaries designed to remain readable at its
 165 mm placement. The legend is native LaTeX text.
 The introduction occupies its own page. Each numbered chapter and the
 conclusion begins on a fresh page; subsections flow within their chapters.
-“When the producer moves ahead” starts in the next column, using a `\newpage`
-inserted by `manuscript.lua`; chapter starts continue to use `\clearpage`.
+“When the producer moves ahead” starts in the next column. Chapter text uses
+`multicols`, with an explicit `\columnbreak` at that subsection and `\clearpage`
+before each major section. The last columns balance before a wide illustration.
+
+Eight numbered body figures add visual pauses across the chapters: five
+imagegen scenes (painting, caricature, and diorama), plus native drawings of
+measurement questions, quotation-service responsibility, and the versioned
+operating blueprint retained through handover. Two figures use a column; six
+span the text width. The factory panorama occupies the bottom of page 5.
+The quotation figure states our prediction and cites its research basis;
+the images themselves are conceptual illustrations.
 
 ## Manuscript and layout
 
 `no-place-to-land.md` is the local manuscript snapshot from
 `../../c89.systems/docs/no_place_to_land/no-place-to-land-manuscript-v0.5.md`.
-The prose is preserved, with source links converted to author-year citations
-and redundant parenthesized years after cited titles removed. The displayed
-title is **No Place To Land**, publication metadata identifies C89 Systems and
+Source links are converted to author-year citations and redundant parenthesized
+years after cited titles removed. The quotation example now states an explicit
+prediction about customer consequences, supported by Milgrom and Roberts's complementarity
+analysis and the P&G experiment on AI-assisted integration of expertise.
+`illustrations/caption-evidence.json` records the sources, locators, and inference.
+The displayed title is **No Place To Land**, publication metadata identifies C89 Systems and
 the author, and the 10x bibliography entry uses
 `https://c89.systems/10x.pdf`. The contents page also offers
 `https://c89.systems/10x.md`; these are intentional future publication URLs.
@@ -36,6 +48,9 @@ and `body.tex` with Pandoc and `manuscript.lua`. Edit `no-place-to-land.tex` for
 cover composition, branding, contents, and the cover fade settings; edit
 `structure.tex` for typography and page geometry. The generated TeX fragments
 are committed so the essay's typeset source is inspectable.
+Body illustration sizes, drawings, and captions live in `body-illustrations.tex`;
+`manuscript.lua` assigns them to stable heading identifiers. All five selected
+generated body images are saved beside the main TeX for the existing squeeze workflow.
 
 The four original SVG branding assets are copied into `assets/`. The build
 converts them to vector PDFs without modifying the source SVGs. The white logo
@@ -81,3 +96,7 @@ build recreates them.
 Cover generation provenance and the complete prompt are in `cover-art.md`.
 Contents illustration prompts and concept history are in
 `illustrations/concepts.json`; the selected asset is `frontier-landscape-v2.png`.
+Body artwork prompts, media, captions, and asset paths are in
+`illustrations/body-art.json`. `make check` also verifies all eight captions,
+the five raster placements, native drawing text, and the mix of widths.
+Superseded body variants are retained in `illustrations/` with their provenance.

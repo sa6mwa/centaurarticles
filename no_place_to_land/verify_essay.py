@@ -9,6 +9,8 @@ import json
 from urllib.parse import unquote
 
 from pypdf import PdfReader
+from PIL import Image
+from squeeze import pixel_key
 
 
 def normalized(text):
@@ -43,6 +45,61 @@ def bibliography_records():
         ['pandoc', 'references.bib', '--from=biblatex', '--to=csljson'],
         check=True, capture_output=True, text=True,
     ).stdout)
+
+
+def verify_body_art(reader, path):
+    plan_path = Path('illustrations/body-art.json')
+    figures = json.loads(plan_path.read_text())['figures']
+    assert len(figures) == 8, 'The body illustration set must contain eight figures'
+    text = '\n'.join(page.extract_text() for page in reader.pages[2:])
+    text = re.sub(r'Page\s+\d+\s+of\s+\d+', '', text).replace('No Place To Land', '')
+    raster_count = 0
+    wide_count = 0
+    for figure in figures:
+        anchor = f"figure.{figure['number']}"
+        assert anchor in reader.named_destinations, f'Figure anchor missing: {anchor}'
+        page_number = reader.get_destination_page_number(reader.named_destinations[anchor])
+        assert normalized(figure['caption']) in normalized(text), \
+            f"Figure caption missing: {figure['label']}"
+        assert normalized(figure['caption']) in normalized(reader.pages[page_number].extract_text()), \
+            f"Figure caption separated from its anchor: {figure['label']}"
+        if 'file' in figure:
+            raster_count += 1
+            source = plan_path.parent / figure['file']
+            if 'squeezed' in Path(path).stem:
+                source = Path('build/squeezed') / source.name
+            with Image.open(source) as image:
+                expected = pixel_key(image)
+            assert any(pixel_key(image.image) == expected
+                       for image in reader.pages[page_number].images), \
+                f"Figure image and caption must share a page: {figure['label']}"
+            if figure['number'] == 1:
+                matched = next(image for image in reader.pages[page_number].images
+                               if pixel_key(image.image) == expected)
+                widths = []
+                def placement(op, operands, cm, tm):
+                    if op == b'Do' and str(operands[0]) == '/' + matched.name.rsplit('.', 1)[0]:
+                        widths.append((cm[0] ** 2 + cm[1] ** 2) ** 0.5)
+                reader.pages[page_number].extract_text(visitor_operand_before=placement)
+                assert widths and max(widths) > 440, 'Factory scene must span both columns'
+        if figure['width'] == 'text':
+            wide_count += 1
+    assert raster_count == 5 and wide_count == 6, 'Illustration media or width balance changed'
+    for detail in ('Task effort', 'Completed work', 'Wages and hours',
+                   'Contributions kept separate', 'Completion held together', 'Ordinary offers',
+                   'The versioned operating blueprint', 'Git history', 'service/', 'runbooks/',
+                   'Deployable artifacts', 'Recoverable state', 'Verification evidence',
+                   'Access and authority', 'Next authorised operator',
+                   'The service continues'):
+        assert normalized(detail) in normalized(text), f'Native drawing detail missing: {detail}'
+    for number, detail in ((4, 'Ordinary offers'), (8, 'The versioned operating blueprint')):
+        page = reader.get_destination_page_number(reader.named_destinations[f'figure.{number}'])
+        assert normalized(detail) in normalized(reader.pages[page].extract_text()), \
+            f'Native drawing separated from its caption: figure {number}'
+    assert 'Customer benefit remains a separate proposition to test' not in text
+    factory_page = reader.get_destination_page_number(reader.named_destinations['figure.1'])
+    assert factory_page == 4, 'The full-width factory illustration must remain on page 5'
+    return len(figures)
 
 
 def verify(path):
@@ -165,10 +222,11 @@ def verify(path):
     for page in reader.pages:
         assert abs(float(page.mediabox.width) - 595.276) < 1
         assert abs(float(page.mediabox.height) - 841.89) < 1
+    figure_count = verify_body_art(reader, path)
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript '
           f'blocks retained; {len(cited)} references, citation destinations, '
           f'cover abstract, metadata, source URLs, navigation, and '
-          f'{len(starts)} major section page starts verified')
+          f'{len(starts)} major section page starts, and {figure_count} body illustrations verified')
 
 
 if __name__ == '__main__':
