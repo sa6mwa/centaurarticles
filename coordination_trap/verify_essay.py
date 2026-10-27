@@ -49,12 +49,39 @@ def without_furniture(text):
 
 
 def without_figures(text):
-    # A full-width float can interrupt a paragraph across a page boundary.
-    # Remove only the two known complete figure blocks, checked separately below.
+    # Remove the known figure blocks, checked independently below.
     text = re.sub(r'Where the working week goes.*?Figure 1:.*?Zimmerman,\s*2026\)\.',
                   '', text, flags=re.S)
-    return re.sub(r'Make the whole outcome operable.*?Figure 2:.*?support its operation\.',
+    text = re.sub(r'Four partial answers.*?Figure 2:.*?Zimmerman,\s*2026\)\.',
                   '', text, flags=re.S)
+    text = re.sub(r'Make the whole outcome operable.*?Figure 3:.*?support the unit\.',
+                  '', text, flags=re.S)
+    return re.sub(r'The path to intervention.*?Figure 4:.*?after intervention\.',
+                  '', text, flags=re.S)
+
+
+def verify_paragraph_flow(paragraphs, runs):
+    """Every paragraph must occupy one page and one column (or full-width band).
+
+    Runs contain normalized body text with its rendered page and column. Large
+    pull quotes, headings, captions and running furniture are excluded by the
+    PDF reader, so repeated quotations cannot masquerade as manuscript coverage.
+    """
+    text = ''.join(run[0] for run in runs)
+    locations = [(page, column) for content, page, column in runs for _ in content]
+    position = 0
+    for paragraph in paragraphs:
+        fragments = list(filter(None, (normalized(p) for p in
+                             re.split(r'\[@[^\]]+\]', paragraph))))
+        first = None
+        for fragment in fragments:
+            start = text.find(fragment, position)
+            assert start >= 0, f'Body paragraph missing or out of order: {paragraph[:90]}'
+            if first is None:
+                first = start
+            position = start + len(fragment)
+        occupied = set(locations[first:position])
+        assert len(occupied) == 1, f'Paragraph crosses a page or column: {paragraph[:90]}'
 
 
 def verify(path):
@@ -62,7 +89,7 @@ def verify(path):
     abstract, manuscript = manuscript_parts()
     assert reader.metadata.title == 'The Coordination Trap', 'Incorrect PDF title'
     assert reader.metadata.author == 'Michel Blomgren', 'Incorrect PDF author'
-    assert len(reader.pages) >= 4, 'Cover, body or bibliography missing'
+    assert len(reader.pages) == 11, 'Editorial pagination changed; review every spread'
     cover = reader.pages[0].extract_text()
     assert normalized('The Coordination Trap') in normalized(cover), 'Cover title missing'
     assert normalized(abstract) in normalized(cover), 'Complete cover abstract missing'
@@ -73,14 +100,25 @@ def verify(path):
     with Image.open(image_source) as source:
         assert pixel_key(reader.pages[0].images[0].image) == pixel_key(source), \
             'Wrong cover artwork embedded'
-    assert not any(page.images for page in reader.pages[1:]), \
-        'Body figures must remain native vector drawings'
+    body_art = {1: 'opening-illustration.png', 4: 'unit-comic.png',
+                9: 'closing-illustration.png'}
+    for number, page in enumerate(reader.pages[1:], 1):
+        assert len(page.images) == (1 if number in body_art else 0), \
+            f'Unexpected artwork on page {number + 1}'
+        if number in body_art:
+            source_path = Path('build/squeezed' if 'squeezed' in Path(path).stem else '.') / body_art[number]
+            with Image.open(source_path) as source:
+                assert pixel_key(page.images[0].image) == pixel_key(source), \
+                    f'Wrong artwork on page {number + 1}'
 
     extracted = [without_furniture(page.extract_text()) for page in reader.pages[1:]]
     full_text = normalized(without_figures('\n'.join(extracted)))
     assert normalized(abstract) not in full_text, 'Cover abstract repeated in the body'
     assert normalized(extracted[0]).startswith('introduction'), 'Essay must begin on page 2'
     assert 'Contents' not in '\n'.join(extracted), 'Unexpected contents page'
+    assert 'computersweden' not in normalized(cover + '\n'.join(extracted)), \
+        'Removed publication reappeared'
+    assert len(abstract.split()) <= 55, 'Cover abstract is no longer a short executive hook'
     position = 0
     paragraphs = [p for p in manuscript.split('\n\n') if p.strip()]
     for paragraph in paragraphs:
@@ -101,6 +139,19 @@ def verify(path):
                             for key in cited)
     assert 'References' in reader.pages[bibliography_page].extract_text()
     assert bibliography_page > 1, 'Bibliography must follow the essay'
+    headings = [h for h in re.findall(r'^## (.+)$', Path(f'{NAME}.md').read_text(), re.M)
+                if h != 'Abstract']
+    prose_paragraphs = [p for p in paragraphs if p.strip() not in headings]
+    runs = []
+    for number in range(1, bibliography_page):
+        def collect_body(text, cm, tm, font, size):
+            x, y = tm[4] + cm[4], tm[5] + cm[5]
+            if (10.5 < size < 11.5 or 15.5 < size < 16.5) and 55 < y < 775:
+                content = normalized(text)
+                if content:
+                    runs.append((content, number, 'right' if x > 295 else 'left'))
+        reader.pages[number].extract_text(visitor_text=collect_body)
+    verify_paragraph_flow(prose_paragraphs, runs)
     links = set()
     linked_citations = set()
     for number, page in enumerate(reader.pages):
@@ -144,23 +195,47 @@ def verify(path):
             f'Bibliography title missing: {record["id"]}'
 
     outline = list(outline_entries(reader.outline))
-    headings = [h for h in re.findall(r'^## (.+)$', Path(f'{NAME}.md').read_text(), re.M)
-                if h != 'Abstract'] + ['References']
+    headings += ['References']
     assert [str(entry.title) for entry in outline] == headings, 'Section bookmarks differ'
     assert reader.get_destination_page_number(outline[0]) == 1
     assert reader.get_destination_page_number(outline[-1]) == bibliography_page
+    assert [reader.get_destination_page_number(entry) for entry in outline] == \
+        [1, 2, 4, 5, 6, 8, 9, 10], 'A section no longer starts on its intended page'
+    for entry in outline:
+        assert float(entry['/Top']) > 740, f'Section starts too far down the page: {entry.title}'
+
+    pull_quotes = {
+        5: 'The institution can afford the delay while the useful work remains undone.',
+        6: 'A unit that must seek fresh agreement across departments for every meaningful action has responsibility without control.',
+        9: 'We cannot keep paying capable people to wait and expect abundance to emerge from the queue.',
+    }
+    for number, quote in pull_quotes.items():
+        display = []
+        def collect_quote(text, cm, tm, font, size):
+            if 21 < size < 23:
+                display.append(text)
+        reader.pages[number].extract_text(visitor_text=collect_quote)
+        assert normalized(quote) in normalized(''.join(display)), \
+            f'Pull quote missing or no longer prominent on page {number + 1}'
+        assert normalized(quote) in normalized(manuscript), 'Pull quote is not verbatim essay text'
 
     for number, details in {
         1: ['Where the working week goes', '44%', '37%', '18%', '76%', '85%',
             '300 respondents', 'Self-reported time allocation'],
-        2: ['Make the whole outcome operable', 'Enterprise mandate', 'Information',
-            'Authority', 'Execution and feedback', 'The proposed operating arrangement'],
+        2: ['Four partial answers', 'Finance', 'Manufacturing', 'Planning', 'Marketing',
+            'Who owns the combined result?', 'product-portfolio example'],
+        3: ['Make the whole outcome operable', 'Enterprise mandate', 'Information',
+            'Authority', 'Execution and feedback', 'complete outcome'],
+        4: ['The path to intervention', 'AUTHORITY AS A QUEUE', 'AUTHORITY WITHIN AGREED LIMITS',
+            'Stop, contain', 'Verification and independent scrutiny'],
     }.items():
         anchors = [destination for key, destination in destinations.items()
                    if key.startswith('figure.') and f'Figure {number}:' in
                    reader.pages[reader.get_destination_page_number(destination)].extract_text()]
         assert len(anchors) == 1, f'Figure {number} has no unique caption destination'
         page = reader.get_destination_page_number(anchors[0])
+        assert page == {1: 2, 2: 3, 3: 7, 4: 8}[number], \
+            f'Figure {number} has drifted away from its discussion'
         text = normalized(reader.pages[page].extract_text())
         assert 0 < page < bibliography_page
         for detail in details:
@@ -171,7 +246,8 @@ def verify(path):
                          log.read_text()), 'Unresolved typesetting or citation warnings'
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript blocks; '
           f'{len(cited)} references and linked citations; cover abstract, original artwork, '
-          'two native figures, page numbering and all section bookmarks verified')
+          'three editorial illustrations, four native figures, three pull quotes, '
+          'unbroken paragraphs, page numbering and all section bookmarks verified')
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 % Original native figures for this essay. All data labels remain searchable text.
 \newcommand{\SurveyFigure}{%
-  \begin{figure*}[t]
+  \par\vspace{7mm}\noindent\begin{minipage}{\textwidth}
     \centering
     \begin{tikzpicture}[x=1mm,y=1mm]
       \node[anchor=west,font=\small\bfseries,text=blue] at (0,47)
@@ -28,39 +28,93 @@
       \node[anchor=north west,align=left,font=\scriptsize] at (127,10)
         {want more time\\on substantive work};
     \end{tikzpicture}
-    \caption{Self-reported time allocation and work preferences in Hastings, Syverson and Zimmerman's survey. Percentages are reproduced as reported; time shares total 99\% because of rounding \citep{hastings2026deployment}.}
+    \captionof{figure}{Self-reported time allocation and work preferences in Hastings, Syverson and Zimmerman's survey. Percentages are reproduced as reported; time shares total 99\% because of rounding \citep{hastings2026deployment}.}
     \label{fig:coordination-survey}
-  \end{figure*}%
+  \end{minipage}\par%
 }
 
 \newcommand{\OutcomeFigure}{%
-  \begin{figure*}[t]
+  \par\vspace{3mm}\noindent\begin{minipage}{\textwidth}
     \centering
     \begin{tikzpicture}[x=1mm,y=1mm,draw=blue,text=blue,line width=0.7pt,
       >={Stealth[length=2mm]}]
-      \node[anchor=west,font=\small\bfseries] at (0,53) {Make the whole outcome operable};
-      \fill[blue!5,rounded corners=2pt] (0,30) rectangle (164,46);
-      \node[anchor=west,font=\small\bfseries] at (4,41) {Enterprise mandate};
-      \node[anchor=west,font=\scriptsize,text=black!85] at (4,35)
+      \node[anchor=west,font=\small\bfseries] at (0,42) {Make the whole outcome operable};
+      \fill[blue!5,rounded corners=2pt] (0,24) rectangle (164,37);
+      \node[anchor=west,font=\small\bfseries] at (4,33) {Enterprise mandate};
+      \node[anchor=west,font=\scriptsize,text=black!85] at (4,28)
         {Priorities, investment, decision limits and a named route for consequential exceptions};
-      \draw[->] (82,30)--(82,25);
-      \draw[rounded corners=2pt,line width=1pt] (0,0) rectangle (164,25);
-      \node[anchor=west,font=\small\bfseries] at (4,20) {One unit accountable for the complete business result};
-      \draw[blue!25] (53,3)--(53,15) (108,3)--(108,15);
-      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (4,14)
-        {\textbf{Information}\\Cross-functional evidence\\and domain expertise};
-      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (58,14)
-        {\textbf{Authority}\\Defined decisions, access\\and power to intervene};
-      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (113,14)
-        {\textbf{Execution and feedback}\\Implement, verify, observe\\and correct the result};
-      \draw[->] (30,-9)--(30,0);
-      \draw[->] (134,0)--(134,-9);
-      \node[anchor=north,align=center,font=\scriptsize,text=black!85] at (30,-10)
+      \draw[->] (82,24)--(82,20);
+      \draw[rounded corners=2pt,line width=1pt] (0,0) rectangle (164,20);
+      \node[anchor=west,font=\small\bfseries] at (4,16) {One unit accountable for the complete business result};
+      \draw[blue!25] (53,2)--(53,12) (108,2)--(108,12);
+      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (4,11)
+        {\textbf{Information}\\Evidence and expertise};
+      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (58,11)
+        {\textbf{Authority}\\Defined decisions and access};
+      \node[anchor=north west,align=left,font=\scriptsize,text=black!85] at (113,11)
+        {\textbf{Execution and feedback}\\Implement, verify and correct};
+      \draw[->] (30,-5)--(30,0);
+      \draw[->] (134,0)--(134,-5);
+      \node[anchor=north,align=center,font=\scriptsize,text=black!85] at (30,-6)
         {Dependable shared services};
-      \node[anchor=north,align=center,font=\scriptsize,text=black!85] at (134,-10)
+      \node[anchor=north,align=center,font=\scriptsize,text=black!85] at (134,-6)
         {Operating results and independent scrutiny};
     \end{tikzpicture}
-    \caption{The proposed operating arrangement brings information, authority and execution together around an outcome. Leadership owns the mandate and trade-offs across units; shared capabilities and independent scrutiny support its operation.}
+    \captionof{figure}{Information, authority and execution meet around a complete outcome. Leadership owns the mandate; shared services and independent scrutiny support the unit.}
     \label{fig:outcome-ownership}
-  \end{figure*}%
+  \end{minipage}\par
+}
+
+\newcommand{\SafetyFigure}{%
+  \par\vspace{7mm}\noindent\begin{minipage}{\textwidth}
+    \centering
+    \begin{tikzpicture}[x=1mm,y=0.85mm,>={Stealth[length=2mm]}]
+      \node[anchor=west,font=\small\bfseries,text=blue] at (0,64)
+        {The path to intervention is part of the control};
+      \node[anchor=west,font=\scriptsize\bfseries,text=CoordinationAmber] at (0,52)
+        {AUTHORITY AS A QUEUE};
+      \draw[->,CoordinationAmber,line width=1.2pt] (3,39)--(160,39);
+      \foreach \x in {3,55,107,157} \fill[CoordinationAmber] (\x,39) circle (1.4);
+      \node[anchor=north west,align=left,font=\scriptsize] at (0,35) {Hazard\\recognized};
+      \node[anchor=south,align=center,font=\scriptsize] at (55,43) {Escalation};
+      \node[anchor=north,align=center,font=\scriptsize] at (107,35) {Permission\\sought};
+      \node[anchor=south east,align=right,font=\scriptsize] at (160,43) {Action\\authorized};
+      \node[anchor=west,font=\scriptsize\bfseries,text=blue] at (0,16)
+        {AUTHORITY WITHIN AGREED LIMITS};
+      \draw[->,blue,line width=1.2pt] (3,3)--(160,3);
+      \foreach \x in {3,55,157} \fill[blue] (\x,3) circle (1.4);
+      \node[anchor=north west,align=left,font=\scriptsize] at (0,-1) {Hazard\\recognized};
+      \node[anchor=north,align=center,font=\scriptsize] at (55,-1) {Stop, contain\\or correct};
+      \node[anchor=north east,align=right,font=\scriptsize] at (160,-1) {Verify, learn\\and scrutinize};
+    \end{tikzpicture}
+    \captionof{figure}{Authority prepared before an incident lets responders act within established limits. Verification and independent scrutiny continue after intervention.}
+    \label{fig:safety-authority}
+  \end{minipage}\par
+}
+
+\newcommand{\PortfolioFigure}{%
+  \par\vspace{10mm}\noindent\begin{minipage}{\textwidth}
+    \centering
+    \begin{tikzpicture}[x=1mm,y=1mm,>={Stealth[length=2mm]}]
+      \node[anchor=west,font=\small\bfseries,text=blue] at (0,65)
+        {Four partial answers. One product decision.};
+      \foreach \x/\title/\detail in {
+        0/Finance/Variant profit,
+        43/Manufacturing/Changeover cost,
+        86/Planning/Inventory exposure,
+        129/Marketing/Customer substitution} {
+        \fill[blue!5,rounded corners=2pt] (\x,41) rectangle (\x+35,57);
+        \node[anchor=north west,font=\small\bfseries,text=blue] at (\x+2,54) {\title};
+        \node[anchor=north west,font=\scriptsize] at (\x+2,47) {\detail};
+        \draw[->,blue!55] (\x+17.5,41)--(82,25);
+      }
+      \draw[blue,line width=0.8pt,rounded corners=2pt] (33,5) rectangle (131,25);
+      \node[align=center,font=\small,text=blue] at (82,15)
+        {\textbf{Who owns the combined result?}\\Retain, change or retire the variant};
+      \node[anchor=north,align=center,font=\small\itshape,text=CoordinationAmber] at (82,0)
+        {Without a combined decision, the variant stays.};
+    \end{tikzpicture}
+    \captionof{figure}{The product-portfolio example in Hastings, Syverson and Zimmerman: the relevant information is distributed across functions, while continuing the existing offering requires no new agreement \citep{hastings2026deployment}.}
+    \label{fig:portfolio-decision}
+  \end{minipage}\par
 }

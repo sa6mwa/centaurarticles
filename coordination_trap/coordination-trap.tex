@@ -3,7 +3,6 @@
 \input{structure.tex}
 \usepackage{tikz}
 \usepackage{eso-pic}
-\usepackage{balance}
 \usetikzlibrary{fadings,arrows.meta}
 \usepackage{hyperref}
 \hypersetup{
@@ -17,63 +16,71 @@
 \definecolor{CoverInk}{HTML}{020713}
 \definecolor{CoordinationAmber}{HTML}{A56112}
 \tikzfading[name=coverFade,bottom color=transparent!0,top color=transparent!100]
+\captionsetup{hypcap=false}
 \setcounter{secnumdepth}{0}
 \setlength{\emergencystretch}{2em}
 \clubpenalty=10000
 \widowpenalty=10000
 \lfoot{\footnotesize\href{https://c89.systems}{C89 Systems}}
 \raggedbottom
+\input{editorial-layout.tex}
 \input{body-illustrations.tex}
 
 \begin{document}
-\onecolumn
 \thispagestyle{firstpage}
 \AddToShipoutPictureBG*{%
-  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight]{cover.png}}%
   \begin{tikzpicture}[remember picture,overlay]
-    \fill[CoverInk,opacity=0.08]
-      (current page.south west) rectangle (current page.north east);
-    \fill[CoverInk,opacity=0.78,path fading=coverFade]
-      ([yshift=0.22\paperheight]current page.south west)
-      rectangle ([yshift=0.38\paperheight]current page.south east);
-    \fill[CoverInk,opacity=0.78]
-      (current page.south west)
-      rectangle ([yshift=0.22\paperheight+0.1pt]current page.south east);
+    \fill[CoverInk] (current page.south west) rectangle (current page.north east);
+    \begin{scope}
+      \clip ([yshift=-139mm]current page.north west)
+        rectangle ([yshift=-240mm]current page.north east);
+      % Reframe the original art; no type is baked into the image.
+      \node[anchor=north west,inner sep=0pt]
+        at ([yshift=-35mm]current page.north west)
+        {\includegraphics[width=\paperwidth]{cover.png}};
+    \end{scope}
+    \fill[CoverInk,path fading=coverFade]
+      ([yshift=-224mm]current page.north west) rectangle
+      ([yshift=-240mm]current page.north east);
   \end{tikzpicture}%
 }
 \begin{tikzpicture}[remember picture,overlay]
   \node[anchor=north west,inner sep=0pt]
-    at ([xshift=20mm,yshift=-17mm]current page.north west)
-    {\includegraphics[width=43mm]{assets/c89-systems.pdf}};
-  \node[anchor=north west,inner sep=0pt,text width=170mm]
-    at ([xshift=20mm,yshift=-43mm]current page.north west) {%
-      \raggedright\color{CoverBlue}
-      {\fontsize{44}{47}\usefont{T1}{Montserrat-TLF}{b}{n}The\par Coordination\par Trap\par}
-      \vspace{4mm}
-      {\fontsize{11}{14}\usefont{OT1}{phv}{m}{n}\color{white}
-        AI is changing what people can accomplish.\par
-        Companies are still paying for the organization\par
-        that gets in their way.\par}
-      \vspace{5mm}
-      {\large\usefont{OT1}{phv}{b}{n}\color{white}Michel Blomgren\par}
-      \vspace{1.5mm}
-      {\small\usefont{OT1}{phv}{m}{n}\color{CoverBlue}
-        \hypersetup{urlcolor=CoverBlue}\href{mailto:mike@c89.systems}{mike@c89.systems}\par}
+    at ([xshift=18mm,yshift=-15mm]current page.north west)
+    {\includegraphics[width=48mm]{assets/c89-systems.pdf}};
+  \node[anchor=north east,inner sep=0pt,align=right,text=white]
+    at ([xshift=-18mm,yshift=-17mm]current page.north east) {%
+      \begin{tabular}{@{}r@{}}
+        \usefont{OT1}{phv}{b}{n}\fontsize{11}{14}\selectfont Michel Blomgren\\[1.5mm]
+        \usefont{OT1}{phv}{m}{n}\fontsize{10}{12}\selectfont
+        \hypersetup{urlcolor=CoverBlue}\href{mailto:mike@c89.systems}{mike@c89.systems}
+      \end{tabular}};
+  \node[anchor=north west,inner sep=0pt,text width=174mm]
+    at ([xshift=18mm,yshift=-42mm]current page.north west) {%
+      \raggedright\color{CoverBlue}\usefont{T1}{Montserrat-TLF}{b}{n}
+      {\fontsize{23}{26}\selectfont The\par}
+      \vspace{2mm}
+      {\fontsize{63}{64}\selectfont Coordination\par}
+      {\fontsize{94}{96}\selectfont Trap\par}
     };
-  \node[anchor=south west,inner sep=0pt,text width=170mm]
-    at ([xshift=20mm,yshift=18mm]current page.south west) {%
+  \node[anchor=north west,inner sep=0pt,text width=174mm]
+    at ([xshift=18mm,yshift=-116mm]current page.north west) {%
+      \raggedright\color{white}\usefont{OT1}{phv}{m}{n}\fontsize{16}{20}\selectfont
+      AI is changing what people can accomplish.\par
+      Companies are still paying for the organization\par
+      that gets in their way.\par
+    };
+  \node[anchor=south west,inner sep=0pt,text width=174mm]
+    at ([xshift=18mm,yshift=17mm]current page.south west) {%
       \color{white}
-      {\small\usefont{OT1}{phv}{b}{n}\color{CoverBlue}ABSTRACT\par}
-      \vspace{3mm}
-      {\fontsize{11}{14}\selectfont\noindent\input{abstract.tex}\par}
+      {\fontsize{9}{11}\usefont{OT1}{phv}{b}{n}\color{CoverBlue}ABSTRACT\par}
+      \vspace{2.5mm}
+      {\fontsize{12}{16}\selectfont\noindent\input{abstract.tex}\par}
     };
 \end{tikzpicture}
 \null
 \clearpage
-\twocolumn
 \input{body.tex}
 \clearpage
-\nobalance
-\onecolumn
 \printbibliography[heading=bibintoc,title={References}]
 \end{document}

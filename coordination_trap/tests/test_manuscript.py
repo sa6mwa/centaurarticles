@@ -5,11 +5,13 @@ import re
 import subprocess
 import unittest
 
+from verify_essay import normalized, verify_paragraph_flow
+
 
 class ManuscriptTests(unittest.TestCase):
     def test_artwork_and_c89_assets_match_recorded_originals(self):
         provenance = json.loads(Path('illustrations/provenance.json').read_text())
-        for asset in [provenance['cover']] + provenance['branding']:
+        for asset in [provenance['cover']] + provenance['branding'] + provenance['body_art']:
             with self.subTest(asset=asset['file']):
                 self.assertEqual(hashlib.sha256(Path(asset['file']).read_bytes()).hexdigest(),
                                  asset['sha256'])
@@ -24,7 +26,8 @@ class ManuscriptTests(unittest.TestCase):
         result = self.convert('abstract')
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertTrue(result.stdout.startswith('Companies are buying'))
-        self.assertTrue(result.stdout.strip().endswith('allows people to act on it.'))
+        self.assertTrue(result.stdout.strip().endswith('blame the technology?'))
+        self.assertLessEqual(len(result.stdout.split()), 55)
         self.assertNotIn('Introduction', result.stdout)
         self.assertNotIn('When I read', result.stdout)
 
@@ -75,6 +78,48 @@ class ManuscriptTests(unittest.TestCase):
         self.assertNotIn('https://', result.stdout)
         self.assertEqual(result.stdout.count(r'\SurveyFigure'), 1)
         self.assertEqual(result.stdout.count(r'\OutcomeFigure'), 1)
+        self.assertEqual(result.stdout.count(r'\PortfolioFigure'), 1)
+        self.assertEqual(result.stdout.count(r'\SafetyFigure'), 1)
+        self.assertEqual(result.stdout.count(r'\PullQuote'), 3)
+        self.assertEqual(result.stdout.count(r'\EssayArt'), 3)
+        self.assertEqual(result.stdout.count(r'\begin{EssayColumns}'),
+                         result.stdout.count(r'\end{EssayColumns}'))
+
+    def test_changed_paragraph_structure_requires_layout_review(self):
+        source = Path('coordination-trap.md').read_text().replace(
+            '## The unit of work has changed',
+            'An additional paragraph.\n\n## The unit of work has changed')
+        result = subprocess.run(
+            ['pandoc', '--to=latex', '--lua-filter=manuscript.lua', '-M', 'part=body'],
+            input=source, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Editorial layout needs review', result.stderr)
+
+    def test_changed_section_order_requires_layout_review(self):
+        source = Path('coordination-trap.md').read_text().replace(
+            '## The unit of work has changed', '## A different section')
+        result = subprocess.run(
+            ['pandoc', '--to=latex', '--lua-filter=manuscript.lua', '-M', 'part=body'],
+            input=source, capture_output=True, text=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('Editorial layout needs review', result.stderr)
+
+    def test_pdf_flow_accepts_complete_paragraphs_and_citation_expansion(self):
+        verify_paragraph_flow(['A complete thought [@source] ends here.', 'Next paragraph.'], [
+            (normalized('A complete thought (Author, 2026) ends here.'), 2, 'left'),
+            (normalized('Next paragraph.'), 2, 'right')])
+
+    def test_pdf_flow_rejects_a_paragraph_split_across_pages_or_columns(self):
+        for location in [(3, 'left'), (2, 'right')]:
+            with self.subTest(location=location), self.assertRaisesRegex(AssertionError, 'crosses'):
+                verify_paragraph_flow(['A complete thought ends here.'], [
+                    (normalized('A complete thought'), 2, 'left'),
+                    (normalized('ends here.'), *location)])
+
+    def test_pdf_flow_rejects_missing_or_reordered_text(self):
+        for text in ['A thought ends here.', 'ends here. A complete thought']:
+            with self.subTest(text=text), self.assertRaisesRegex(AssertionError, 'missing or out of order'):
+                verify_paragraph_flow(['A complete thought ends here.'], [(normalized(text), 2, 'left')])
 
     def test_missing_tex_argument_reports_usage(self):
         result = subprocess.run(['bash', 'mkpdf.sh'], capture_output=True, text=True)

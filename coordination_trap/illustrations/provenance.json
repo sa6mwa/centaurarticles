@@ -4,7 +4,8 @@
     "file": "cover.png",
     "sha256": "5c302f8cf25d276e9346975391a34835dd7971891919a946ea202699652cdd08",
     "origin": "Original built-in imagegen generation; no input images",
-    "prompt": "cover-art.md"
+    "prompt": "cover-art.md",
+    "placement": "Reframed as a horizontal cover band in LaTeX; original pixels unchanged"
   },
   "branding": [
     {
@@ -49,10 +50,46 @@
     },
     {
       "number": 2,
+      "label": "fig:portfolio-decision",
+      "source": "body-illustrations.tex",
+      "origin": "New native TikZ drawing",
+      "citation": "hastings2026deployment",
+      "meaning": "Original diagram of the article’s product-portfolio example"
+    },
+    {
+      "number": 3,
       "label": "fig:outcome-ownership",
       "source": "body-illustrations.tex",
       "origin": "New native TikZ drawing",
       "meaning": "The essay's proposed operating arrangement; no measured data"
+    },
+    {
+      "number": 4,
+      "label": "fig:safety-authority",
+      "source": "body-illustrations.tex",
+      "origin": "New native TikZ drawing",
+      "meaning": "Conceptual action sequences; distances do not represent measured timing"
+    }
+  ],
+  "revised": "2026-10-28",
+  "body_art": [
+    {
+      "file": "opening-illustration.png",
+      "sha256": "3f401b360db7de0225213fe2294c09e98e4b54eb9929e8f8224b3c8a7584596d",
+      "origin": "Original built-in imagegen generation; no input images",
+      "prompt": "illustrations/body-art.md"
+    },
+    {
+      "file": "unit-comic.png",
+      "sha256": "b0c1508fa60bfc11098dcb708d6697609c4caa9e95d6c58c1328d6b33ce7346d",
+      "origin": "Original built-in imagegen generation; no input images",
+      "prompt": "illustrations/body-art.md"
+    },
+    {
+      "file": "closing-illustration.png",
+      "sha256": "90b3f69f562c084d18128b2a4a1672ef66aeb46bfd3f1df17fc03a25ae68092f",
+      "origin": "Original built-in imagegen generation; no input images",
+      "prompt": "illustrations/body-art.md"
     }
   ]
 }

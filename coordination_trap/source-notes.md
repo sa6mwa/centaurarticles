@@ -58,11 +58,8 @@ manuscript attributes that assessment to Slok and connects it to the author's
 organizational argument. The note is economic commentary with charts; the
 essay does not describe it as a survey or randomized study.
 
-The Computer Sweden report by Viktor Eriksson, dated October 26, was also read
-at its original URL. It remains the opening trigger, with its own citation.
-Barron's and SiliconANGLE were useful routes to Apollo, but the final essay
-cites Slok directly. No Apollo chart is reproduced or reconstructed from
-unavailable numerical series.
+The essay cites Slok directly. No Apollo chart is reproduced or reconstructed
+from unavailable numerical series.
 
 ## Supporting sources
 
@@ -99,5 +96,26 @@ The source reports, the author's experience, the economic interpretation and
 the proposed operating arrangement are attributed in the prose. The essay
 does not add a methodological disclaimer section. Broader adoption surveys,
 the Haier example and repeated implementation anecdotes were omitted to keep
-the Hastings–Slok argument central. Figure 2 is an original drawing of the
+the Hastings–Slok argument central. Figure 3 is an original drawing of the
 essay's proposed operating arrangement; it does not depict measured results.
+
+
+## Editorial revision, 2026-10-28
+
+The abstract is reduced to 51 words. The opening leads with the author's
+frustration and the September 2025 origin of the Coordination Shift. Slok and
+Hastings, Syverson and Zimmerman remain the two initiating sources; the removed
+secondary-news citation is no longer part of the manuscript or bibliography.
+The historical drafts are unchanged.
+
+The revised edition has eleven pages. Complete paragraphs stay within a column
+or a full-width text band, and every major section starts on a fresh page. The
+introduction has a larger opening paragraph and an original editorial
+illustration. Three verbatim pull quotes emphasize the argument; they are the
+author's prose, not attributed quotations from the research. The two longer
+sections each use a deliberate continuation page.
+
+Four native vector figures distinguish the survey data, the source's
+product-portfolio example, the proposed ownership arrangement and the proposed
+safety-control sequence. Three original generated illustrations provide visual
+pauses. Their exact prompts and asset hashes are recorded under `illustrations/`.
