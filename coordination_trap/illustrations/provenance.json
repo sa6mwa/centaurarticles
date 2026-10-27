@@ -1,0 +1,58 @@
+{
+  "created": "2026-10-27",
+  "cover": {
+    "file": "cover.png",
+    "sha256": "5c302f8cf25d276e9346975391a34835dd7971891919a946ea202699652cdd08",
+    "origin": "Original built-in imagegen generation; no input images",
+    "prompt": "cover-art.md"
+  },
+  "branding": [
+    {
+      "file": "assets/c89-systems.svg",
+      "sha256": "12694006bc680cb77f83d8940d7a15d07e249716fb5bdffa71f42884d53c38ca",
+      "origin": "Unchanged no_place_to_land/assets/c89-systems.svg"
+    },
+    {
+      "file": "assets/c89-systems-black.svg",
+      "sha256": "58a2116ceb70fc47de51903f6bab0bce6fa2ba4de49601e5275cd419e083657d",
+      "origin": "Unchanged no_place_to_land/assets/c89-systems-black.svg"
+    },
+    {
+      "file": "assets/c89-mark-transparent.svg",
+      "sha256": "6d3d2607fc09e87db42660d7d23cf5cde188d992bb6b00ba7433fa8c7cf8c816",
+      "origin": "Unchanged no_place_to_land/assets/c89-mark-transparent.svg"
+    },
+    {
+      "file": "assets/c89-mark-black-colour-transparent.svg",
+      "sha256": "0c1b20bdf37905b901a1df293ef51fa5731e615bc9531e4e6440084f9a14366a",
+      "origin": "Unchanged no_place_to_land/assets/c89-mark-black-colour-transparent.svg"
+    }
+  ],
+  "figures": [
+    {
+      "number": 1,
+      "label": "fig:coordination-survey",
+      "source": "body-illustrations.tex",
+      "origin": "New native TikZ drawing",
+      "citation": "hastings2026deployment",
+      "values": {
+        "substantive": 44,
+        "coordination": 37,
+        "administration": 18,
+        "less_coordination": 76,
+        "more_substantive": 85
+      },
+      "scale_percent": [
+        0,
+        50
+      ]
+    },
+    {
+      "number": 2,
+      "label": "fig:outcome-ownership",
+      "source": "body-illustrations.tex",
+      "origin": "New native TikZ drawing",
+      "meaning": "The essay's proposed operating arrangement; no measured data"
+    }
+  ]
+}

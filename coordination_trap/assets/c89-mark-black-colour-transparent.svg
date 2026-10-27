@@ -1,0 +1,121 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1371 1536"
+  role="img"
+  aria-labelledby="title desc"
+>
+  <title id="title">C89 SYSTEMS colour logomark with black C and 9</title>
+  <desc id="desc">
+    Transparent-background C89 logomark with a blue 8 and black C and 9.
+  </desc>
+
+  <defs>
+    <linearGradient id="c89-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6F94E0"/>
+      <stop offset="100%" stop-color="#4F76CC"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Central blue 8 -->
+  <path
+    fill="url(#c89-blue)"
+    fill-rule="evenodd"
+    d="
+      M 676 337
+      L 524 424
+      L 296 562
+      L 296 601
+      L 567 760
+      L 570 766
+      L 297 932
+      L 294 936
+      L 294 976
+      L 401 1042
+      L 682 1204
+      L 788 1146
+      L 789 1024
+      L 781 1024
+      L 686 1080
+      L 681 1080
+      L 463 949
+      L 568 881
+      L 670 820
+      L 780 885
+      L 788 887
+      L 789 806
+      L 737 773
+      L 789 741
+      L 790 708
+      L 794 702
+      L 1040 556
+      L 1042 552
+      L 1008 529
+      L 682 337
+      Z
+
+      M 677 457
+      L 880 576
+      L 882 581
+      L 674 704
+      L 468 580
+      Z
+    "
+  />
+
+  <!-- Right-hand 9 -->
+  <path
+    fill="#000000"
+    fill-rule="evenodd"
+    d="
+      M 1279 509
+      L 884 745
+      L 885 1111
+      L 1184 939
+      L 1190 938
+      L 1193 941
+      L 1193 1081
+      L 887 1259
+      L 885 1357
+      L 888 1358
+      L 1033 1275
+      L 1278 1130
+      Z
+
+      M 1190 661
+      L 1193 664
+      L 1192 839
+      L 994 956
+      L 968 968
+      L 968 788
+      Z
+    "
+  />
+
+  <!-- Outer C-shaped cube shell -->
+  <path
+    fill="#000000"
+    d="
+      M 676 76
+      L 357 264
+      L 72 437
+      L 72 1099
+      L 74 1103
+      L 645 1440
+      L 684 1459
+      L 787 1399
+      L 786 1283
+      L 682 1339
+      L 194 1053
+      L 179 1041
+      L 181 495
+      L 675 200
+      L 688 204
+      L 1144 475
+      L 1248 418
+      L 1254 412
+      L 1126 335
+      L 682 77
+      Z
+    "
+  />
+</svg>

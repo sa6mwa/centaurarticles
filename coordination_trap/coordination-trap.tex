@@ -1,0 +1,79 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\EssayTitle}{The Coordination Trap}
+\input{structure.tex}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{balance}
+\usetikzlibrary{fadings,arrows.meta}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=black,
+  pdftitle={The Coordination Trap}, pdfauthor={Michel Blomgren},
+  pdfsubject={AI, coordination costs, and organizational redesign},
+  pdfkeywords={AI, coordination, decision authority, productivity, C89 Systems},
+  bookmarksopen=true, bookmarksnumbered=false, bookmarksdepth=2
+}
+\definecolor{CoverBlue}{HTML}{8ACFFF}
+\definecolor{CoverInk}{HTML}{020713}
+\definecolor{CoordinationAmber}{HTML}{A56112}
+\tikzfading[name=coverFade,bottom color=transparent!0,top color=transparent!100]
+\setcounter{secnumdepth}{0}
+\setlength{\emergencystretch}{2em}
+\clubpenalty=10000
+\widowpenalty=10000
+\lfoot{\footnotesize\href{https://c89.systems}{C89 Systems}}
+\raggedbottom
+\input{body-illustrations.tex}
+
+\begin{document}
+\onecolumn
+\thispagestyle{firstpage}
+\AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight]{cover.png}}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[CoverInk,opacity=0.08]
+      (current page.south west) rectangle (current page.north east);
+    \fill[CoverInk,opacity=0.78,path fading=coverFade]
+      ([yshift=0.22\paperheight]current page.south west)
+      rectangle ([yshift=0.38\paperheight]current page.south east);
+    \fill[CoverInk,opacity=0.78]
+      (current page.south west)
+      rectangle ([yshift=0.22\paperheight+0.1pt]current page.south east);
+  \end{tikzpicture}%
+}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north west,inner sep=0pt]
+    at ([xshift=20mm,yshift=-17mm]current page.north west)
+    {\includegraphics[width=43mm]{assets/c89-systems.pdf}};
+  \node[anchor=north west,inner sep=0pt,text width=170mm]
+    at ([xshift=20mm,yshift=-43mm]current page.north west) {%
+      \raggedright\color{CoverBlue}
+      {\fontsize{44}{47}\usefont{T1}{Montserrat-TLF}{b}{n}The\par Coordination\par Trap\par}
+      \vspace{4mm}
+      {\fontsize{11}{14}\usefont{OT1}{phv}{m}{n}\color{white}
+        AI is changing what people can accomplish.\par
+        Companies are still paying for the organization\par
+        that gets in their way.\par}
+      \vspace{5mm}
+      {\large\usefont{OT1}{phv}{b}{n}\color{white}Michel Blomgren\par}
+      \vspace{1.5mm}
+      {\small\usefont{OT1}{phv}{m}{n}\color{CoverBlue}
+        \hypersetup{urlcolor=CoverBlue}\href{mailto:mike@c89.systems}{mike@c89.systems}\par}
+    };
+  \node[anchor=south west,inner sep=0pt,text width=170mm]
+    at ([xshift=20mm,yshift=18mm]current page.south west) {%
+      \color{white}
+      {\small\usefont{OT1}{phv}{b}{n}\color{CoverBlue}ABSTRACT\par}
+      \vspace{3mm}
+      {\fontsize{11}{14}\selectfont\noindent\input{abstract.tex}\par}
+    };
+\end{tikzpicture}
+\null
+\clearpage
+\twocolumn
+\input{body.tex}
+\clearpage
+\nobalance
+\onecolumn
+\printbibliography[heading=bibintoc,title={References}]
+\end{document}
