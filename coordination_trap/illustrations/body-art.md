@@ -1,6 +1,6 @@
 # Original body artwork
 
-Generated with the built-in imagegen tool on 2026-10-27. These are conceptual editorial illustrations, not documentary images of the cited studies. No imagery from another essay was used. The existing cover is reframed in LaTeX; its pixels are unchanged.
+Generated with the built-in imagegen tool on 2026-10-27. These are conceptual editorial illustrations, not documentary images of the cited studies. No imagery from another essay was used. The cover is documented separately in `cover-v3-art.md`.
 
 ## opening-illustration.png
 

@@ -14,24 +14,27 @@
   \begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
   \setlength{\parindent}{1em}\noindent
 }
-\newenvironment{OpeningLead}{%
-  \par\begingroup\raggedright\color{blue}\fontsize{16}{21}\selectfont\noindent
-}{\par\endgroup\vspace{7mm}}
 \newcommand{\EssayArt}[1]{%
   \par\vspace{8mm}\noindent\includegraphics[width=\textwidth]{#1}\par
 }
 \newcommand{\ContinuedSection}[1]{%
   \clearpage\noindent{\color{blue}\sffamily\small\bfseries #1 / continued}\par\vspace{6mm}
 }
-\newcommand{\PullQuote}[1]{%
-  \par\vspace{8mm}
-  \noindent\begin{minipage}{\textwidth}
-    \centering\color{blue}
-    {\fontsize{36}{20}\selectfont\textquotedblleft\par}\vspace{1mm}
-    \begin{minipage}{155mm}
-      \centering\usefont{T1}{Montserrat-TLF}{b}{n}\fontsize{22}{27}\selectfont
-      #1\par
-    \end{minipage}\par\vspace{4mm}
-    {\color{CoordinationAmber}\rule{18mm}{1.2pt}}\par
-  \end{minipage}\par\vspace{8mm}
+
+% One short pull quote straddles the gutter. Matching wrapstuff windows narrow
+% the facing edges of the two columns for the same six lines; the prose then
+% returns to its normal width. The quote is painted once, from the left column.
+\newcommand{\GutterQuote}{%
+  \begin{wrapstuff}[r,top=14,width=70mm,height=25mm,hoffset=38.5mm,
+      leftsep=7mm,lines=6]
+    \centering\color{black}\fontsize{18}{21}\selectfont
+    {\color{black!45}\textquotedblleft}The mandate must\\move real decisions.{\color{black!45}\textquotedblright}\par
+  \end{wrapstuff}%
+}
+\newcommand{\NextGutterColumn}{%
+  \par\wrapstuffclear\NextEssayColumn
+  \begin{wrapstuff}[l,top=14,width=70mm,height=25mm,hoffset=38.5mm,
+      rightsep=7mm,lines=6]
+    \mbox{}%
+  \end{wrapstuff}%
 }

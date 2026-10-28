@@ -26,7 +26,6 @@ function Pandoc(doc)
     paragraphs(s, split + 1, last)
     raw('\\end{EssayColumns}')
   end
-  local function quote(text) raw('\\PullQuote{' .. text .. '}') end
   local expected = {
     {'introduction', 3},
     {'the-missing-return-has-an-organizational-address', 7},
@@ -51,10 +50,7 @@ function Pandoc(doc)
       s.header.level = 1
       result:insert(s.header)
       if body_index == 1 then
-        raw('\\begin{OpeningLead}')
-        paragraphs(s, 1, 1)
-        raw('\\end{OpeningLead}')
-        columns(s, 2, 2, 3)
+        columns(s, 1, 2, 3)
         raw('\\EssayArt{opening-illustration.png}')
       elseif body_index == 2 then
         paragraphs(s, 1, 1)
@@ -71,22 +67,21 @@ function Pandoc(doc)
         raw('\\EssayArt{unit-comic.png}')
       elseif body_index == 4 then
         columns(s, 1, 3, 6)
-        quote('The institution can afford the delay while the useful work remains undone.')
       elseif body_index == 5 then
-        columns(s, 1, 1, 2)
-        quote('A unit that must seek fresh agreement across departments for every meaningful action has responsibility without control.')
-        columns(s, 3, 3, 4)
-        raw('\\vspace{6mm}')
-        paragraphs(s, 5, 5)
+        raw('\\begin{EssayColumns}\\GutterQuote')
+        paragraphs(s, 1, 3)
+        raw('\\NextGutterColumn')
+        paragraphs(s, 4, 6)
+        raw('\\wrapstuffclear\\end{EssayColumns}')
         raw('\\ContinuedSection{Give the whole outcome an owner}')
-        columns(s, 6, 8, 11)
+        columns(s, 7, 8, 11)
         raw('\\OutcomeFigure')
       elseif body_index == 6 then
         columns(s, 1, 3, 5)
         raw('\\SafetyFigure')
       elseif body_index == 7 then
         columns(s, 1, 1, 2)
-        quote('We cannot keep paying capable people to wait and expect abundance to emerge from the queue.')
+        raw('\\vspace{6mm}')
         paragraphs(s, 3, 3)
         raw('\\EssayArt{closing-illustration.png}')
       end

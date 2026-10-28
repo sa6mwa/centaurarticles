@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="105mm" height="96mm"
+     viewBox="0 0 297.6378 272.1260">
+  <title>The Coordination Trap — When execution outruns the enterprise</title>
+  <!-- Coordinates are printer's points. The bundled OFL font is resolved by
+       assets/fontconfig.conf; Cairo embeds selectable text in the PDF. -->
+  <g font-family="Bebas Neue" font-weight="400" fill="#FFF9F2">
+    <text x="0" y="42" font-size="60">THE</text>
+    <text x="0" y="93" font-size="60">COORDINATION</text>
+    <text x="0" y="176" font-size="108" fill="#FF503B">TRAP</text>
+    <g font-size="22" letter-spacing="1.8">
+      <text x="1" y="214">WHEN EXECUTION</text>
+      <text x="1" y="240">OUTRUNS</text>
+      <text x="1" y="266">THE ENTERPRISE</text>
+    </g>
+  </g>
+</svg>

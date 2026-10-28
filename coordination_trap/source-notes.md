@@ -110,12 +110,23 @@ The historical drafts are unchanged.
 
 The revised edition has eleven pages. Complete paragraphs stay within a column
 or a full-width text band, and every major section starts on a fresh page. The
-introduction has a larger opening paragraph and an original editorial
-illustration. Three verbatim pull quotes emphasize the argument; they are the
-author's prose, not attributed quotations from the research. The two longer
+introduction uses normal black body type and an original editorial
+illustration. One short verbatim pull quote is set into the gutter with prose
+flowing around both sides; it is the author's statement, not a quotation from
+the research. The two longer
 sections each use a deliberate continuation page.
 
 Four native vector figures distinguish the survey data, the source's
 product-portfolio example, the proposed ownership arrangement and the proposed
 safety-control sequence. Three original generated illustrations provide visual
 pauses. Their exact prompts and asset hashes are recorded under `illustrations/`.
+
+
+The cover follows the author's supplied sunset-and-office-tower reference.
+`cover-v3.png` is a textless imagegen edit of that reference, with sky on the left,
+architecture on the right and room above for the unchanged C89 logo and author
+details. The title uses bundled Bebas Neue lettering in warm white and coral red;
+the new cover line is “When execution outruns the enterprise.” All lettering
+remains selectable text. A translucent bottom fade supports the short abstract.
+The exact edit prompt, supplied reference and font provenance are recorded in
+`illustrations/cover-v3-art.md` and `illustrations/provenance.json`.

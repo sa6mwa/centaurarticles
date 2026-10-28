@@ -3,6 +3,7 @@
 \input{structure.tex}
 \usepackage{tikz}
 \usepackage{eso-pic}
+\usepackage{wrapstuff}
 \usetikzlibrary{fadings,arrows.meta}
 \usepackage{hyperref}
 \hypersetup{
@@ -12,7 +13,7 @@
   pdfkeywords={AI, coordination, decision authority, productivity, C89 Systems},
   bookmarksopen=true, bookmarksnumbered=false, bookmarksdepth=2
 }
-\definecolor{CoverBlue}{HTML}{8ACFFF}
+\definecolor{CoverPaper}{HTML}{FFF9F2}
 \definecolor{CoverInk}{HTML}{020713}
 \definecolor{CoordinationAmber}{HTML}{A56112}
 \tikzfading[name=coverFade,bottom color=transparent!0,top color=transparent!100]
@@ -28,54 +29,39 @@
 
 \begin{document}
 \thispagestyle{firstpage}
+% A full-page sunset composition with separate, selectable cover typography.
 \AddToShipoutPictureBG*{%
+  \AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight]{cover-v3.png}}%
   \begin{tikzpicture}[remember picture,overlay]
-    \fill[CoverInk] (current page.south west) rectangle (current page.north east);
-    \begin{scope}
-      \clip ([yshift=-139mm]current page.north west)
-        rectangle ([yshift=-240mm]current page.north east);
-      % Reframe the original art; no type is baked into the image.
-      \node[anchor=north west,inner sep=0pt]
-        at ([yshift=-35mm]current page.north west)
-        {\includegraphics[width=\paperwidth]{cover.png}};
-    \end{scope}
-    \fill[CoverInk,path fading=coverFade]
-      ([yshift=-224mm]current page.north west) rectangle
-      ([yshift=-240mm]current page.north east);
+    \fill[CoverInk,opacity=0.82,path fading=coverFade]
+      ([yshift=0.16\paperheight]current page.south west)
+      rectangle ([yshift=0.26\paperheight]current page.south east);
+    \fill[CoverInk,opacity=0.82]
+      (current page.south west)
+      rectangle ([yshift=0.16\paperheight+0.1pt]current page.south east);
   \end{tikzpicture}%
 }
 \begin{tikzpicture}[remember picture,overlay]
   \node[anchor=north west,inner sep=0pt]
-    at ([xshift=18mm,yshift=-15mm]current page.north west)
+    at ([xshift=14mm,yshift=-12mm]current page.north west)
     {\includegraphics[width=48mm]{assets/c89-systems.pdf}};
-  \node[anchor=north east,inner sep=0pt,align=right,text=white]
-    at ([xshift=-18mm,yshift=-17mm]current page.north east) {%
-      \begin{tabular}{@{}r@{}}
-        \usefont{OT1}{phv}{b}{n}\fontsize{11}{14}\selectfont Michel Blomgren\\[1.5mm]
-        \usefont{OT1}{phv}{m}{n}\fontsize{10}{12}\selectfont
-        \hypersetup{urlcolor=CoverBlue}\href{mailto:mike@c89.systems}{mike@c89.systems}
-      \end{tabular}};
-  \node[anchor=north west,inner sep=0pt,text width=174mm]
-    at ([xshift=18mm,yshift=-42mm]current page.north west) {%
-      \raggedright\color{CoverBlue}\usefont{T1}{Montserrat-TLF}{b}{n}
-      {\fontsize{23}{26}\selectfont The\par}
-      \vspace{2mm}
-      {\fontsize{63}{64}\selectfont Coordination\par}
-      {\fontsize{94}{96}\selectfont Trap\par}
+  \node[anchor=north east,inner sep=0pt,text width=65mm]
+    at ([xshift=-14mm,yshift=-15mm]current page.north east) {%
+      \raggedleft\color{CoverPaper}
+      {\fontsize{11}{14}\usefont{OT1}{phv}{b}{n}Michel Blomgren\par}
+      \vspace{1.5mm}
+      {\fontsize{10}{12}\usefont{OT1}{phv}{m}{n}
+        \hypersetup{urlcolor=CoverPaper}\href{mailto:mike@c89.systems}{mike@c89.systems}\par}
     };
-  \node[anchor=north west,inner sep=0pt,text width=174mm]
-    at ([xshift=18mm,yshift=-116mm]current page.north west) {%
-      \raggedright\color{white}\usefont{OT1}{phv}{m}{n}\fontsize{16}{20}\selectfont
-      AI is changing what people can accomplish.\par
-      Companies are still paying for the organization\par
-      that gets in their way.\par
-    };
-  \node[anchor=south west,inner sep=0pt,text width=174mm]
-    at ([xshift=18mm,yshift=17mm]current page.south west) {%
-      \color{white}
-      {\fontsize{9}{11}\usefont{OT1}{phv}{b}{n}\color{CoverBlue}ABSTRACT\par}
-      \vspace{2.5mm}
-      {\fontsize{12}{16}\selectfont\noindent\input{abstract.tex}\par}
+  \node[anchor=north west,inner sep=0pt]
+    at ([xshift=14mm,yshift=-41mm]current page.north west)
+    {\includegraphics[width=105mm]{assets/cover-type.pdf}};
+  \node[anchor=south west,inner sep=0pt,text width=182mm]
+    at ([xshift=14mm,yshift=18mm]current page.south west) {%
+      \raggedright\hyphenpenalty=10000\color{CoverPaper}
+      {\small\usefont{OT1}{phv}{b}{n}ABSTRACT\par}
+      \vspace{3mm}
+      {\fontsize{13}{17}\selectfont\noindent\input{abstract.tex}\par}
     };
 \end{tikzpicture}
 \null

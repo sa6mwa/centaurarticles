@@ -1,6 +1,6 @@
 # The Coordination Trap
 
-*AI is changing what people can accomplish. Companies are still paying for the organization that gets in their way.*
+*When execution outruns the enterprise.*
 
 ## Abstract
 

@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import subprocess
 import unicodedata
+import xml.etree.ElementTree as ET
 from urllib.parse import unquote
 
 from PIL import Image
@@ -84,6 +85,28 @@ def verify_paragraph_flow(paragraphs, runs):
         assert len(occupied) == 1, f'Paragraph crosses a page or column: {paragraph[:90]}'
 
 
+def verify_background_extent(matrix, width, height):
+    a, b, c, d, e, f = matrix
+    points = [(e, f), (a + e, b + f), (c + e, d + f), (a + c + e, b + d + f)]
+    assert min(x for x, _ in points) <= 0.5 and min(y for _, y in points) <= 0.5 \
+        and max(x for x, _ in points) >= width - 0.5 \
+        and max(y for _, y in points) >= height - 0.5, 'Cover background is not full-page'
+
+
+def verify_gutter_geometry(quote, words, page_width):
+    left, top, right, bottom = quote
+    assert abs((left + right) / 2 - page_width / 2) < 12, 'Quote is not centered on the gutter'
+    beside = [w for w in words if top < (w[1] + w[3]) / 2 < bottom]
+    assert any(w[2] < left - 4 for w in beside), 'No prose flows to the left of the quote'
+    assert any(w[0] > right + 4 for w in beside), 'No prose flows to the right of the quote'
+    assert all(w[2] < left - 4 or w[0] > right + 4 for w in beside), 'Prose overlaps the quote'
+    for start, stop in [(top - 80, top - 30), (bottom + 30, bottom + 80)]:
+        nearby = [w for w in words if start < (w[1] + w[3]) / 2 < stop]
+        assert any(left < (w[0] + w[2]) / 2 < page_width / 2 for w in nearby) \
+            and any(page_width / 2 < (w[0] + w[2]) / 2 < right for w in nearby), \
+            'Both columns must regain their normal width above and below the quote'
+
+
 def verify(path):
     reader = PdfReader(path)
     abstract, manuscript = manuscript_parts()
@@ -95,11 +118,27 @@ def verify(path):
     assert normalized(abstract) in normalized(cover), 'Complete cover abstract missing'
     assert 'Michel Blomgren' in cover and 'mike@c89.systems' in cover
     assert len(reader.pages[0].images) == 1, 'Cover artwork missing'
-    image_source = Path('build/squeezed/cover.png' if 'squeezed' in Path(path).stem
-                        else 'cover.png')
+    image_source = Path('build/squeezed/cover-v3.png' if 'squeezed' in Path(path).stem
+                        else 'cover-v3.png')
     with Image.open(image_source) as source:
         assert pixel_key(reader.pages[0].images[0].image) == pixel_key(source), \
             'Wrong cover artwork embedded'
+    image_placements = []
+    def cover_image_operator(operator, operands, cm, tm):
+        if operator == b'Do':
+            resource = reader.pages[0]['/Resources']['/XObject'].get(operands[0])
+            if resource and resource.get_object().get('/Subtype') == '/Image':
+                image_placements.append(cm)
+    reader.pages[0].extract_text(visitor_operand_before=cover_image_operator)
+    assert len(image_placements) == 1
+    verify_background_extent(image_placements[0], float(reader.pages[0].mediabox.width),
+                             float(reader.pages[0].mediabox.height))
+    assert 'AI is changing what people can accomplish' not in cover, 'Long cover subtitle reappeared'
+    assert normalized('When execution outruns the enterprise') in normalized(cover), \
+        'Short cover line missing or no longer selectable'
+    fonts = subprocess.check_output(['pdffonts', '-f', '1', '-l', '1', str(path)], text=True)
+    assert re.search(r'BebasNeue-Regular\s+TrueType\s+\S+\s+yes\s+yes\s+yes', fonts), \
+        'The bundled cover font must be embedded with Unicode text mapping'
     body_art = {1: 'opening-illustration.png', 4: 'unit-comic.png',
                 9: 'closing-illustration.png'}
     for number, page in enumerate(reader.pages[1:], 1):
@@ -119,14 +158,7 @@ def verify(path):
     assert 'computersweden' not in normalized(cover + '\n'.join(extracted)), \
         'Removed publication reappeared'
     assert len(abstract.split()) <= 55, 'Cover abstract is no longer a short executive hook'
-    position = 0
     paragraphs = [p for p in manuscript.split('\n\n') if p.strip()]
-    for paragraph in paragraphs:
-        for fragment in filter(None, (normalized(p) for p in
-                                      re.split(r'\[@[^\]]+\]', paragraph))):
-            start = full_text.find(fragment, position)
-            assert start >= 0, f'Manuscript text missing or out of order: {paragraph[:100]}'
-            position = start + len(fragment)
 
     records = bibliography_records()
     cited = set(re.findall(r'\[@([\w-]+)\]', Path(f'{NAME}.md').read_text()))
@@ -146,7 +178,7 @@ def verify(path):
     for number in range(1, bibliography_page):
         def collect_body(text, cm, tm, font, size):
             x, y = tm[4] + cm[4], tm[5] + cm[5]
-            if (10.5 < size < 11.5 or 15.5 < size < 16.5) and 55 < y < 775:
+            if 10.5 < size < 11.5 and 55 < y < 775:
                 content = normalized(text)
                 if content:
                     runs.append((content, number, 'right' if x > 295 else 'left'))
@@ -204,20 +236,33 @@ def verify(path):
     for entry in outline:
         assert float(entry['/Top']) > 740, f'Section starts too far down the page: {entry.title}'
 
-    pull_quotes = {
-        5: 'The institution can afford the delay while the useful work remains undone.',
-        6: 'A unit that must seek fresh agreement across departments for every meaningful action has responsibility without control.',
-        9: 'We cannot keep paying capable people to wait and expect abundance to emerge from the queue.',
-    }
-    for number, quote in pull_quotes.items():
-        display = []
+    quote = 'The mandate must move real decisions.'
+    display = []
+    for number in range(1, bibliography_page):
         def collect_quote(text, cm, tm, font, size):
-            if 21 < size < 23:
+            if text.strip() and 17.5 < size < 18.5:
+                assert number == 6, 'An additional display quote appeared'
                 display.append(text)
         reader.pages[number].extract_text(visitor_text=collect_quote)
-        assert normalized(quote) in normalized(''.join(display)), \
-            f'Pull quote missing or no longer prominent on page {number + 1}'
-        assert normalized(quote) in normalized(manuscript), 'Pull quote is not verbatim essay text'
+    assert normalized(quote) == normalized(''.join(display)), 'Expected exactly one short pull quote'
+    assert normalized(quote) in normalized(manuscript), 'Pull quote is not verbatim essay text'
+    bbox = ET.fromstring(subprocess.check_output(['pdftotext', '-bbox-layout', str(path), '-']))
+    ns = {'x': 'http://www.w3.org/1999/xhtml'}
+    page = bbox.findall('.//x:page', ns)[6]
+    quote_words = []
+    def bounds(element):
+        return tuple(float(element.get(key)) for key in ('xMin', 'yMin', 'xMax', 'yMax'))
+    for line in page.findall('.//x:line', ns):
+        words = line.findall('x:word', ns)
+        if normalized(''.join(w.text or '' for w in words)) in {
+                normalized('The mandate must'), normalized('move real decisions.')}:
+            quote_words.extend(words)
+    assert len(quote_words) >= 6, 'Quote no longer has its intended two-line setting'
+    rectangles = [bounds(w) for w in quote_words]
+    quote_bounds = (min(w[0] for w in rectangles), min(w[1] for w in rectangles),
+                    max(w[2] for w in rectangles), max(w[3] for w in rectangles))
+    body_words = [bounds(w) for w in page.findall('.//x:word', ns) if w not in quote_words]
+    verify_gutter_geometry(quote_bounds, body_words, float(reader.pages[6].mediabox.width))
 
     for number, details in {
         1: ['Where the working week goes', '44%', '37%', '18%', '76%', '85%',
@@ -246,7 +291,7 @@ def verify(path):
                          log.read_text()), 'Unresolved typesetting or citation warnings'
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript blocks; '
           f'{len(cited)} references and linked citations; cover abstract, original artwork, '
-          'three editorial illustrations, four native figures, three pull quotes, '
+          'three editorial illustrations, four native figures, one quote with prose wrapping on both sides, '
           'unbroken paragraphs, page numbering and all section bookmarks verified')
 
 

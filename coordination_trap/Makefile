@@ -4,7 +4,8 @@ NAME = coordination-trap
 PYTHON ?= python3
 SQUEEZED_DPI ?= 200
 LOGOS = $(patsubst %.svg,%.pdf,$(wildcard assets/*.svg))
-SOURCES = $(wildcard *.tex *.bib *.png) abstract.tex body.tex $(LOGOS) mkpdf.sh
+COVER_TYPE = assets/cover-type.pdf
+SOURCES = $(wildcard *.tex *.bib *.png) abstract.tex body.tex $(LOGOS) $(COVER_TYPE) mkpdf.sh
 
 abstract.tex: $(NAME).md manuscript.lua
 	pandoc $< --from=markdown --to=latex --natbib --lua-filter=manuscript.lua -M part=abstract --output=$@
@@ -14,6 +15,9 @@ body.tex: $(NAME).md manuscript.lua
 
 assets/%.pdf: assets/%.svg
 	rsvg-convert --format=pdf --output=$@ $<
+
+$(COVER_TYPE): cover-type.svg assets/fontconfig.conf assets/fonts/BebasNeue-Regular.ttf | build
+	FONTCONFIG_FILE="$(CURDIR)/assets/fontconfig.conf" rsvg-convert --format=pdf --output=$@ $<
 
 .DEFAULT_GOAL := all
 .PHONY: all clean release check FORCE
@@ -49,13 +53,13 @@ check: all
 
 clean:
 	rm -rf build .tempdir
-	rm -f $(NAME).pdf $(NAME)-squeezed.pdf $(LOGOS) abstract.tex body.tex
+	rm -f $(NAME).pdf $(NAME)-squeezed.pdf $(LOGOS) $(COVER_TYPE) abstract.tex body.tex
 
 release: check
 	rm -f $(NAME).zip
 	rm -rf .tempdir
 	mkdir -p .tempdir/$(NAME)
-	cp $(NAME).pdf $(NAME)-squeezed.pdf *.md *.bib *.tex *.lua *.py *.sh *.png Makefile .tempdir/$(NAME)/
+	cp $(NAME).pdf $(NAME)-squeezed.pdf *.md *.bib *.tex *.lua *.py *.sh *.png *.svg Makefile .tempdir/$(NAME)/
 	cp -r assets illustrations tests .tempdir/$(NAME)/
 	cd .tempdir && zip -r ../$(NAME).zip $(NAME) -x '*/__pycache__*'
 	rm -rf .tempdir

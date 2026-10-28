@@ -5,16 +5,28 @@ import re
 import subprocess
 import unittest
 
-from verify_essay import normalized, verify_paragraph_flow
+from verify_essay import (normalized, verify_paragraph_flow,
+                          verify_background_extent, verify_gutter_geometry)
 
 
 class ManuscriptTests(unittest.TestCase):
     def test_artwork_and_c89_assets_match_recorded_originals(self):
         provenance = json.loads(Path('illustrations/provenance.json').read_text())
-        for asset in [provenance['cover']] + provenance['branding'] + provenance['body_art']:
+        assets = ([provenance['cover'], provenance['original_cover'],
+                   provenance['cover_reference']] + provenance['branding'] +
+                  provenance['body_art'] + provenance['cover_font'])
+        for asset in assets:
             with self.subTest(asset=asset['file']):
                 self.assertEqual(hashlib.sha256(Path(asset['file']).read_bytes()).hexdigest(),
                                  asset['sha256'])
+
+    def test_cover_type_is_embedded_selectable_and_uses_the_bundled_font(self):
+        text = subprocess.check_output(['pdftotext', 'assets/cover-type.pdf', '-'], text=True)
+        self.assertEqual(normalized(text), normalized(
+            'The Coordination Trap When execution outruns the enterprise'))
+        fonts = subprocess.check_output(['pdffonts', 'assets/cover-type.pdf'], text=True)
+        self.assertRegex(fonts, r'BebasNeue-Regular\s+TrueType\s+\S+\s+yes\s+yes\s+yes')
+        self.assertIn('SIL OPEN FONT LICENSE Version 1.1', Path('assets/fonts/OFL.txt').read_text())
 
     def convert(self, part, output='plain', source='coordination-trap.md'):
         return subprocess.run(
@@ -80,7 +92,10 @@ class ManuscriptTests(unittest.TestCase):
         self.assertEqual(result.stdout.count(r'\OutcomeFigure'), 1)
         self.assertEqual(result.stdout.count(r'\PortfolioFigure'), 1)
         self.assertEqual(result.stdout.count(r'\SafetyFigure'), 1)
-        self.assertEqual(result.stdout.count(r'\PullQuote'), 3)
+        self.assertEqual(result.stdout.count(r'\GutterQuote'), 1)
+        self.assertEqual(result.stdout.count(r'\NextGutterColumn'), 1)
+        self.assertNotIn(r'\PullQuote', result.stdout)
+        self.assertNotIn('OpeningLead', result.stdout)
         self.assertEqual(result.stdout.count(r'\EssayArt'), 3)
         self.assertEqual(result.stdout.count(r'\begin{EssayColumns}'),
                          result.stdout.count(r'\end{EssayColumns}'))
@@ -120,6 +135,33 @@ class ManuscriptTests(unittest.TestCase):
         for text in ['A thought ends here.', 'ends here. A complete thought']:
             with self.subTest(text=text), self.assertRaisesRegex(AssertionError, 'missing or out of order'):
                 verify_paragraph_flow(['A complete thought ends here.'], [(normalized(text), 2, 'left')])
+
+    def test_full_page_background_accepts_exact_cover_and_overscan(self):
+        verify_background_extent([595, 0, 0, 842, 0, 0], 595, 842)
+        verify_background_extent([601, 0, 0, 848, -3, -3], 595, 842)
+
+    def test_full_page_background_rejects_image_strips_and_inset_images(self):
+        for matrix in ([595, 0, 0, 300, 0, 200], [550, 0, 0, 842, 20, 0],
+                       [595, 0, 0, 842, 0, -100]):
+            with self.subTest(matrix=matrix), self.assertRaisesRegex(AssertionError, 'not full-page'):
+                verify_background_extent(matrix, 595, 842)
+
+    def gutter_words(self):
+        return [(100, 207, 230, 217), (370, 207, 450, 217),
+                (250, 140, 280, 150), (320, 140, 340, 150),
+                (250, 280, 280, 290), (320, 280, 340, 290)]
+
+    def test_gutter_quote_has_prose_on_both_sides_and_normal_columns_above_below(self):
+        verify_gutter_geometry((240, 200, 360, 230), self.gutter_words(), 600)
+
+    def test_gutter_quote_rejects_banners_overlap_or_missing_prose(self):
+        cases = [self.gutter_words()[1:], self.gutter_words()[:4],
+                 self.gutter_words() + [(245, 207, 260, 217)]]
+        for words in cases:
+            with self.subTest(words=words), self.assertRaises(AssertionError):
+                verify_gutter_geometry((240, 200, 360, 230), words, 600)
+        with self.assertRaisesRegex(AssertionError, 'not centered'):
+            verify_gutter_geometry((50, 200, 170, 230), self.gutter_words(), 600)
 
     def test_missing_tex_argument_reports_usage(self):
         result = subprocess.run(['bash', 'mkpdf.sh'], capture_output=True, text=True)
