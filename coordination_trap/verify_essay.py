@@ -93,7 +93,7 @@ def verify_background_extent(matrix, width, height):
         and max(y for _, y in points) >= height - 0.5, 'Cover background is not full-page'
 
 
-def verify_gutter_geometry(quote, words, page_width, quote_rows=None):
+def verify_gutter_geometry(quote, words, page_width, quote_rows=None, wrap_width=None):
     left, top, right, bottom = quote
     assert abs((left + right) / 2 - page_width / 2) < 12, 'Quote is not centered on the gutter'
     beside = [w for w in words if top < (w[1] + w[3]) / 2 < bottom]
@@ -105,6 +105,20 @@ def verify_gutter_geometry(quote, words, page_width, quote_rows=None):
         adjacent = [w for w in words if w[1] < row_bottom and w[3] > row_top]
         assert all(w[2] < row_left - 4 or w[0] > row_right + 4 for w in adjacent), \
             'Prose overlaps the quote'
+    if wrap_width is not None:
+        # Check the reserved rectangle as well as the quote's visible ink.
+        # wrapstuff suppresses overfull warnings in its narrow reflow pass.
+        # Allow 2 PDF points for microtype's optical punctuation protrusion,
+        # but no whole word may escape either edge of the wrapped column.
+        side_sep, vertical_sep, margin = (mm * 72 / 25.4 for mm in (4.5, 1.5, 20))
+        left_edge = (page_width - wrap_width) / 2 - side_sep
+        right_edge = (page_width + wrap_width) / 2 + side_sep
+        wrapped = [w for w in words if w[1] < bottom + vertical_sep
+                   and w[3] > top - vertical_sep]
+        for word in wrapped:
+            assert (word[0] >= margin - 2 and word[2] <= page_width - margin + 2
+                    and (word[2] <= left_edge + 2 or word[0] >= right_edge - 2)), \
+                f'Prose escapes the wrapped column: {word}'
     for start, stop in [(top - 80, top - 30), (bottom + 30, bottom + 80)]:
         nearby = [w for w in words if start < (w[1] + w[3]) / 2 < stop]
         assert any(left < (w[0] + w[2]) / 2 < page_width / 2 for w in nearby) \
@@ -265,6 +279,7 @@ def verify(path):
         9: ['We cannot keep paying', 'capable people to wait',
             'and expect abundance', 'to emerge from the queue.'],
     }
+    quote_widths_mm = {5: 78, 6: 82, 9: 78}
     display = {number: [] for number in quote_lines}
     for number in range(1, bibliography_page):
         def collect_quote(text, cm, tm, font, size):
@@ -285,11 +300,16 @@ def verify(path):
         quote_words = []
         quote_rows = []
         matched_lines = []
-        for line in page.findall('.//x:line', ns):
-            # Poppler can merge adjacent prose into the same geometric line.
-            # Isolate the larger quote glyphs before checking their wording.
-            words = [word for word in line.findall('x:word', ns)
-                     if 13 < bounds(word)[3] - bounds(word)[1] < 15.5]
+        sized_rows = {}
+        for word in page.findall('.//x:word', ns):
+            # Poppler can merge prose into a quote line or split the quote
+            # into one-word lines. Reconstruct rows from the larger glyphs'
+            # coordinates instead of depending on that grouping heuristic.
+            left, top, right, bottom = bounds(word)
+            if 13 < bottom - top < 15.5:
+                sized_rows.setdefault(round(top, 1), []).append(word)
+        for _, words in sorted(sized_rows.items()):
+            words.sort(key=lambda word: bounds(word)[0])
             content = normalized(''.join(w.text or '' for w in words))
             if content in {normalized(expected) for expected in lines}:
                 quote_words.extend(words)
@@ -303,7 +323,8 @@ def verify(path):
                         max(w[2] for w in rectangles), max(w[3] for w in rectangles))
         body_words = [bounds(w) for w in page.findall('.//x:word', ns) if w not in quote_words]
         verify_gutter_geometry(quote_bounds, body_words,
-                               float(reader.pages[number].mediabox.width), quote_rows)
+                               float(reader.pages[number].mediabox.width), quote_rows,
+                               wrap_width=quote_widths_mm[number] * 72 / 25.4)
 
     assert normalized('One human–AI unit owns the outcome across all three stages') \
         not in normalized(reader.pages[4].extract_text()), 'Removed comic caption reappeared'

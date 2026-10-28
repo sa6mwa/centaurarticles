@@ -145,3 +145,13 @@ the new cover line is “When execution outruns the enterprise.” All lettering
 remains selectable text. A translucent bottom fade supports the short abstract.
 The exact edit prompt, supplied reference and font provenance are recorded in
 `illustrations/cover-v3-art.md` and `illustrations/provenance.json`.
+
+## Wrapped-text correction, 2026-10-29
+
+The narrow line containing “production unit” overran its column beside the
+ownership quote. The wrapping package disabled emergency spacing and suppressed
+overflow warnings in that pass. A local adapter restores a modest fallback;
+the ownership quote starts one line lower to improve the surrounding line breaks.
+PDF checks now enforce the complete reserved space and outer column edges, in
+addition to checking collisions with the quote's visible lettering. The prose
+and quotation wording are unchanged.

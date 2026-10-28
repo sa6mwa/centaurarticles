@@ -54,6 +54,10 @@ and paying capable people to wait. Each sits horizontally across the gutter.
 Matching `wrapstuff` windows measure the actual lettering, with 4.5 mm side
 clearance and 1.5 mm vertical separation. Prose returns to normal width above
 and below each quote. The quotes use upright 17-point serif type with quiet quotation marks.
+The narrow reflow pass retains a 1em emergency-spacing allowance; the installed
+`wrapstuff` otherwise disables it and can let words overrun the column. A guarded
+local adapter enables that fallback, and PDF geometry checks enforce both the
+reserved quote space and the outer column edges, allowing only optical protrusion.
 `body-illustrations.tex` contains four
 original native drawings: the Hastings survey, the product-portfolio decision,
 the proposed arrangement for outcome ownership, and the safety-control sequence.
@@ -106,7 +110,7 @@ pdfLaTeX/BibTeX with the companion essay's TeX packages plus `wrapstuff`, Pandoc
 the distribution PDF is approximately 9.43 MB. Text, vector artwork, links and
 pagination are identical, with the raster illustrations resized for distribution.
 
-`make check` runs 30 unit/integration tests, checks equality between the PDF
+`make check` runs 32 unit/integration tests, checks equality between the PDF
 variants, and verifies every manuscript paragraph in order, the complete cover
 abstract, artwork identity, unchanged C89 assets, figure captions and labels,
 the survey's full-week scale and 18-point work-preference callouts,

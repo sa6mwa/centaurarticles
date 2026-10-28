@@ -1,6 +1,18 @@
 % Page composition is explicit: column breaks occur only between paragraphs.
 % Each column pair is indivisible, so an overfull page fails verification rather
 % than silently cutting a paragraph or letting a figure drift into another section.
+% wrapstuff v0.3 disables emergency stretch when it rebreaks the narrow lines
+% beside a quote. A small fallback lets TeX choose a legal earlier word break
+% without opening up the spacing excessively. Fail if the package changes.
+\RequirePackage{etoolbox}
+\ExplSyntaxOn
+\patchcmd{\__wstf_build_window:}
+  {\dim_zero:N \tex_emergencystretch:D}
+  {\dim_set:Nn \tex_emergencystretch:D {1em}}{}
+  {\PackageError{coordination-trap}{Cannot~preserve~wrapped-text~line~breaking}
+    {Review~the~wrapstuff~adapter~in~editorial-layout.tex.}}
+\ExplSyntaxOff
+
 \newlength{\EssayColumnWidth}
 \setlength{\EssayColumnWidth}{\dimexpr(\textwidth-\columnsep)/2\relax}
 \newenvironment{EssayColumns}{%

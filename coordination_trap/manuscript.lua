@@ -73,7 +73,7 @@ function Pandoc(doc)
         gutter_columns(s, 1, 3, 6, 14, '78mm',
           'The institution can afford\\\\the delay while the useful\\\\work remains undone.')
       elseif body_index == 5 then
-        gutter_columns(s, 1, 3, 6, 14, '82mm',
+        gutter_columns(s, 1, 3, 6, 15, '82mm',
           'A unit that must seek fresh\\\\agreement across departments\\\\for every meaningful action has\\\\responsibility without control.')
         raw('\\clearpage')
         columns(s, 7, 8, 11)

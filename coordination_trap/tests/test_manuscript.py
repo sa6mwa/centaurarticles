@@ -193,6 +193,20 @@ class ManuscriptTests(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'Prose overlaps'):
             verify_gutter_geometry(quote, words + [(260, 220, 280, 229)], 600, rows)
 
+    def test_wrapped_columns_allow_optical_protrusion_at_their_edges(self):
+        words = [(55, 207, 229, 217), (371, 207, 545, 217)] + self.gutter_words()[2:]
+        verify_gutter_geometry((240, 200, 360, 230), words, 600, wrap_width=120)
+
+    def test_wrapped_columns_reject_words_in_the_padding_or_outside_the_page_margin(self):
+        normal = [(100, 207, 226, 217), (374, 207, 450, 217)] + self.gutter_words()[2:]
+        for overrun in [(100, 207, 234, 217), (366, 207, 450, 217),
+                        (50, 207, 226, 217), (374, 207, 550, 217),
+                        (100, 194, 234, 199), (366, 231, 450, 236)]:
+            with self.subTest(overrun=overrun), self.assertRaisesRegex(
+                    AssertionError, 'escapes the wrapped column'):
+                verify_gutter_geometry((240, 200, 360, 230), normal + [overrun],
+                                       600, wrap_width=120)
+
     def test_missing_tex_argument_reports_usage(self):
         result = subprocess.run(['bash', 'mkpdf.sh'], capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
