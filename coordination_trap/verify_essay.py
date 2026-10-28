@@ -144,8 +144,8 @@ def verify(path):
     fonts = subprocess.check_output(['pdffonts', '-f', '1', '-l', '1', str(path)], text=True)
     assert re.search(r'BebasNeue-Regular\s+TrueType\s+\S+\s+yes\s+yes\s+yes', fonts), \
         'The bundled cover font must be embedded with Unicode text mapping'
-    body_art = {1: 'opening-illustration.png', 4: 'unit-comic.png',
-                9: 'closing-illustration.png'}
+    body_art = {1: 'opening-illustration.png', 4: 'unit-comic-v2.png',
+                9: 'closing-illustration-v2.png'}
     for number, page in enumerate(reader.pages[1:], 1):
         assert len(page.images) == (1 if number in body_art else 0), \
             f'Unexpected artwork on page {number + 1}'
@@ -305,14 +305,20 @@ def verify(path):
         verify_gutter_geometry(quote_bounds, body_words,
                                float(reader.pages[number].mediabox.width), quote_rows)
 
-    comic_page = reader.pages[4].extract_text()
-    assert all(label in comic_page for label in ('INVESTIGATE', 'BUILD', 'VERIFY')), \
-        'Comic stages must stay with their illustration'
     assert normalized('One human–AI unit owns the outcome across all three stages') \
-        in normalized(comic_page), 'Comic explanation is missing or separated from the image'
+        not in normalized(reader.pages[4].extract_text()), 'Removed comic caption reappeared'
+    preferences = []
+    def collect_preferences(text, cm, tm, font, size):
+        if text.strip() and 17.5 < size < 18.5:
+            preferences.append(text)
+    reader.pages[2].extract_text(visitor_text=collect_preferences)
+    assert normalized(''.join(preferences)) == normalized('76% 85%'), \
+        'The two preference percentages must remain prominent 18-point callouts'
 
     for number, details in {
-        1: ['Where the working week goes', '44%', '37%', '18%', '76%', '85%',
+        1: ['Where the working week goes', '44%', '37%', '18%', '55%', '76%', '85%',
+            '0%', '50%', '100%', '55% coordination + administration', 'Desired change',
+            'Substantive work', 'Coordination', 'Administration',
             '300 respondents', 'Self-reported time allocation'],
         2: ['Four partial answers', 'Finance', 'Manufacturing', 'Planning', 'Marketing',
             'Who owns the combined result?', 'product-portfolio example'],
@@ -338,7 +344,7 @@ def verify(path):
                          log.read_text()), 'Unresolved typesetting or citation warnings'
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript blocks; '
           f'{len(cited)} references and linked citations; cover abstract, original artwork, '
-          'three editorial illustrations, labelled comic stages, four native figures, '
+          'three editorial illustrations, full-week survey chart with large preference callouts, four native figures, '
           'three quotes with prose wrapping on both sides, '
           'uppercase headings, unbroken paragraphs, page numbering and all section bookmarks verified')
 

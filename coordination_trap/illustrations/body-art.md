@@ -2,6 +2,10 @@
 
 Generated with the built-in imagegen tool on 2026-10-27. These are conceptual editorial illustrations, not documentary images of the cited studies. No imagery from another essay was used. The cover is documented separately in `cover-v3-art.md`.
 
+The opening illustration remains active. The original pump comic and workshop
+closing image below are retained as unused source assets; their replacements
+and exact generation prompts are documented in [body-art-v2.md](body-art-v2.md).
+
 ## opening-illustration.png
 
 Use case: illustration-story

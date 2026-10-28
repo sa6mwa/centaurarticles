@@ -100,8 +100,8 @@ class ManuscriptTests(unittest.TestCase):
         self.assertNotIn(r'\PullQuote', result.stdout)
         self.assertNotIn('OpeningLead', result.stdout)
         self.assertNotIn('ContinuedSection', result.stdout)
-        self.assertEqual(result.stdout.count(r'\EssayArt'), 2)
-        self.assertEqual(result.stdout.count(r'\UnitComic'), 1)
+        self.assertEqual(result.stdout.count(r'\EssayArt'), 3)
+        self.assertNotIn(r'\UnitComic', result.stdout)
         self.assertEqual(result.stdout.count(r'\begin{EssayColumns}'),
                          result.stdout.count(r'\end{EssayColumns}'))
 

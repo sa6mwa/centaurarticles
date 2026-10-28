@@ -3,32 +3,41 @@
   \par\vspace{7mm}\noindent\begin{minipage}{\textwidth}
     \centering
     \begin{tikzpicture}[x=1mm,y=1mm]
-      \node[anchor=west,font=\small\bfseries,text=blue] at (0,47)
+      \node[anchor=west,font=\small\bfseries,text=blue] at (0,66)
         {Where the working week goes};
-      \node[anchor=west,font=\scriptsize,text=black!75] at (0,41)
+      \node[anchor=west,font=\scriptsize,text=black!75] at (0,60)
         {300 respondents; US companies with annual revenue above \$500 million; all already using AI};
-      \node[anchor=west,font=\small] at (0,31) {Substantive work};
-      \node[anchor=west,font=\small] at (0,21) {Coordination};
-      \node[anchor=west,font=\small] at (0,11) {Administration};
-      \foreach \y in {31,21,11} \fill[black!5] (37,\y-3) rectangle (112,\y+3);
-      % All bars use the same 0--50% scale (1.5 mm per percentage point).
-      \fill[blue] (37,28) rectangle (103,34);
-      \fill[CoordinationAmber] (37,18) rectangle (92.5,24);
-      \fill[black!45] (37,8) rectangle (64,14);
-      \node[anchor=west,font=\small\bfseries,text=blue] at (105,31) {44\%};
-      \node[anchor=west,font=\small\bfseries,text=CoordinationAmber] at (94.5,21) {37\%};
-      \node[anchor=west,font=\small\bfseries] at (66,11) {18\%};
-      \foreach \x/\label in {37/0,74.5/25,112/50}
-        \node[anchor=north,font=\scriptsize,text=black!65] at (\x,4) {\label\%};
-      \draw[black!20] (121,4)--(121,36);
-      \node[anchor=north west,font=\Large\bfseries,text=CoordinationAmber] at (127,36) {76\%};
-      \node[anchor=north west,align=left,font=\scriptsize] at (127,28)
+      % One whole-week bar: 1.64 mm per percentage point, without normalization.
+      % Published shares total 99%; the last percentage point stays unfilled.
+      \fill[black!5] (0,27) rectangle (164,41);
+      \fill[blue] (0,27) rectangle (72.16,41);
+      \fill[CoordinationAmber] (72.16,27) rectangle (132.84,41);
+      \fill[black!60] (132.84,27) rectangle (162.36,41);
+      \node[font=\large\bfseries,text=white] at (36.08,36) {44\%};
+      \node[font=\small,text=white] at (36.08,30) {Substantive work};
+      \node[font=\large\bfseries,text=white] at (102.5,36) {37\%};
+      \node[font=\small,text=white] at (102.5,30) {Coordination};
+      \node[font=\large\bfseries,text=white] at (147.6,36) {18\%};
+      \node[font=\small,text=white] at (147.6,30) {Administration};
+      \draw[CoordinationAmber,line width=0.8pt]
+        (72.16,44)--(72.16,48)--(162.36,48)--(162.36,44);
+      \node[font=\small\bfseries,text=CoordinationAmber] at (117.26,52)
+        {55\% coordination + administration};
+      \foreach \x in {0,82,164} \draw[black!55] (\x,27)--(\x,24);
+      \node[anchor=north west,font=\scriptsize,text=black!65] at (0,23) {0\%};
+      \node[anchor=north,font=\scriptsize,text=black!65] at (82,23) {50\%};
+      \node[anchor=north east,font=\scriptsize,text=black!65] at (164,23) {100\%};
+      \node[anchor=west,font=\scriptsize,text=black!65] at (0,17) {Desired change};
+      \node[anchor=north west,font=\fontsize{18}{20}\selectfont\bfseries,text=CoordinationAmber]
+        at (0,10) {76\%};
+      \node[anchor=north west,align=left,font=\small] at (0,0)
         {want less time\\on coordination};
-      \node[anchor=north west,font=\Large\bfseries,text=blue] at (127,18) {85\%};
-      \node[anchor=north west,align=left,font=\scriptsize] at (127,10)
-        {want more time\\on substantive work};
+      \node[anchor=north west,font=\fontsize{18}{20}\selectfont\bfseries,text=blue]
+        at (82,10) {85\%};
+      \node[anchor=north west,align=left,font=\small] at (82,0)
+        {want more time\\for substantive work};
     \end{tikzpicture}
-    \captionof{figure}{Self-reported time allocation and work preferences in Hastings, Syverson and Zimmerman's survey. Percentages are reproduced as reported; time shares total 99\% because of rounding \citep{hastings2026deployment}.}
+    \captionof{figure}{Self-reported time allocation and work preferences in Hastings, Syverson and Zimmerman's survey. Coordination and administration together take 55\% of the working week, compared with 44\% for substantive work. The full bar represents 100\%; published time shares total 99\% because of rounding \citep{hastings2026deployment}.}
     \label{fig:coordination-survey}
   \end{minipage}\par%
 }

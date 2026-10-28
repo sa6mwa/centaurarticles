@@ -37,10 +37,15 @@ cross-functional deployment, enterprise-level incentives, changed responsibiliti
 and measures of decisions and operating results. The smaller human–AI unit and
 the detailed operating mandate are this essay's synthesis and recommendation.
 
-Figure 1 is a newly drawn chart, not a reproduction of HBR artwork. Its three
-bars share a 0–50% scale. The reported 18/37/44 values are preserved, with their
-rounding stated in the caption. The 76/85 preference figures are separate
-measures and are displayed separately.
+Figure 1 is a newly drawn chart, not a reproduction of HBR artwork. A single
+stacked bar represents the whole working week on a 0–100% scale. The reported
+44/37/18 values are preserved without normalization; one percentage point stays
+unfilled because the published shares total 99%. A bracket groups coordination
+and administration, with their combined 55% calculated as 37% + 18%. Both
+categories remain distinct and labelled. The midpoint makes clear that
+substantive work accounts for less than half the week. The 76/85 preference
+figures are separate measures, displayed below the bar under “Desired change”
+as 18-point callouts with their respective labels underneath.
 
 The pending-verification statement in
 `draft/the_coordination_trap_rewrite_source_status.md` describes an earlier
@@ -122,9 +127,14 @@ pages; their wording is unchanged.
 Four native vector figures distinguish the survey data, the source's
 product-portfolio example, the proposed ownership arrangement and the proposed
 safety-control sequence. Three original generated illustrations provide visual
-pauses. The workshop strip now carries stage labels and a caption connecting
-it to ownership of a complete outcome by one human–AI unit. Its pixels are
-unchanged. Exact prompts and asset hashes are recorded under `illustrations/`.
+pauses. The revised three-panel comic contrasts disconnected departmental work
+with a human–AI unit completing a service that its user can actually use. Short
+dialogue is part of the comic; there are no added stage labels or explanatory
+captions. The closing illustration is a wordless diptych: the same completed
+bridge is first blocked by approvals, then open to use. These replace the pump
+comic and workshop delivery scene, which did not communicate the argument
+clearly enough. The opening illustration is unchanged. Exact prompts and asset
+hashes, including the retired assets, are recorded under `illustrations/`.
 
 
 The cover follows the author's supplied sunset-and-office-tower reference.

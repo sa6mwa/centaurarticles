@@ -68,7 +68,7 @@ function Pandoc(doc)
         raw('\\PortfolioFigure')
       elseif body_index == 3 then
         columns(s, 1, 3, 6)
-        raw('\\UnitComic')
+        raw('\\EssayArt{unit-comic-v2.png}')
       elseif body_index == 4 then
         gutter_columns(s, 1, 3, 6, 14, '78mm',
           'The institution can afford\\\\the delay while the useful\\\\work remains undone.')
@@ -84,7 +84,7 @@ function Pandoc(doc)
       elseif body_index == 7 then
         gutter_columns(s, 1, 2, 4, 8, '78mm',
           'We cannot keep paying\\\\capable people to wait\\\\and expect abundance\\\\to emerge from the queue.')
-        raw('\\EssayArt{closing-illustration.png}')
+        raw('\\EssayArt{closing-illustration-v2.png}')
       end
     end
   end

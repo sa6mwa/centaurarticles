@@ -16,7 +16,8 @@ decision authority, incentives and timely safety control.
 - [Manuscript](coordination-trap.md)
 - [Source verification and editorial decisions](source-notes.md)
 - [Active cover composition and prompt](illustrations/cover-v3-art.md)
-- [Body illustration prompts](illustrations/body-art.md)
+- [Revised comic and closing illustration prompts](illustrations/body-art-v2.md)
+- [Opening illustration and original body artwork prompts](illustrations/body-art.md)
 
 Edit `coordination-trap.md` for prose and `references.bib` for the 12 bibliography
 records. Pandoc and `manuscript.lua` regenerate `abstract.tex` and `body.tex`;
@@ -56,18 +57,26 @@ and below each quote. The quotes use upright 17-point serif type with quiet quot
 `body-illustrations.tex` contains four
 original native drawings: the Hastings survey, the product-portfolio decision,
 the proposed arrangement for outcome ownership, and the safety-control sequence.
-The survey uses the published percentages without normalization. The proposal
-diagrams carry no invented measurements.
+The survey uses one full-week bar on a 0–100% scale, with the published 44%, 37%
+and 18% shares preserved without normalization. A bracket makes the combined
+55% for coordination and administration explicit while keeping both categories
+distinct. The final 1% remains unfilled because of rounding in the reported
+shares. Work preferences appear separately below the bar as large 18-point
+76% and 85% callouts, with their labels underneath. The proposal diagrams
+carry no invented measurements.
 
 The four unchanged C89 logo and logomark SVGs in `assets/` are the only imagery
 carried over from another essay. `cover-v3.png` is an imagegen edit of the author's
 reference, preserved in `illustrations/cover-reference.png`. The original navy
 `cover.png` remains as an unused source asset. All three body illustrations were
 generated for this essay.
-The opening illustration, a three-panel comic and the closing workshop scene
-are conceptual editorial artwork. The comic's three stages are labelled
-INVESTIGATE, BUILD and VERIFY; its caption explains ownership of the complete
-outcome by the same human–AI unit. No cover or body
+The opening illustration, a three-panel comic and the closing bridge diptych
+are conceptual editorial artwork. The revised comic contrasts disconnected
+departmental contributions with a human–AI unit completing a working service
+for its user. Its short dialogue belongs inside the panels. The wordless
+closing diptych shows the same completed bridge blocked by approvals, then open
+to use. Neither image relies on an explanatory caption. The earlier pump comic
+and workshop closing scene remain as unused source assets. No cover or body
 illustration from another essay is reused. `illustrations/provenance.json`
 records the assets and their provenance. SVG conversion preserves vector logos;
 all four analytical figures and their labels remain vector/text in the PDFs.
@@ -93,19 +102,20 @@ pdfLaTeX/BibTeX with the companion essay's TeX packages plus `wrapstuff`, Pandoc
 `rsvg-convert`, Poppler, Python 3, Pillow and pypdf.
 
 `make SQUEEZED_DPI=150` changes the placement-aware image target from the default
-200 DPI. Staging never enlarges an image. The full PDF is approximately 11.21 MB;
-the distribution PDF is approximately 9.18 MB. Text, vector artwork, links and
+200 DPI. Staging never enlarges an image. The full PDF is approximately 11.50 MB;
+the distribution PDF is approximately 9.43 MB. Text, vector artwork, links and
 pagination are identical, with the raster illustrations resized for distribution.
 
 `make check` runs 30 unit/integration tests, checks equality between the PDF
 variants, and verifies every manuscript paragraph in order, the complete cover
 abstract, artwork identity, unchanged C89 assets, figure captions and labels,
+the survey's full-week scale and 18-point work-preference callouts,
 all references and citation destinations, source URLs, embedded cover font, section bookmarks,
 A4 dimensions, page numbers, strictly two-column body prose, uppercase headings,
 three verbatim gutter quotes and the absence of unresolved citations or overfull boxes. The PDF check
 also checks that the background fills the cover, prose wraps on both sides of
 each inset quote and returns to normal width, every prose paragraph stays within
-one page and one column, and figures and comic labels remain with their intended discussion. Generated
+one page and one column, and figures and artwork remain with their intended discussion. Generated
 PDFs are also rendered and reviewed visually during editorial production.
 
 `make release` first runs the checks, then packages both PDFs and all buildable

@@ -45,8 +45,14 @@
       },
       "scale_percent": [
         0,
-        50
-      ]
+        100
+      ],
+      "encoding": "Single full-week stacked bar with separate substantive, coordination and administration segments; bracket groups the latter two",
+      "derived_values": {
+        "coordination_and_administration": 55,
+        "unfilled_rounding_remainder": 1
+      },
+      "preference_callouts": "Separate 18-point percentages with labels below, outside the time-allocation bar"
     },
     {
       "number": 2,
@@ -80,16 +86,16 @@
       "prompt": "illustrations/body-art.md"
     },
     {
-      "file": "unit-comic.png",
-      "sha256": "b0c1508fa60bfc11098dcb708d6697609c4caa9e95d6c58c1328d6b33ce7346d",
+      "file": "unit-comic-v2.png",
+      "sha256": "a010d39e49b1ee8e58d1f4aa338dcb5560aedd7de3c4ab59d64f8e217fb369ff",
       "origin": "Original built-in imagegen generation; no input images",
-      "prompt": "illustrations/body-art.md"
+      "prompt": "illustrations/body-art-v2.md"
     },
     {
-      "file": "closing-illustration.png",
-      "sha256": "90b3f69f562c084d18128b2a4a1672ef66aeb46bfd3f1df17fc03a25ae68092f",
+      "file": "closing-illustration-v2.png",
+      "sha256": "0941d6c1e7b167f5e8de562e226a2dc8045e80b0246e77cdbff0b3e8434fe15c",
       "origin": "Original built-in imagegen generation; no input images",
-      "prompt": "illustrations/body-art.md"
+      "prompt": "illustrations/body-art-v2.md"
     }
   ],
   "original_cover": {
@@ -119,6 +125,20 @@
       "url": "https://raw.githubusercontent.com/google/fonts/main/ofl/bebasneue/OFL.txt",
       "upstream_sha256": "72082f6cb4d04be2ecf7cc7d9e1e7d73787f0af8a5a278a47cade70c16b78341",
       "normalization": "Trailing whitespace removed; license wording unchanged"
+    }
+  ],
+  "retired_body_art": [
+    {
+      "file": "unit-comic.png",
+      "sha256": "b0c1508fa60bfc11098dcb708d6697609c4caa9e95d6c58c1328d6b33ce7346d",
+      "origin": "Original built-in imagegen generation; no input images",
+      "prompt": "illustrations/body-art.md"
+    },
+    {
+      "file": "closing-illustration.png",
+      "sha256": "90b3f69f562c084d18128b2a4a1672ef66aeb46bfd3f1df17fc03a25ae68092f",
+      "origin": "Original built-in imagegen generation; no input images",
+      "prompt": "illustrations/body-art.md"
     }
   ]
 }
