@@ -62,7 +62,7 @@ def without_figures(text):
 
 
 def verify_paragraph_flow(paragraphs, runs):
-    """Every paragraph must occupy one page and one column (or full-width band).
+    """Every paragraph must occupy one page and one column.
 
     Runs contain normalized body text with its rendered page and column. Large
     pull quotes, headings, captions and running furniture are excluded by the
@@ -93,13 +93,18 @@ def verify_background_extent(matrix, width, height):
         and max(y for _, y in points) >= height - 0.5, 'Cover background is not full-page'
 
 
-def verify_gutter_geometry(quote, words, page_width):
+def verify_gutter_geometry(quote, words, page_width, quote_rows=None):
     left, top, right, bottom = quote
     assert abs((left + right) / 2 - page_width / 2) < 12, 'Quote is not centered on the gutter'
     beside = [w for w in words if top < (w[1] + w[3]) / 2 < bottom]
     assert any(w[2] < left - 4 for w in beside), 'No prose flows to the left of the quote'
     assert any(w[0] > right + 4 for w in beside), 'No prose flows to the right of the quote'
-    assert all(w[2] < left - 4 or w[0] > right + 4 for w in beside), 'Prose overlaps the quote'
+    # Centered quote lines have different lengths. Check the actual ink on each
+    # line so a longer line cannot create a false collision beside a shorter one.
+    for row_left, row_top, row_right, row_bottom in quote_rows or [quote]:
+        adjacent = [w for w in words if w[1] < row_bottom and w[3] > row_top]
+        assert all(w[2] < row_left - 4 or w[0] > row_right + 4 for w in adjacent), \
+            'Prose overlaps the quote'
     for start, stop in [(top - 80, top - 30), (bottom + 30, bottom + 80)]:
         nearby = [w for w in words if start < (w[1] + w[3]) / 2 < stop]
         assert any(left < (w[0] + w[2]) / 2 < page_width / 2 for w in nearby) \
@@ -169,7 +174,7 @@ def verify(path):
         assert f'cite.0@{key}' in destinations, f'Citation destination missing: {key}'
     bibliography_page = min(reader.get_destination_page_number(destinations[f'cite.0@{key}'])
                             for key in cited)
-    assert 'References' in reader.pages[bibliography_page].extract_text()
+    assert 'REFERENCES' in reader.pages[bibliography_page].extract_text()
     assert bibliography_page > 1, 'Bibliography must follow the essay'
     headings = [h for h in re.findall(r'^## (.+)$', Path(f'{NAME}.md').read_text(), re.M)
                 if h != 'Abstract']
@@ -247,34 +252,64 @@ def verify(path):
         [1, 2, 4, 5, 6, 8, 9, 10], 'A section no longer starts on its intended page'
     for entry in outline:
         assert float(entry['/Top']) > 740, f'Section starts too far down the page: {entry.title}'
+        heading_page = reader.get_destination_page_number(entry)
+        assert str(entry.title).upper() in ' '.join(reader.pages[heading_page].extract_text().split()), \
+            f'Section heading is not uppercase: {entry.title}'
+    assert '/ CONTINUED' not in '\n'.join(p.extract_text().upper() for p in reader.pages), \
+        'An invented continuation header reappeared'
 
-    quote = 'The mandate must move real decisions.'
-    display = []
+    quote_lines = {
+        5: ['The institution can afford', 'the delay while the useful', 'work remains undone.'],
+        6: ['A unit that must seek fresh', 'agreement across departments',
+            'for every meaningful action has', 'responsibility without control.'],
+        9: ['We cannot keep paying', 'capable people to wait',
+            'and expect abundance', 'to emerge from the queue.'],
+    }
+    display = {number: [] for number in quote_lines}
     for number in range(1, bibliography_page):
         def collect_quote(text, cm, tm, font, size):
-            if text.strip() and 17.5 < size < 18.5:
-                assert number == 6, 'An additional display quote appeared'
-                display.append(text)
+            if text.strip() and 16.5 < size < 17.5:
+                assert number in quote_lines, 'An additional display quote appeared'
+                display[number].append(text)
         reader.pages[number].extract_text(visitor_text=collect_quote)
-    assert normalized(quote) == normalized(''.join(display)), 'Expected exactly one short pull quote'
-    assert normalized(quote) in normalized(manuscript), 'Pull quote is not verbatim essay text'
     bbox = ET.fromstring(subprocess.check_output(['pdftotext', '-bbox-layout', str(path), '-']))
     ns = {'x': 'http://www.w3.org/1999/xhtml'}
-    page = bbox.findall('.//x:page', ns)[6]
-    quote_words = []
     def bounds(element):
         return tuple(float(element.get(key)) for key in ('xMin', 'yMin', 'xMax', 'yMax'))
-    for line in page.findall('.//x:line', ns):
-        words = line.findall('x:word', ns)
-        if normalized(''.join(w.text or '' for w in words)) in {
-                normalized('The mandate must'), normalized('move real decisions.')}:
-            quote_words.extend(words)
-    assert len(quote_words) >= 6, 'Quote no longer has its intended two-line setting'
-    rectangles = [bounds(w) for w in quote_words]
-    quote_bounds = (min(w[0] for w in rectangles), min(w[1] for w in rectangles),
-                    max(w[2] for w in rectangles), max(w[3] for w in rectangles))
-    body_words = [bounds(w) for w in page.findall('.//x:word', ns) if w not in quote_words]
-    verify_gutter_geometry(quote_bounds, body_words, float(reader.pages[6].mediabox.width))
+    for number, lines in quote_lines.items():
+        quote = ' '.join(lines)
+        assert normalized(quote) == normalized(''.join(display[number])), \
+            f'Missing or changed pull quote on page {number + 1}'
+        assert normalized(quote) in normalized(manuscript), 'Pull quote is not verbatim essay text'
+        page = bbox.findall('.//x:page', ns)[number]
+        quote_words = []
+        quote_rows = []
+        matched_lines = []
+        for line in page.findall('.//x:line', ns):
+            # Poppler can merge adjacent prose into the same geometric line.
+            # Isolate the larger quote glyphs before checking their wording.
+            words = [word for word in line.findall('x:word', ns)
+                     if 13 < bounds(word)[3] - bounds(word)[1] < 15.5]
+            content = normalized(''.join(w.text or '' for w in words))
+            if content in {normalized(expected) for expected in lines}:
+                quote_words.extend(words)
+                matched_lines.append(content)
+                quote_rows.append((min(bounds(w)[0] for w in words), min(bounds(w)[1] for w in words),
+                                   max(bounds(w)[2] for w in words), max(bounds(w)[3] for w in words)))
+        assert matched_lines == [normalized(line) for line in lines], \
+            f'Quote line breaks changed on page {number + 1}'
+        rectangles = [bounds(w) for w in quote_words]
+        quote_bounds = (min(w[0] for w in rectangles), min(w[1] for w in rectangles),
+                        max(w[2] for w in rectangles), max(w[3] for w in rectangles))
+        body_words = [bounds(w) for w in page.findall('.//x:word', ns) if w not in quote_words]
+        verify_gutter_geometry(quote_bounds, body_words,
+                               float(reader.pages[number].mediabox.width), quote_rows)
+
+    comic_page = reader.pages[4].extract_text()
+    assert all(label in comic_page for label in ('INVESTIGATE', 'BUILD', 'VERIFY')), \
+        'Comic stages must stay with their illustration'
+    assert normalized('One human–AI unit owns the outcome across all three stages') \
+        in normalized(comic_page), 'Comic explanation is missing or separated from the image'
 
     for number, details in {
         1: ['Where the working week goes', '44%', '37%', '18%', '76%', '85%',
@@ -303,8 +338,9 @@ def verify(path):
                          log.read_text()), 'Unresolved typesetting or citation warnings'
     print(f'{path}: {len(reader.pages)} A4 pages; {len(paragraphs)} manuscript blocks; '
           f'{len(cited)} references and linked citations; cover abstract, original artwork, '
-          'three editorial illustrations, four native figures, one quote with prose wrapping on both sides, '
-          'unbroken paragraphs, page numbering and all section bookmarks verified')
+          'three editorial illustrations, labelled comic stages, four native figures, '
+          'three quotes with prose wrapping on both sides, '
+          'uppercase headings, unbroken paragraphs, page numbering and all section bookmarks verified')
 
 
 if __name__ == '__main__':

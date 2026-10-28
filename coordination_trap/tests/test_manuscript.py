@@ -95,11 +95,13 @@ class ManuscriptTests(unittest.TestCase):
         self.assertEqual(result.stdout.count(r'\OutcomeFigure'), 1)
         self.assertEqual(result.stdout.count(r'\PortfolioFigure'), 1)
         self.assertEqual(result.stdout.count(r'\SafetyFigure'), 1)
-        self.assertEqual(result.stdout.count(r'\GutterQuote'), 1)
-        self.assertEqual(result.stdout.count(r'\NextGutterColumn'), 1)
+        self.assertEqual(result.stdout.count(r'\GutterQuote'), 3)
+        self.assertEqual(result.stdout.count(r'\NextGutterColumn'), 3)
         self.assertNotIn(r'\PullQuote', result.stdout)
         self.assertNotIn('OpeningLead', result.stdout)
-        self.assertEqual(result.stdout.count(r'\EssayArt'), 3)
+        self.assertNotIn('ContinuedSection', result.stdout)
+        self.assertEqual(result.stdout.count(r'\EssayArt'), 2)
+        self.assertEqual(result.stdout.count(r'\UnitComic'), 1)
         self.assertEqual(result.stdout.count(r'\begin{EssayColumns}'),
                          result.stdout.count(r'\end{EssayColumns}'))
 
@@ -112,6 +114,23 @@ class ManuscriptTests(unittest.TestCase):
             input=source, capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('Editorial layout needs review', result.stderr)
+
+    def test_every_prose_paragraph_is_inside_two_column_flow(self):
+        result = self.convert('body', 'json')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        inside_columns = False
+        for block in json.loads(result.stdout)['blocks']:
+            if block['t'] == 'RawBlock':
+                text = block['c'][1]
+                if r'\begin{EssayColumns}' in text:
+                    self.assertFalse(inside_columns)
+                    inside_columns = True
+                if r'\end{EssayColumns}' in text:
+                    self.assertTrue(inside_columns)
+                    inside_columns = False
+            elif block['t'] == 'Para':
+                self.assertTrue(inside_columns, 'A prose paragraph escaped the two-column layout')
+        self.assertFalse(inside_columns)
 
     def test_changed_section_order_requires_layout_review(self):
         source = Path('coordination-trap.md').read_text().replace(
@@ -165,6 +184,14 @@ class ManuscriptTests(unittest.TestCase):
                 verify_gutter_geometry((240, 200, 360, 230), words, 600)
         with self.assertRaisesRegex(AssertionError, 'not centered'):
             verify_gutter_geometry((50, 200, 170, 230), self.gutter_words(), 600)
+
+    def test_gutter_quote_checks_clearance_against_each_visible_line(self):
+        quote = (240, 200, 360, 230)
+        rows = [(240, 200, 360, 211), (255, 218, 345, 230)]
+        words = self.gutter_words() + [(245, 220, 250, 229), (350, 220, 355, 229)]
+        verify_gutter_geometry(quote, words, 600, rows)
+        with self.assertRaisesRegex(AssertionError, 'Prose overlaps'):
+            verify_gutter_geometry(quote, words + [(260, 220, 280, 229)], 600, rows)
 
     def test_missing_tex_argument_reports_usage(self):
         result = subprocess.run(['bash', 'mkpdf.sh'], capture_output=True, text=True)

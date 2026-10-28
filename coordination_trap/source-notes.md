@@ -108,18 +108,23 @@ Hastings, Syverson and Zimmerman remain the two initiating sources; the removed
 secondary-news citation is no longer part of the manuscript or bibliography.
 The historical drafts are unchanged.
 
-The revised edition has eleven pages. Complete paragraphs stay within a column
-or a full-width text band, and every major section starts on a fresh page. The
+The revised edition has eleven pages. Complete paragraphs stay within a column,
+and every major section starts on a fresh page with an uppercase heading. The
 introduction uses normal black body type and an original editorial
-illustration. One short verbatim pull quote is set into the gutter with prose
-flowing around both sides; it is the author's statement, not a quotation from
-the research. The two longer
-sections each use a deliberate continuation page.
+illustration. Three verbatim pull quotes are set into the gutter with prose
+flowing closely around both sides. They emphasize delay, responsibility without
+control and the cost of making capable people wait. They are the author's
+statements, not quotations from the research. The two longer sections each use
+a deliberate page break without a continuation header. Two paragraphs were
+divided at existing sentence boundaries to balance the evidence and closing
+pages; their wording is unchanged.
 
 Four native vector figures distinguish the survey data, the source's
 product-portfolio example, the proposed ownership arrangement and the proposed
 safety-control sequence. Three original generated illustrations provide visual
-pauses. Their exact prompts and asset hashes are recorded under `illustrations/`.
+pauses. The workshop strip now carries stage labels and a caption connecting
+it to ownership of a complete outcome by one human–AI unit. Its pixels are
+unchanged. Exact prompts and asset hashes are recorded under `illustrations/`.
 
 
 The cover follows the author's supplied sunset-and-office-tower reference.

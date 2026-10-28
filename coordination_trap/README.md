@@ -27,7 +27,7 @@ by this edition's `source-notes.md`.
 ## Layout
 
 The typography and geometry follow `no_place_to_land/`: A4, 11-point XCharter
-body text, Helvetica section headings, 7 mm between columns, C89 footer and page
+body text, uppercase Helvetica section headings, 7 mm between columns, C89 footer and page
 numbering. The cover follows the author's supplied sunset-and-office-tower
 reference. Condensed Bebas Neue lettering sits in the open sky, with a coral-red
 “TRAP” and the short cover line “When execution outruns the enterprise.” The C89
@@ -40,16 +40,19 @@ Section bookmarks and native author–year citation links provide navigation.
 `coordination-trap.tex` owns cover composition and metadata;
 `structure.tex` retains the companion essay's typography and bibliography
 configuration. `editorial-layout.tex` supplies paragraph-safe column pairs,
-a gutter inset and illustration bands. The editorial map in
+gutter insets and illustration bands. The editorial map in
 `manuscript.lua` starts each major section on a fresh page and gives the evidence
-and outcome-ownership sections deliberate continuation pages. It fails with an
+and outcome-ownership sections deliberate page breaks. Those pages resume the
+two-column text without added continuation headers. Every prose paragraph stays
+in the column flow. The map fails with an
 actionable error if section order or paragraph counts change, so structural
 edits require a layout review. Changes within paragraphs also need a fresh render.
 
-One short pull quote, “The mandate must move real decisions,” sits horizontally
-across the gutter in the ownership section. Matching `wrapstuff` windows narrow
-the facing edges of both columns, and the prose returns to normal width above
-and below it. The quote uses upright serif type with quiet quotation marks.
+Three pull quotes emphasize the cost of delay, responsibility without control,
+and paying capable people to wait. Each sits horizontally across the gutter.
+Matching `wrapstuff` windows measure the actual lettering, with 4.5 mm side
+clearance and 1.5 mm vertical separation. Prose returns to normal width above
+and below each quote. The quotes use upright 17-point serif type with quiet quotation marks.
 `body-illustrations.tex` contains four
 original native drawings: the Hastings survey, the product-portfolio decision,
 the proposed arrangement for outcome ownership, and the safety-control sequence.
@@ -62,7 +65,9 @@ reference, preserved in `illustrations/cover-reference.png`. The original navy
 `cover.png` remains as an unused source asset. All three body illustrations were
 generated for this essay.
 The opening illustration, a three-panel comic and the closing workshop scene
-are conceptual editorial artwork. No cover or body
+are conceptual editorial artwork. The comic's three stages are labelled
+INVESTIGATE, BUILD and VERIFY; its caption explains ownership of the complete
+outcome by the same human–AI unit. No cover or body
 illustration from another essay is reused. `illustrations/provenance.json`
 records the assets and their provenance. SVG conversion preserves vector logos;
 all four analytical figures and their labels remain vector/text in the PDFs.
@@ -88,19 +93,19 @@ pdfLaTeX/BibTeX with the companion essay's TeX packages plus `wrapstuff`, Pandoc
 `rsvg-convert`, Poppler, Python 3, Pillow and pypdf.
 
 `make SQUEEZED_DPI=150` changes the placement-aware image target from the default
-200 DPI. Staging never enlarges an image. The full PDF is approximately 11.26 MB;
-the distribution PDF is approximately 9.23 MB. Text, vector artwork, links and
+200 DPI. Staging never enlarges an image. The full PDF is approximately 11.21 MB;
+the distribution PDF is approximately 9.18 MB. Text, vector artwork, links and
 pagination are identical, with the raster illustrations resized for distribution.
 
-`make check` runs 28 unit/integration tests, checks equality between the PDF
+`make check` runs 30 unit/integration tests, checks equality between the PDF
 variants, and verifies every manuscript paragraph in order, the complete cover
 abstract, artwork identity, unchanged C89 assets, figure captions and labels,
 all references and citation destinations, source URLs, embedded cover font, section bookmarks,
-A4 dimensions, page numbers, two-column body layout, the single verbatim gutter
-quote and the absence of unresolved citations or overfull boxes. The PDF check
+A4 dimensions, page numbers, strictly two-column body prose, uppercase headings,
+three verbatim gutter quotes and the absence of unresolved citations or overfull boxes. The PDF check
 also checks that the background fills the cover, prose wraps on both sides of
-the inset quote and returns to normal width, every prose paragraph stays within
-one page and one column or full-width band, and figures remain with their intended discussion. Generated
+each inset quote and returns to normal width, every prose paragraph stays within
+one page and one column, and figures and comic labels remain with their intended discussion. Generated
 PDFs are also rendered and reviewed visually during editorial production.
 
 `make release` first runs the checks, then packages both PDFs and all buildable

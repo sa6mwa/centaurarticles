@@ -17,24 +17,40 @@
 \newcommand{\EssayArt}[1]{%
   \par\vspace{8mm}\noindent\includegraphics[width=\textwidth]{#1}\par
 }
-\newcommand{\ContinuedSection}[1]{%
-  \clearpage\noindent{\color{blue}\sffamily\small\bfseries #1 / continued}\par\vspace{6mm}
+% Measure the lettering itself, then wrap both columns around the same box.
+% The mirrored phantom reserves precisely the same space without painting twice.
+\newsavebox{\GutterQuoteBox}
+\newlength{\GutterQuoteOverhang}
+\newcommand{\PrepareGutterQuote}[3]{%
+  \def\GutterQuoteTop{#1}%
+  \setlength{\GutterQuoteOverhang}{\dimexpr(#2+\columnsep)/2\relax}%
+  \sbox{\GutterQuoteBox}{\parbox{#2}{%
+    \centering\color{black}\fontsize{17}{20}\selectfont
+    {\color{black!45}\textquotedblleft}#3{\color{black!45}\textquotedblright}\par}}%
 }
-
-% One short pull quote straddles the gutter. Matching wrapstuff windows narrow
-% the facing edges of the two columns for the same six lines; the prose then
-% returns to its normal width. The quote is painted once, from the left column.
 \newcommand{\GutterQuote}{%
-  \begin{wrapstuff}[r,top=14,width=70mm,height=25mm,hoffset=38.5mm,
-      leftsep=7mm,lines=6]
-    \centering\color{black}\fontsize{18}{21}\selectfont
-    {\color{black!45}\textquotedblleft}The mandate must\\move real decisions.{\color{black!45}\textquotedblright}\par
+  \begin{wrapstuff}[r,top=\GutterQuoteTop,hoffset=\GutterQuoteOverhang,
+      leftsep=4.5mm,vsep=1.5mm]
+    \usebox{\GutterQuoteBox}%
   \end{wrapstuff}%
 }
 \newcommand{\NextGutterColumn}{%
   \par\wrapstuffclear\NextEssayColumn
-  \begin{wrapstuff}[l,top=14,width=70mm,height=25mm,hoffset=38.5mm,
-      rightsep=7mm,lines=6]
-    \mbox{}%
+  \begin{wrapstuff}[l,top=\GutterQuoteTop,hoffset=\GutterQuoteOverhang,
+      rightsep=4.5mm,vsep=1.5mm]
+    \phantom{\usebox{\GutterQuoteBox}}%
   \end{wrapstuff}%
+}
+
+\newcommand{\UnitComic}{%
+  \par\vspace{3mm}\noindent\begin{minipage}{\textwidth}
+  \includegraphics[width=\textwidth]{unit-comic.png}\par
+  \vspace{1mm}\noindent
+  \makebox[\dimexpr\textwidth/3\relax]{\small\usefont{OT1}{phv}{b}{n}INVESTIGATE}%
+  \makebox[\dimexpr\textwidth/3\relax]{\small\usefont{OT1}{phv}{b}{n}BUILD}%
+  \makebox[\dimexpr\textwidth/3\relax]{\small\usefont{OT1}{phv}{b}{n}VERIFY}\par
+  \vspace{1mm}\noindent{\small\itshape
+    One human--AI unit owns the outcome across all three stages,
+    keeping knowledge and responsibility together.\par}%
+  \end{minipage}\par
 }
