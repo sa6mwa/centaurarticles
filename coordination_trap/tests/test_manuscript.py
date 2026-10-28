@@ -87,7 +87,10 @@ class ManuscriptTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         cited = set(re.findall(r'\[@([\w-]+)\]', Path('coordination-trap.md').read_text()))
         self.assertEqual(set(re.findall(r'\\citep\{([^}]+)\}', result.stdout)), cited)
-        self.assertNotIn('https://', result.stdout)
+        self.assertEqual(re.findall(r'\\href\{([^}]+)\}', result.stdout),
+                         ['https://c89.systems/10x.pdf'])
+        self.assertIn(r'\href{https://c89.systems/10x.pdf}{\emph{The Coordination Shift}}',
+                      result.stdout)
         self.assertEqual(result.stdout.count(r'\SurveyFigure'), 1)
         self.assertEqual(result.stdout.count(r'\OutcomeFigure'), 1)
         self.assertEqual(result.stdout.count(r'\PortfolioFigure'), 1)

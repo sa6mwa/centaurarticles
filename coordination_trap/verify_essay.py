@@ -186,6 +186,8 @@ def verify(path):
     verify_paragraph_flow(prose_paragraphs, runs)
     links = set()
     linked_citations = set()
+    introduction_links = set()
+    introduction_citations = set()
     for number, page in enumerate(reader.pages):
         assert abs(float(page.mediabox.width) - 595.276) < 1
         assert abs(float(page.mediabox.height) - 841.89) < 1
@@ -211,9 +213,19 @@ def verify(path):
                 uri = unquote(str(action['/URI']))
                 links.add(uri)
                 if 0 < number < bibliography_page:
-                    assert uri == 'https://c89.systems', 'Source URL left in body prose'
+                    allowed = {'https://c89.systems'}
+                    if number == 1:
+                        allowed.add('https://c89.systems/10x.pdf')
+                        introduction_links.add(uri)
+                    assert uri in allowed, 'Unexpected external link in body prose'
             if action.get('/S') == '/GoTo' and number < bibliography_page:
                 linked_citations.add(str(action.get('/D')))
+                if number == 1:
+                    introduction_citations.add(str(action.get('/D')))
+    assert 'https://c89.systems/10x.pdf' in introduction_links, \
+        'Introduction must link directly to The Coordination Shift PDF'
+    assert 'cite.0@blomgren2025coordination' in introduction_citations, \
+        'Introduction must retain its Coordination Shift bibliography link'
     assert {f'cite.0@{key}' for key in cited} <= linked_citations, \
         'A citation does not link from the essay to its reference'
     assert {'https://c89.systems/10x.pdf', 'mailto:mike@c89.systems'} <= links
