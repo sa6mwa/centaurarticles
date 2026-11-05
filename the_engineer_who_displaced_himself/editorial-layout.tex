@@ -1,0 +1,78 @@
+% Gutter pull quotes follow the companion essay's composition. Native TeX
+% paragraph shapes keep it compatible with the project's Tectonic bundle.
+\newlength{\EssayColumnWidth}
+\setlength{\EssayColumnWidth}{\dimexpr(\textwidth-\columnsep)/2\relax}
+\newenvironment{EssayColumns}{%
+  \par\noindent\begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
+  \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%
+}{%
+  \par\ClearGutterQuote\end{minipage}\par
+}
+\newcommand{\NextEssayColumn}{%
+  \par\ClearGutterQuote\end{minipage}\hfill
+  \begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
+  \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%
+}
+\newsavebox{\GutterQuoteBox}
+\newlength{\GutterQuoteCentre}
+\newlength{\GutterTextWidth}
+\newlength{\GutterTextIndent}
+\newcount\GutterTop
+\newcount\GutterBottom
+\newcount\GutterWindowLines
+\newcount\GutterLinesUsed
+\newcount\GutterShapeLine
+\newcommand{\PrepareGutterQuote}[3]{%
+  \GutterTop=#1\relax
+  \setlength{\GutterQuoteCentre}{\dimexpr\EssayColumnWidth+\columnsep/2\relax}%
+  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-#2)/2-4.5mm\relax}%
+  \sbox{\GutterQuoteBox}{\parbox{#2}{%
+    \centering\color{black}\fontsize{17}{20}\selectfont
+    {\color{CoverOrange}\textquotedblleft}#3{\color{CoverOrange}\textquotedblright}\par}}%
+  \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+3mm+\baselineskip-1sp\relax
+  \divide\GutterWindowLines by \number\baselineskip
+}
+% The line count spans paragraphs; the final shape line restores full width.
+\newcommand{\ShapeGutterParagraph}{%
+  \ifnum\GutterLinesUsed<\GutterBottom
+    \GutterShapeLine=\GutterLinesUsed
+    \edef\GutterShape{\number\numexpr\GutterBottom-\GutterLinesUsed+1\relax}%
+    \loop\ifnum\GutterShapeLine<\GutterBottom
+      \ifnum\GutterShapeLine<\GutterTop
+        \edef\GutterShape{\GutterShape\space 0pt \the\EssayColumnWidth}%
+      \else
+        \edef\GutterShape{\GutterShape\space\the\GutterTextIndent\space\the\GutterTextWidth}%
+      \fi
+      \advance\GutterShapeLine by 1
+    \repeat
+    \edef\GutterShape{\GutterShape\space 0pt \the\EssayColumnWidth}%
+    \expandafter\parshape\GutterShape\relax
+  \fi
+}
+\newcommand{\StartGutterShape}{%
+  \global\GutterLinesUsed=0
+  \GutterBottom=\numexpr\GutterTop+\GutterWindowLines\relax
+  \AddToHook{para/begin}[essay-gutter]{\ShapeGutterParagraph}%
+  \AddToHook{para/after}[essay-gutter]{\global\advance\GutterLinesUsed by \prevgraf}%
+}
+\newcommand{\ClearGutterQuote}{%
+  \RemoveFromHook{para/begin}[essay-gutter]%
+  \RemoveFromHook{para/after}[essay-gutter]%
+  \parshape=0
+}
+\newcommand{\GutterQuote}{%
+  \setlength{\GutterTextIndent}{0pt}%
+  \StartGutterShape
+  \noindent\begin{tikzpicture}[overlay]
+    \node[anchor=north,inner sep=0pt,outer sep=0pt]
+      at (\GutterQuoteCentre,\dimexpr-\GutterTop\baselineskip+\ht\strutbox-1.5mm\relax)
+      {\usebox{\GutterQuoteBox}};
+  \end{tikzpicture}\ignorespaces
+}
+% A column with artwork starts its matching cutout on its own baseline grid.
+\newcommand{\ReserveGutterQuote}[1]{%
+  \GutterTop=#1\relax
+  \setlength{\GutterTextIndent}{\dimexpr\EssayColumnWidth-\GutterTextWidth\relax}%
+  \StartGutterShape
+  \ignorespaces
+}

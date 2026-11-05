@@ -41,7 +41,10 @@ and the local package cache. Rendered pages under `build/render/` support visual
 `make check` checks that the PDF can be read, extracts its text, and rejects overfull
 boxes, missing glyphs, font substitutions and unresolved references in the TeX log.
 Visual inspection is necessary for spacing, image placement and cover contrast.
-Short sections mark the narrative turns. The Coordination Shift passage includes a
-linked reproduction of the earlier essay cover, tilted as a paper inset.
+Short sections mark the narrative turns. Both pull quotes sit in the gutter, with
+black text and orange quotation marks; the body columns wrap around them.
+`editorial-layout.tex` uses native TeX paragraph shapes and paragraph hooks, retaining
+the companion essay's composition without requiring a newer TeX bundle.
+The Coordination Shift passage includes a linked reproduction of the earlier essay cover, tilted as a paper inset.
 `notes.tex` contains the references and concise engineering descriptions of the projects.
 Product links point to repository roots (or the Vectis product page).
