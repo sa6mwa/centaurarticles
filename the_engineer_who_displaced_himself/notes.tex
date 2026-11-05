@@ -1,33 +1,63 @@
-\noindent This essay was written through conversation and collaboration between Michel Blomgren and AI. The interview invitations of 23 and 27 October 2026 explicitly encouraged use of a preferred AI agent. Both invitations and the recruiter's follow-up of 4 November were read during preparation of this edition. The employer and interviewers remain unnamed.
+\begingroup
+\small
+\begin{multicols}{2}
+\noindent\hypertarget{note1}{\textbf{1. OpenSSL.}}
+The four contributions address failures in foundational lifecycle machinery: safe failure during \href{https://github.com/openssl/openssl/pull/33379}{libcrypto initialization (\#33379)}, reporting \href{https://github.com/openssl/openssl/pull/33380}{thread-default context store failures (\#33380)}, releasing the \href{https://github.com/openssl/openssl/pull/33378}{master TLS key at global cleanup (\#33378)}, and preserving \href{https://github.com/openssl/openssl/pull/33381}{module ownership when unloading fails (\#33381)}. They grew out of issues Mike had filed with fixes; a maintainer encouraged him to turn those fixes into pull requests.
 
-The source-code totals are development snapshots recorded during preparation of this essay. CAI: 314,975 total lines, comprising 183,548 implementation and 131,427 test lines (41.73\% tests). Of these, 288,577 are C, including 109,723 C test lines. The larger stack count describes checked-out development worktrees on one VPS; it is not a deduplicated inventory of shipped production code. CAI belongs to that wider stack and is not added again. The separately developed \texttt{libailo} is excluded from the VPS count. The figures describe the development stack and its test investment.
-
-\vspace{5mm}
-\noindent\hypertarget{note1}{\textbf{1. OpenSSL contributions.}}
-Four pull requests were opened on 24 October 2026. All four were open and unmerged when checked for this edition on 5 November 2026. The essay therefore says ``submitted'' rather than ``merged'' or ``accepted'':
-\begin{itemize}[leftmargin=1.5em]
-\item \href{https://github.com/openssl/openssl/pull/33379}{\#33379: Fail safely during libcrypto initialization.}
-\item \href{https://github.com/openssl/openssl/pull/33380}{\#33380: Report thread-default context store failures.}
-\item \href{https://github.com/openssl/openssl/pull/33378}{\#33378: Release the master TLS key at global cleanup.}
-\item \href{https://github.com/openssl/openssl/pull/33381}{\#33381: Preserve module ownership on unload failure.}
-\end{itemize}
-
-\vspace{3mm}
+\medskip
 \noindent\hypertarget{note2}{\textbf{2. The earlier argument.}}
-Michel Blomgren, \href{https://pkt.systems/10x.pdf}{\emph{The Coordination Shift: Software Engineering in the Centaur Era}}, 26 November 2025. This personal essay accompanies \emph{The Coordination Trap} and \emph{No Place to Land}.
+Michel Blomgren's \href{https://pkt.systems/10x.pdf}{\emph{The Coordination Shift: Software Engineering in the Centaur Era}} argues that agents move the central engineering constraint towards coordination and verification. Its original cover is reproduced in ``The Shift.'' This essay continues that inquiry alongside \emph{The Coordination Trap} and \emph{No Place to Land}.
 
-\vspace{5mm}
-\noindent\hypertarget{note3}{\textbf{3. Engineering examples.}}
-Project sources and the engineering examples:
-\begin{itemize}[leftmargin=1.5em]
-\item \href{https://github.com/c89systems/cai/tree/feature/cai-agent}{CAI: agent runtime and embeddable application.}
-\item \href{https://github.com/c89systems/cai/blob/5acbb6b162793e0a87b7c2950fe7f00821efc56b/tests/pouch_journal_fault_test.inc}{CAI: journal fault-injection tests.}
-\item \href{https://github.com/c89systems/liblockdc/blob/7ed2c2a5fc1db9620123abdd3845132b818114de/tests/unit/test_lc_pouch_xa.c}{Pouch: transaction-state tests.}
-\item \href{https://github.com/c89systems/lingon/blob/e3957daa41b9d705e66023ae100964fd835b0c94/integration/pty/attach/relay_disruption_stress_integration_test.go}{Lingon: terminal relay disruption integration tests.}
-\item \href{https://github.com/c89systems/libailo/blob/feature/ailo-foundation/docs/static-vulkan.md}{libailo: Raphael investigation, numerical checks and performance work.}
-\item libailo patches: \href{https://github.com/c89systems/libailo/blob/feature/ailo-foundation/vendor/mesa/patches/0003-raphael-lds-isolation.patch}{Mesa shared-memory isolation} and \href{https://github.com/c89systems/libailo/blob/feature/ailo-foundation/vendor/llama/patches/0010-prefer-float-activations-on-raphael.patch}{Raphael inference precision}.
-\end{itemize}
+\medskip
+\noindent\hypertarget{note3}{\textbf{3. The engineering.}}
+The repositories below give the projects their technical context. My assessment of their scope follows the interfaces, failure handling and verification they expose.
 
-\vspace{5mm}
-\noindent\textbf{Films and artwork.}
-The personal analogies refer to \emph{Johnny Mnemonic} (1995) and \emph{Back to the Future} (1985). The cover and interior comic are original AI-generated conceptual illustrations, not documentary photographs or portraits. They depict an imagined setting; the cover does not reproduce either film. Cover lettering remains separately typeset, selectable text. The XCharter body typography and page furniture follow the companion essays' Wenneker-based design.
+\medskip
+\noindent\textbf{\project{cai}{CAI}.}
+A C89/POSIX SDK and agent runtime with streaming, tool execution, sessions and MCP connectivity. The embeddable \project{cai}{\texttt{libcai\_app}} supplies the application behind \project{cai}{\texttt{cai}}. Durable journal fault tests probe ambiguous write outcomes. This is substantial runtime engineering: ownership, recovery and host integration are central to its design. The essay's development snapshot contains 314,975 lines, 41.73\% tests.
+
+\medskip
+\noindent\textbf{\project{liblockdc}{\texttt{liblockdc}} and \project{liblockdc}{Pouch}.}
+A C client and embedded storage engine covering persistent state, leases, queues, attachments and coordinated transactions. Commit, rollback and recovery reach into the public contracts and fault tests. This is demanding storage engineering, where an incorrect recovery decision can change durable state.
+
+\medskip
+\noindent\textbf{\href{https://github.com/sa6mwa/lockd}{\texttt{lockd}}.}
+The Go coordination server provides leases, state and queues over multiple storage backends. Its backend integration tests make consistency and recovery behaviour concrete across different persistence systems. Keeping those implementations aligned is a continuing distributed-systems responsibility.
+
+\medskip
+\noindent\textbf{\project{libailo}{\texttt{libailo}}.}
+Local model inference through a C89 interface, spanning CPU and Vulkan execution. The Raphael work reaches down into Mesa shared-memory isolation and inference precision, then measures the performance consequences. That crosses application, numerical and driver boundaries: unusually deep integration work for a library in this stack.
+
+\medskip
+\noindent\textbf{\project{softline}{\texttt{softline}}.}
+A multiline terminal editor with per-instance state, history, completion and terminal rendering. Its scope is focused but exacting: interactive applications depend on predictable input, redraw and terminal-state behaviour.
+
+\medskip
+\noindent\textbf{\project{libmdf}{\texttt{libmdf}}.}
+Markdown rendering for ANSI terminals and HTML, with a C API, command-line tools and Lua bindings. Parity checks against its Go predecessor and packaged consumer interfaces make this a reusable presentation component with a concrete compatibility obligation.
+
+\medskip
+\noindent\textbf{\project{cpkt}{\texttt{cpkt}}.}
+A native SDK bringing cryptography, networking, parsing and Lua behind strict C89 interfaces. Cross-target packages, lifecycle fixes and consumer verification make dependency ownership a substantial part of the work. It supplies the shared foundations on which the other projects can build.
+
+\medskip
+\noindent\textbf{\project{libpslog}{\texttt{libpslog}}.}
+Structured C logging with typed fields, console and JSON output, thread-safe logger trees and zero-allocation hot paths. Fuzzing and comparative benchmarks support a tightly scoped component whose correctness and cost matter throughout a running system.
+
+\medskip
+\noindent\textbf{\project{lonejson}{\texttt{lonejson}}.}
+Schema-guided JSON mapped directly into C records, with incremental parsing, callback-based output and explicit storage ownership. Large-value and bounded-memory paths make it a substantial data-handling library, carrying constraints that propagate into the agents and services built above it.
+
+\medskip
+\noindent\textbf{\project{lingon}{Lingon}.}
+A secure terminal relay with command-line, browser and Android clients. Real-session disruption tests exercise reconnect and recovery. Maintaining session behaviour across networks and several clients gives this project the breadth of a distributed application.
+
+\medskip
+\noindent\textbf{\href{https://c89.systems/vectis/}{Vectis}.}
+The operational runtime brings Lua business logic together with native state, transaction, delivery and connectivity machinery. Its architectural weight lies in making retries, durable progress and recovery reusable across applications. It is where the foundations converge on business work.
+
+\medskip
+\noindent\textbf{Collaboration and artwork.}
+Written by Michel Blomgren with AI. The cover and comic are original AI-generated illustrations. The film analogies draw on \emph{Johnny Mnemonic} (1995) and \emph{Back to the Future} (1985).
+\end{multicols}
+\endgroup

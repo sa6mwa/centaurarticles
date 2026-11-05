@@ -1,6 +1,6 @@
 # Artwork provenance
 
-Both images were generated with the built-in ImageGen tool on 5 November 2026.
+The cover and comic were generated with the built-in ImageGen tool on 5 November 2026.
 They are original conceptual artwork, not photographs of the author or the interview.
 The cover is rendered photographically; the interior is a three-panel ink-and-watercolour
 comic. Neither borrows imagery from the films discussed in the essay. The title and
@@ -21,3 +21,11 @@ Use case: stylized-concept. Asset: full-page portrait book/essay cover, A4 ratio
 Prompt:
 
 Use case: illustration-story. Create a sophisticated editorial comic strip for a personal literary essay about an experienced software engineer who built his own AI coding agent specifically for an interview, was told he could use his favourite AI tools, then denied their use during the interview, while his agents kept implementing and testing complex systems in the background. One wide horizontal strip, three equal panels, thin ink borders, warm ivory paper, hand-drawn graphite and muted watercolour, restrained amber and midnight blue. Panel one: close-up of a person's hands putting a small glowing intricate mechanical workshop into a laptop, care and preparation. Panel two: rear three-quarter view of a middle-aged engineer seated alone facing a laptop video interview, hands paused above keyboard, an unlit workbench tool resting beside him; quiet human vulnerability, interviewers small neutral silhouettes, no villains. Panel three: a different monitor on the same desk shows an intricate miniature workshop alive with precise autonomous machinery, work progressing, same person visible softly behind it still at interview. Visual irony is simultaneity, no triumphant robots, no ridicule. No readable text, no logos, no speech bubbles. Wide 3:1 composition, crisp enough for print, full image devoted to panels. Conceptual illustration, not a portrait of an identifiable real person.
+
+## Earlier essay — `coordination-shift-cover.png`
+
+The actual first page of Michel Blomgren's *The Coordination Shift: Software
+Engineering in the Centaur Era*, reproduced from `../pub/10x.pdf` (published at
+https://pkt.systems/10x.pdf). Rendered with Poppler at 1800 pixels on its long edge.
+LaTeX adds the paper border, tilt and shadow; the reproduced cover is unchanged.
+The paper links to the original essay in the PDF.

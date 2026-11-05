@@ -37,4 +37,7 @@ and the local package cache. Rendered pages under `build/render/` support visual
 `make check` checks that the PDF can be read, extracts its text, and rejects overfull
 boxes, missing glyphs, font substitutions and unresolved references in the TeX log.
 Visual inspection is necessary for spacing, image placement and cover contrast.
-Sources and publication notes are in `notes.tex`.
+Short sections mark the narrative turns. The Coordination Shift passage includes a
+linked reproduction of the earlier essay cover, tilted as a paper inset.
+`notes.tex` contains the references and concise engineering descriptions of the projects.
+Product links point to repository roots (or the Vectis product page).

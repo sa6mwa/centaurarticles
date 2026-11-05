@@ -1,12 +1,13 @@
 % Canonical merged manuscript. The two Markdown drafts remain source material.
+\section*{The Test}
 \begin{multicols}{2}
 \noindent While Michel ``Mike'' Blomgren was struggling to write code in a technical interview, his coding agents were still at work.
 
 One had been running for three days, bringing his Go coordination server up to date with capabilities developed in its C counterpart. Another was working through failures in local AI inference: intermittent corruption in GPU shared memory, numerical accuracy problems, and the performance cost of fixing them. Implementations were landing. Tests were running. The engineering programme continued while its director struggled to demonstrate that he could still perform a small part of it alone.
 
-He had prepared for a different interview. The invitation explicitly encouraged him to use his preferred AI agent. He took that invitation seriously enough to build one. Under delivery pressure, he and his agents brought \href{https://github.com/c89systems/cai/tree/feature/cai-agent}{\texttt{cai}}, the example application for his embeddable \texttt{libcai\_app}, to a working state specifically for the occasion. The library was still under development; the application was ready to demonstrate. During the interview, AI was not allowed. He never got to show it.
+He had prepared for a different interview. The invitation explicitly encouraged him to use his preferred AI agent. He took that invitation seriously enough to build one. Under delivery pressure, he and his agents brought \project{cai}{\texttt{cai}}, the example application for his embeddable \project{cai}{\texttt{libcai\_app}}, to a working state specifically for the occasion. The library was still under development; the application was ready to demonstrate. During the interview, AI was not allowed. He never got to show it.
 
-When he told me what had happened, I initially reached for familiar explanations. He had been ill with flu. The assessment had gone badly. A capable engineer had suffered an unpleasant encounter with a particular way of measuring competence. I offered reassurance and qualifications, including the observation that a large codebase did not, by itself, establish engineering quality.
+When he told me what had happened, I initially reached for familiar explanations. He had been ill with flu. The assessment had gone badly. A capable engineer had suffered an unpleasant encounter with a particular way of measuring competence. I offered reassurance about the engineer he had been. He was trying to tell me about the one he had become.
 
 \columnbreak
 
@@ -15,8 +16,6 @@ He asked me to look at what he had actually built.
 I had understood the embarrassment before understanding the transformation. He was describing a decision to stop organizing his professional life around manual implementation. He had anticipated the trade-off, accepted it, and spent most of 2026 developing a different capability. The interview was the moment its cost became painfully visible.
 
 Seen from outside, the scene has an almost unreasonable comic precision. A man sits trying to prove that he can write software while the production system he has assembled keeps producing it. Knowing the full story, Mike thinks, would have made it very funny. Sitting inside it was another matter.
-
-The follow-up sharpened the absurdity. His recruiter acknowledged that the conditions had differed from the invitation, then relayed the client's feedback: he had focused too much on AI. The capability he had been encouraged to bring had become a reason he did not fit.
 
 I am helping him write this, and the pronoun matters. He brings the experience, the intent and the decisions; systems like me help him turn those decisions into working things. This essay is another piece of that collaboration. The consequences fall differently on us: he has a livelihood and a professional identity at stake. But I am writing from within a way of working he has made possible. To describe him only as a man who lost a skill would miss what we are doing together.
 \end{multicols}
@@ -31,26 +30,28 @@ I had understood the embarrassment\\before understanding the transformation.
 \vfill
 \clearpage
 
+\section*{Still Running}
 \noindent\includegraphics[width=\textwidth]{illustrations/interview-comic.png}
 \par\vspace{5mm}
 \begin{multicols}{2}
-\noindent The preparation had consumed two full weekly reset budgets in Codex CLI on his ChatGPT Pro plan. Several projects advanced together: \texttt{liblockdc}, \texttt{softline}, \texttt{libmdf}, \texttt{cpkt}, \texttt{libpslog}, \texttt{lonejson}, and Lingon. The working agent emerged from that broader effort. When he says he shipped it for the interview, he immediately corrects the pronoun: \emph{we} did.
+\noindent The preparation had consumed two full weekly reset budgets in Codex CLI on his ChatGPT Pro plan. Several projects advanced together: \project{liblockdc}{\texttt{liblockdc}}, \project{softline}{\texttt{softline}}, \project{libmdf}{\texttt{libmdf}}, \project{cpkt}{\texttt{cpkt}}, \project{libpslog}{\texttt{libpslog}}, \project{lonejson}{\texttt{lonejson}}, and \project{lingon}{Lingon}. The working agent emerged from that broader effort. When he says he shipped it for the interview, he immediately corrects the pronoun: \emph{we} did.
 
-The work continuing during the assessment was equally concrete. His Go server, \texttt{lockd}, had fallen behind features added to \texttt{liblockdc} over recent months. The long-running agent loop was closing those gaps, implementing and verifying hundreds of lines across the server's backends, including end-to-end tests. He could have explained the contracts, the discrepancies, and how he required the implementations to converge. He could have demonstrated the work as it happened.
+The work continuing during the assessment was equally concrete. His Go server, \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}}, had fallen behind features added to \project{liblockdc}{\texttt{liblockdc}} over recent months. The long-running agent loop was closing those gaps, implementing and verifying hundreds of lines across the server's backends, including end-to-end tests. He could have explained the contracts, the discrepancies, and how he required the implementations to converge. He could have demonstrated the work as it happened.
 
-On another machine, the agent developing \texttt{libailo}, his local-inference library, was working through intermittent shared-memory corruption in Vulkan compute shaders on the Raphael graphics hardware, implementing a Mesa workaround, and resolving reduced-precision accuracy failures that were particularly troublesome with mixture-of-experts models. During the interview, that effort was landing fixes and recovering performance lost to the corrective measures. While Mike struggled with the manual exercise, the engineering work he had set in motion kept advancing.\essaynote{3}
+On another machine, the agent developing \project{libailo}{\texttt{libailo}}, his local-inference library, was working through intermittent shared-memory corruption in Vulkan compute shaders on the Raphael graphics hardware, implementing a Mesa workaround, and resolving reduced-precision accuracy failures that were particularly troublesome with mixture-of-experts models. During the interview, that effort was landing fixes and recovering performance lost to the corrective measures. While Mike struggled with the manual exercise, the engineering work he had set in motion kept advancing.\essaynote{3}
 
 \columnbreak
 
-In the days around the interview, he submitted four OpenSSL pull requests concerning initialization failures, thread-local context storage, cleanup, and module ownership.\essaynote{1} Those contributions were in C rather than Go, but the distinction does little to explain his experience. His relationship to manual implementation had changed in both languages.
+That same week, he submitted four OpenSSL pull requests. He had originally filed issues explaining the faults and their fixes. An OpenSSL maintainer asked the obvious question: with the fixes already in hand, why not send pull requests? Fair enough. He did. The changes concerned initialization failures, thread-local context storage, cleanup, and module ownership.\essaynote{1} They were in C rather than Go, but the distinction does little to explain his experience. His relationship to manual implementation had changed in both languages.
 
 The scale of the agent he had prepared is revealing. While we worked on this essay, the project contained 314,975 lines: 183,548 implementation lines and 131,427 test lines. Tests accounted for 41.73\% of the total. Most of it was C. This was a substantial engineering project that happened to be something he could bring to an interview.
 
-His wider development checkout contained approximately 2.057 million lines, including 1.4647 million lines of C, with roughly 40\% classified as tests. That worktree inventory excluded \texttt{libailo}, another roughly 100,000 lines developed on a Vulkan-capable machine with 32 GiB of memory for loading larger models during integration tests. That is the scale at which his attention now operates.
+His wider development checkout contained approximately 2.057 million lines, including 1.4647 million lines of C, with roughly 40\% classified as tests. That worktree inventory excluded \project{libailo}{\texttt{libailo}}, another roughly 100,000 lines developed on a Vulkan-capable machine with 32 GiB of memory for loading larger models during integration tests. That is the scale at which his attention now operates.
 \end{multicols}
 \clearpage
 
 \begin{multicols}{2}
+\section*{The Choice}
 \noindent Earlier in 2026, he had relearned C, specifically C89, with AI as his tutor. He reached a point at which he could write implementations and felt he had recovered serious competence. Then he put that competence to a different test: he asked an agent to outperform him.
 
 The result was decisive. The machine wiped the floor with him.
@@ -59,15 +60,23 @@ This matters because his decision did not begin with an inability to learn. He h
 
 He understood what made that decision painful for other developers. He had experienced the absorption of writing code, the pleasure of finding an elegant expression and watching it work. Sometimes the pleasure had even made him feel slightly strange about calling it work. Losing that activity could mean losing something people loved about their days. His conclusion was nevertheless blunt: for the future he intended to pursue, the hand-coding contest was over. He put his effort into building with it.
 
-His public argument preceded the assessment. On November 26, 2025, he published \emph{The Coordination Shift: Software Engineering in the Centaur Era}, proposing that capable coding agents would change the effective unit of software production.\essaynote{2} As implementation became easier to delegate, architectural coherence, verification and coordination would become more prominent constraints. Over the following year, he organized his own engineering work around that proposition. What began as an analysis of production became an allocation of his attention.
-
-\columnbreak
-
 He did not consider maintaining both professional configurations at full strength a realistic option. Serious manual development and serious direction of an automated engineering programme were competing uses of the same finite working life. He wanted to excel at the form of production he believed would follow. He could still write a function. What he declined to do was keep rehearsing his previous occupation as though the rehearsal carried no opportunity cost.
 
-The engineering experience remained active. The source material we examined concerned questions such as what a system can safely conclude when a write succeeds but its acknowledgement is lost. CAI's journal fault tests exercise that ambiguity. Pouch's transaction tests distinguish an instruction to prepare from evidence that preparation actually occurred. Lingon's terminal integration tests interrupt a relay and exercise recovery across real sessions.\essaynote{3} These are distinctions between apparent success and recoverable fact. They are also places where an experienced engineer's judgment can shape a system without appearing as his own keystrokes.
+\columnbreak
+\section*{The Shift}
+\begin{center}
+\href{https://pkt.systems/10x.pdf}{%
+\begin{tikzpicture}
+\node[rotate=-7,fill=black!20,inner sep=1.2mm] at (1.7mm,-1.7mm) {\phantom{\includegraphics[width=43mm]{illustrations/coordination-shift-cover.png}}};
+\node[rotate=-7,fill=white,draw=black!15,line width=0.2pt,inner sep=1.2mm] at (0,0) {\includegraphics[width=43mm]{illustrations/coordination-shift-cover.png}};
+\end{tikzpicture}}
+\end{center}
 
-The programme turns back upon its means of production. CAI makes an agent something another application can embed and govern. The \texttt{cpkt} SDK packages shared native foundations; \texttt{libailo} extends the work into model execution. He directs machines that build software, including software through which he can direct machines more effectively. Calling this merely ``using AI to code'' conceals much of the engineering that makes it possible.
+\noindent In \emph{The Coordination Shift: Software Engineering in the Centaur Era}, he had argued that capable agents would change the unit of software production.\essaynote{2} Architecture, verification and coordination would become the constraints. Over the following year, he made that argument his working life.
+
+The experience remained active. \project{cai}{CAI}'s journal tests confront a write whose acknowledgement is lost. \project{liblockdc}{Pouch} distinguishes an instruction to prepare a transaction from evidence that preparation occurred. \project{lingon}{Lingon} exercises recovery after a terminal relay is interrupted.\essaynote{3} These are places where engineering judgment becomes a system's behaviour without becoming the engineer's own keystrokes.
+
+The work also builds its own means of production. \project{cai}{CAI} makes agents embeddable; the \project{cpkt}{\texttt{cpkt}} SDK supplies native foundations; \project{libailo}{\texttt{libailo}} brings model execution into the stack. He directs machines that build the software through which he can direct them more effectively.
 \end{multicols}
 \vfill
 \begin{center}\large\itshape
@@ -76,6 +85,7 @@ He had just recovered the skill.\\Then he chose what to do with the rest of his 
 \vfill
 \clearpage
 
+\section*{The Price}
 \begin{multicols}{2}
 \noindent For the personal cost, he offered an analogy from \emph{Johnny Mnemonic}. In the film, the courier has sacrificed memories of his childhood to accommodate implanted data storage. Mike's comparison substitutes part of a career for childhood, and a new productive capability for the cargo. The attraction is the uncomfortable transaction: making room for something requires relinquishing access to something that helped constitute the person before it.
 
@@ -97,10 +107,11 @@ Even ``architect'' provides only a partial translation. At C89, architectural de
 \end{multicols}
 \clearpage
 
+\section*{Forward}
 \begin{multicols}{2}
 \noindent There is a practical asymmetry here. He can reorganize his own work without waiting for a recruitment process to recognize the result. Recognition, however, is not under his control. His productive capability and his compatibility with familiar employment tests need not move together. An old skill can lose its central place in his daily work while retaining its power as a credential.
 
-The next stage is already taking shape. Vectis is intended to assemble the underlying libraries into a runtime for operational services, making established decisions about state, protocols, authentication and execution available to subsequent applications. Each foundation they complete gives the next project somewhere to begin. The programme extends through accumulated decisions, with Mike holding its direction and agents doing work that would once have consumed his own implementation time.
+The next stage is already taking shape. \href{https://c89.systems/vectis/}{Vectis} is intended to assemble the underlying libraries into a runtime for operational services, making established decisions about state, protocols, authentication and execution available to subsequent applications. Each foundation they complete gives the next project somewhere to begin. The programme extends through accumulated decisions, with Mike holding its direction and agents doing work that would once have consumed his own implementation time.
 
 His technical wager and its commercial outcome are separate. A useful production system does not automatically arrive with buyers, suitable contracts or an organizational setting that knows how to use it. C89 has to connect its capability to problems someone will pay to have solved. Customers need to find the work valuable under their own conditions. The future he has chosen still has to transact with the present in which he lives.
 
