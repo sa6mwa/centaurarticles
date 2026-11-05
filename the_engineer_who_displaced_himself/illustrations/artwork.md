@@ -26,6 +26,6 @@ Use case: illustration-story. Create a sophisticated editorial comic strip for a
 
 The actual first page of Michel Blomgren's *The Coordination Shift: Software
 Engineering in the Centaur Era*, reproduced from `../pub/10x.pdf` (published at
-https://pkt.systems/10x.pdf). Rendered with Poppler at 1800 pixels on its long edge.
+https://c89.systems/10x.pdf). Rendered with Poppler at 1800 pixels on its long edge.
 LaTeX adds the paper border, tilt and shadow; the reproduced cover is unchanged.
 The paper links to the original essay in the PDF.
