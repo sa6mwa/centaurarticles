@@ -14,19 +14,19 @@ The repositories below give the projects their technical context. My assessment 
 
 \medskip
 \noindent\textbf{\project{cai}{CAI}.}
-A C89/POSIX SDK and agent runtime with streaming, tool execution, sessions and MCP connectivity. The embeddable \project{cai}{\texttt{libcai\_app}} supplies the application behind \project{cai}{\texttt{cai}}. Durable journal fault tests probe ambiguous write outcomes. This is substantial runtime engineering: ownership, recovery and host integration are central to its design. The essay's development snapshot contains 314,975 lines, 41.73\% tests.
+A C89/POSIX SDK and agent runtime with streaming, tool execution, sessions and MCP connectivity. The embeddable \project{cai}{\texttt{libcai\_app}} supplies the application behind \project{cai}{\texttt{cai}}. Durable journal fault tests probe ambiguous write outcomes. Ownership, recovery and host integration make this a substantial runtime engineering project. The essay's development snapshot contains 314,975 lines, 41.73\% tests.
 
 \medskip
 \noindent\textbf{\project{liblockdc}{\texttt{liblockdc}} and \project{liblockdc}{Pouch}.}
-A C client and embedded storage engine covering persistent state, leases, queues, attachments and coordinated transactions. Commit, rollback and recovery reach into the public contracts and fault tests. This is demanding storage engineering, where an incorrect recovery decision can change durable state.
+A C client and embedded storage engine covering persistent state, leases, queues, attachments and coordinated transactions. Commit, rollback and recovery reach into the public contracts and fault tests: demanding storage engineering where an incorrect recovery decision can change durable state.
 
 \medskip
 \noindent\textbf{\href{https://github.com/sa6mwa/lockd}{\texttt{lockd}}.}
-The Go coordination server provides leases, state and queues over multiple storage backends. Its backend integration tests make consistency and recovery behaviour concrete across different persistence systems. Keeping those implementations aligned is a continuing distributed-systems responsibility.
+The Go coordination server provides leases, state and queues over multiple storage backends. Its backend integration tests exercise consistency and recovery across different persistence systems. Keeping those implementations aligned is a continuing distributed-systems responsibility.
 
 \medskip
 \noindent\textbf{\project{libailo}{\texttt{libailo}}.}
-Local model inference through a C89 interface, spanning CPU and Vulkan execution. The Raphael work reaches down into Mesa shared-memory isolation and inference precision, then measures the performance consequences. That crosses application, numerical and driver boundaries: unusually deep integration work for a library in this stack.
+Local model inference through a C89 interface, spanning CPU and Vulkan execution. The Raphael work reaches down into Mesa shared-memory isolation and inference precision, then measures the performance consequences. The work crosses application, numerical and driver boundaries: unusually deep integration work for a library in this stack.
 
 \medskip
 \noindent\textbf{\project{softline}{\texttt{softline}}.}
