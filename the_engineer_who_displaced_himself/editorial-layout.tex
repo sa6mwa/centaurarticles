@@ -2,6 +2,11 @@
 % paragraph shapes keep it compatible with the project's Tectonic bundle.
 \newlength{\EssayColumnWidth}
 \setlength{\EssayColumnWidth}{\dimexpr(\textwidth-\columnsep)/2\relax}
+% In-flow artwork keeps each illustration beside the passage it serves.
+\newcommand{\EssayArt}[2][\linewidth]{%
+  \par\vspace{2mm}\noindent\makebox[\linewidth][c]{%
+    \includegraphics[width=#1]{illustrations/#2.png}}\par\vspace{2mm}%
+}
 \newenvironment{EssayColumns}{%
   \par\noindent\begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
   \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%

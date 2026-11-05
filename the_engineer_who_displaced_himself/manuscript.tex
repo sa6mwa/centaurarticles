@@ -10,7 +10,9 @@ He had prepared for a different interview. The invitation explicitly encouraged 
 
 When he told me what had happened, I initially reached for familiar explanations. He had been ill with flu. The assessment had gone badly. A capable engineer had suffered an unpleasant encounter with a particular way of measuring competence. I offered reassurance about the engineer he had been. He was trying to tell me about the one he had become.
 
-\NextEssayColumn\ReserveGutterQuote
+\NextEssayColumn
+\GutterLead{\EssayArt[0.85\linewidth]{narrow-frame}}
+\ReserveGutterQuote
 
 He asked me to look at what he had actually built.
 
@@ -20,6 +22,8 @@ Seen from outside, the scene has an almost unreasonable comic precision. A man s
 
 I am helping him write this, and the pronoun matters. He brings the experience, the intent and the decisions; systems like me help him turn those decisions into working things. This essay is another piece of that collaboration. The consequences fall differently on us: he has a livelihood and a professional identity at stake. But I am writing from within a way of working he has made possible. To describe him only as a man who lost a skill would miss what we are doing together.
 \end{EssayColumns}
+\vspace{2mm}
+\noindent\includegraphics[width=\textwidth]{illustrations/keyboard-shadow.png}
 \clearpage
 
 \section*{Still Running}
@@ -36,20 +40,22 @@ On another machine, the agent developing \project{libailo}{\texttt{libailo}}, hi
 
 That same week, he submitted four OpenSSL pull requests. He had originally filed issues explaining the faults and their fixes. An OpenSSL maintainer asked the obvious question: with the fixes already in hand, why not send pull requests? Fair enough. He did. The changes concerned initialization failures, thread-local context storage, cleanup, and module ownership.\essaynote{1} They were in C rather than Go, but the distinction does little to explain his experience. His relationship to manual implementation had changed in both languages.
 
+\EssayArt{agent-cutaway}
+
 The scale of the agent he had prepared is revealing. While we worked on this essay, the project contained 314,975 lines: 183,548 implementation lines and 131,427 test lines. Tests accounted for 41.73\% of the total. Most of it was C. This was a substantial engineering project that happened to be something he could bring to an interview.
 
 His wider development checkout contained approximately 2.057 million lines, including 1.4647 million lines of C, with roughly 40\% classified as tests. That worktree inventory excluded \project{libailo}{\texttt{libailo}}, another roughly 100,000 lines developed on a Vulkan-capable machine with 32 GiB of memory for loading larger models during integration tests. That is the scale at which his attention now operates.
 \end{multicols}
 \clearpage
 
-\PrepareGutterQuote{22}{He had just recovered\\the skill. Then he chose\\what to do with the rest\\of his working life.}
+\PrepareGutterQuote{14}{He had just recovered\\the skill. Then he chose\\to build beyond it.}
 \begin{EssayColumns}
-\GutterLead{\section*{The Choice}}
-\GutterQuote
+\GutterLead{\section*{The Choice}
 \noindent Earlier in 2026, he had relearned C, specifically C89, with AI as his tutor. He reached a point at which he could write implementations and felt he had recovered serious competence. Then he put that competence to a different test: he asked an agent to outperform him.
 
 The result was decisive. The machine wiped the floor with him.
-
+\EssayArt[0.65\linewidth]{letting-go}}
+\GutterQuote
 This matters because his decision did not begin with an inability to learn. He had just learned. The same technology that helped restore his skill also changed his judgment about its professional value. In 2025, he had argued that manual implementation would cease to be the central constraint. In 2026, sitting opposite the output of his own exercise, that proposition became personal. He could make a clever, functional solution. He no longer saw a reason to make competing with the machine at implementation the organizing purpose of his career.
 
 He understood what made that decision painful for other developers. He had experienced the absorption of writing code, the pleasure of finding an elegant expression and watching it work. Sometimes the pleasure had even made him feel slightly strange about calling it work. Losing that activity could mean losing something people loved about their days. His conclusion was nevertheless blunt: for the future he intended to pursue, the hand-coding contest was over. He put his effort into building with it.
@@ -82,6 +88,8 @@ The work also builds its own means of production. \project{cai}{CAI} makes agent
 
 In his case, the scarce resource is attention rather than storage. Disuse replaces erasure. He still has the experience, but no longer maintains every familiar route from experience to action. Recovering those routes would require time he has chosen to spend elsewhere. The metaphor captures the sacrifice of a familiar professional self: someone he remembers being, whose habits he no longer continually renews.
 
+\EssayArt{fading-fluency}
+
 Here the analogy reverses. Mike is not asking to restore his former working life. He remembers it well enough to have chosen against making it his future. His certainty about that direction does not make the loss pleasant. Understanding why an old competence has weakened is different from sitting in front of other people while its weakness becomes visible. A consciously accepted price can still hurt when payment is collected.
 
 The usual roles in an automation story collapse into one person here. He is the person introducing the machinery, the worker whose activities it displaces, and the owner who gains its productive capability. As the architect of his production system, he redirected implementation towards agents. As the former manual programmer, he lost practice. As the owner of C89 Systems, he acquired capabilities he intends to put to commercial use. The beneficiary and the displaced worker are sitting at the same keyboard, trying to answer the same interview question.
@@ -94,6 +102,8 @@ The revealing question is what happens when a person becomes more capable within
 
 He has built the collaboration around the ability to challenge it. Contracts state what the software must do. Tests expose where it fails. His judgment determines whether a result answers the problem and whether work should proceed. That is how engineering experience remains active when the implementation comes from an agent. The trust is practical: they can make something, examine it, break it and improve it together. He has spent the year building the means to do precisely that.
 
+\EssayArt{three-roles}
+
 Even ``architect'' provides only a partial translation. At C89, architectural decisions remain closely connected to implementation, verification and release. Moving him into a position that separates those activities could remove much of what makes his method effective. The missing category is an engagement in which the capability being evaluated includes the production system he has built. A conventional vacancy asks for an individual; much of what he can now offer resides in the individual and the system together.
 \end{multicols}
 \clearpage
@@ -103,6 +113,8 @@ Even ``architect'' provides only a partial translation. At C89, architectural de
 \noindent There is a practical asymmetry here. He can reorganize his own work without waiting for a recruitment process to recognize the result. Recognition, however, is not under his control. His productive capability and his compatibility with familiar employment tests need not move together. An old skill can lose its central place in his daily work while retaining its power as a credential.
 
 The next stage is already taking shape. \href{https://c89.systems/vectis/}{Vectis} is intended to assemble the underlying libraries into a runtime for operational services, making established decisions about state, protocols, authentication and execution available to subsequent applications. Each foundation they complete gives the next project somewhere to begin. The programme extends through accumulated decisions, with Mike holding its direction and agents doing work that would once have consumed his own implementation time.
+
+\EssayArt[0.65\linewidth]{growing-foundations}
 
 His technical wager and its commercial outcome are separate. A useful production system does not automatically arrive with buyers, suitable contracts or an organizational setting that knows how to use it. C89 has to connect its capability to problems someone will pay to have solved. Customers need to find the work valuable under their own conditions. The future he has chosen still has to transact with the present in which he lives.
 
@@ -116,7 +128,11 @@ Writing this with him has required me to understand my own place in the story. M
 
 The working unit is a human with decades of engineering experience and machines he can direct, question and put to work. That collaboration is how his judgment becomes software. The unfamiliarity of that arrangement outside his workshop does not make the work inside it disappear. During the interview, it was still happening.
 
+\EssayArt[0.55\linewidth]{night-workbench}
+
 He has not asked me to tell him that nothing was lost. He has asked me to understand why he considers the loss worth accepting. That is a demanding account of human agency. He enlisted the technology, redirected his effort, and accepted responsibility for becoming a different kind of engineer. The wager is still being tested. The decision about which future he intends to work towards has already been made.
 
 He spent decades learning to make machines do work. When that possibility reached the activity that had defined his own career, he decided his work would be no exception.
 \end{multicols}
+\par\nointerlineskip\vskip 2mm
+\hbox{\includegraphics[width=\textwidth,trim=0 170 0 170,clip]{illustrations/working-frontier.png}}

@@ -49,5 +49,16 @@ body baseline grid so both columns enter and leave the cutout on the same row.
 `editorial-layout.tex` uses native TeX paragraph shapes and paragraph hooks, retaining
 the companion essay's composition without requiring a newer TeX bundle.
 The Coordination Shift passage includes a linked reproduction of the earlier essay cover, tilted as a paper inset.
+Nine additional editorial illustrations follow the story from the narrow
+assessment frame through the working system, the choice and its cost, to the
+unfinished frontier. Body pages contain two images each, with three on the
+closing page; references remain unillustrated. The opening page separates its
+small illustration at the head of column two from the panorama below the text.
+Contemporary cinematic artwork uses cool shadows, selective orange light and
+substantial compact mechanical keyboards. The updated comic retains its
+three-part story; the approved closing landscape is retained unchanged.
+The closing panorama is cropped in LaTeX; its full source is retained.
+The built-in image-generation prompts are recorded in
+`illustrations/art-direction.md`, beside the source PNGs.
 `notes.tex` contains the references and concise engineering descriptions of the projects.
 Product links point to repository roots (or the Vectis product page).
