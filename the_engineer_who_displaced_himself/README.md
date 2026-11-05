@@ -43,8 +43,8 @@ boxes, missing glyphs, font substitutions and unresolved references in the TeX l
 Visual inspection is necessary for spacing, image placement and cover contrast.
 Short sections mark the narrative turns. Both pull quotes sit in the gutter, with
 black italic text and one oversized orange opening mark in a contrasting serif.
-The cutouts share one rectangular boundary and equal side clearances around the
-measured lettering. Quotes are vertically centred; header blocks align to the
+The cutouts share upper and lower boundaries, with 2.25mm clearance beside the
+opening mark and 4.5mm on the right. Quotes are vertically centred; header blocks align to the
 body baseline grid so both columns enter and leave the cutout on the same row.
 `editorial-layout.tex` uses native TeX paragraph shapes and paragraph hooks, retaining
 the companion essay's composition without requiring a newer TeX bundle.

@@ -31,6 +31,7 @@
 \newlength{\GutterQuoteCentre}
 \newlength{\GutterQuoteTextWidth}
 \newlength{\GutterTextWidth}
+\newlength{\GutterRightTextWidth}
 \newlength{\GutterTextIndent}
 \newcount\GutterTop
 \newcount\GutterBottom
@@ -38,7 +39,7 @@
 \newcount\GutterLinesUsed
 \newcount\GutterShapeLine
 % Measure the actual italic lettering, including its separate opening mark.
-% Both columns reserve the same rectangle, with 4.5mm side clearance.
+% Keep 2.25mm clearance beside the opening mark and 4.5mm on the right.
 % Centre the quote vertically in that rectangle rather than shifting one edge.
 \newcommand{\PrepareGutterQuote}[2]{%
   \GutterTop=#1\relax
@@ -60,7 +61,8 @@
       \node[anchor=north west,inner sep=0pt,outer sep=0pt,text=CoverOrange] at (0,-0.8mm)
         {\resizebox{8.5mm}{!}{\usefont{T1}{ptm}{b}{n}\textquotedblleft}};
     \end{tikzpicture}}%
-  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-\wd\GutterQuoteBox)/2-4.5mm\relax}%
+  \setlength{\GutterRightTextWidth}{\dimexpr(\textwidth-\wd\GutterQuoteBox)/2-4.5mm\relax}%
+  \setlength{\GutterTextWidth}{\dimexpr\GutterRightTextWidth+2.25mm\relax}%
   \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+8mm+\baselineskip-1sp\relax
   \divide\GutterWindowLines by \number\baselineskip
 }
@@ -103,10 +105,11 @@
   \end{tikzpicture}\ignorespaces
 }
 % Derive the mirrored cutout from the measured header heights. No independent
-% right-column offset or padding can skew its upper and lower boundaries.
+% right-column vertical offset can skew its upper and lower boundaries.
 \newcommand{\ReserveGutterQuote}{%
   \advance\GutterTop by \GutterLeftLeadLines
   \advance\GutterTop by -\GutterLeadLines
+  \setlength{\GutterTextWidth}{\GutterRightTextWidth}%
   \setlength{\GutterTextIndent}{\dimexpr\EssayColumnWidth-\GutterTextWidth\relax}%
   \StartGutterShape
   \ignorespaces
