@@ -1,0 +1,30 @@
+\noindent This essay was written through conversation and collaboration between Michel Blomgren and AI. The interview invitations of 23 and 27 October 2026 explicitly encouraged use of a preferred AI agent. Both invitations and the recruiter's follow-up of 4 November were read during preparation of this edition. The employer and interviewers remain unnamed.
+
+The source-code totals are development snapshots recorded during preparation of this essay. CAI: 314,975 total lines, comprising 183,548 implementation and 131,427 test lines (41.73\% tests). Of these, 288,577 are C, including 109,723 C test lines. The larger stack count describes checked-out development worktrees on one VPS; it is not a deduplicated inventory of shipped production code. CAI belongs to that wider stack and is not added again. The separately developed \texttt{libailo} is excluded from the VPS count. The figures describe the development stack and its test investment.
+
+\vspace{5mm}
+\noindent\hypertarget{note1}{\textbf{1. OpenSSL contributions.}}
+Four pull requests were opened on 24 October 2026. All four were open and unmerged when checked for this edition on 5 November 2026. The essay therefore says ``submitted'' rather than ``merged'' or ``accepted'':
+\begin{itemize}[leftmargin=1.5em]
+\item \href{https://github.com/openssl/openssl/pull/33379}{\#33379: Fail safely during libcrypto initialization.}
+\item \href{https://github.com/openssl/openssl/pull/33380}{\#33380: Report thread-default context store failures.}
+\item \href{https://github.com/openssl/openssl/pull/33378}{\#33378: Release the master TLS key at global cleanup.}
+\item \href{https://github.com/openssl/openssl/pull/33381}{\#33381: Preserve module ownership on unload failure.}
+\end{itemize}
+
+\vspace{3mm}
+\noindent\hypertarget{note2}{\textbf{2. The earlier argument.}}
+Michel Blomgren, \href{https://pkt.systems/10x.pdf}{\emph{The Coordination Shift: Software Engineering in the Centaur Era}}, 26 November 2025. This personal essay accompanies \emph{The Coordination Trap} and \emph{No Place to Land}.
+
+\vspace{5mm}
+\noindent\hypertarget{note3}{\textbf{3. Engineering examples.}}
+The engineering examples refer to these source snapshots:
+\begin{itemize}[leftmargin=1.5em]
+\item \href{https://github.com/sa6mwa/cai/blob/5acbb6b162793e0a87b7c2950fe7f00821efc56b/tests/pouch_journal_fault_test.inc}{CAI: journal fault-injection tests.}
+\item \href{https://github.com/sa6mwa/liblockdc/blob/7ed2c2a5fc1db9620123abdd3845132b818114de/tests/unit/test_lc_pouch_xa.c}{Pouch: transaction-state tests.}
+\item \href{https://github.com/sa6mwa/lingon/blob/e3957daa41b9d705e66023ae100964fd835b0c94/integration/pty/attach/relay_disruption_stress_integration_test.go}{Lingon: terminal relay disruption integration tests.}
+\end{itemize}
+
+\vspace{5mm}
+\noindent\textbf{Films and artwork.}
+The personal analogies refer to \emph{Johnny Mnemonic} (1995) and \emph{Back to the Future} (1985). The cover and interior comic are original AI-generated conceptual illustrations, not documentary photographs or portraits. They depict an imagined setting; the cover does not reproduce either film. Cover lettering remains separately typeset, selectable text. The XCharter body typography and page furniture follow the companion essays' Wenneker-based design.

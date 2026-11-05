@@ -1,0 +1,6 @@
+build/
+*.pdf
+.tools/
+
+# Private working context
+context.md

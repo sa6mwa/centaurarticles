@@ -1,0 +1,40 @@
+# The Engineer Who Displaced Himself
+
+An illustrated essay by Michel Blomgren, retaining the AI narrator of the supplied drafts.
+
+`manuscript.tex` is the canonical combined manuscript. `the-engineer-who-displaced-himself.tex`
+controls the cover and composition; `notes.tex` records sources and links.
+The original two Markdown drafts and `context.md` remain intact as editorial sources.
+
+The opening retains the first draft's moment of recognition while bringing the interview
+preparation and simultaneous agent work into the scene. The revised draft contributes its
+stronger treatment of credentials, employment and the closing decision. The added C89
+comparison establishes that the professional choice preceded the interview.
+
+The cover is original cinematic artwork, with no film imagery or company branding.
+Only the author's name, email and website accompany the title and story line. The interior
+comic is conceptual, not a documentary reconstruction or likeness. No contents page or
+abstract interrupts the opening. The XCharter body type, Helvetica headings, A4 geometry
+and page furniture follow the companion essays. The inherited template license remains
+in `structure.tex`. Image-generation prompts and provenance are in `illustrations/artwork.md`.
+
+## Build and verification
+
+Requires Tectonic, Make and Poppler (`pdfinfo`, `pdftotext`, `pdftoppm`).
+Tectonic downloads its TeX packages into the repository-local ignored `build/cache`.
+
+```sh
+make
+make check
+make render
+```
+
+For an engine outside PATH, set `TECTONIC=/absolute/path/to/tectonic` on the Make command.
+The build is serialized. The PDF is produced both at the essay root and under `build/`.
+PDFs and intermediate output are ignored by Git. `make clean` removes generated output
+and the local package cache. Rendered pages under `build/render/` support visual inspection.
+
+`make check` checks that the PDF can be read, extracts its text, and rejects overfull
+boxes, missing glyphs, font substitutions and unresolved references in the TeX log.
+Visual inspection is necessary for spacing, image placement and cover contrast.
+Sources and publication notes are in `notes.tex`.
