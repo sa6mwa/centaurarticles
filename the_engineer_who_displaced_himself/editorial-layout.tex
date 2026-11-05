@@ -13,6 +13,19 @@
   \begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
   \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%
 }
+% Round each illustrated/header block to whole body lines. Both columns then
+% share one baseline grid, even when their headings start at different heights.
+\newsavebox{\GutterLeadBox}
+\newcount\GutterLeadLines
+\newcount\GutterLeftLeadLines
+\newcommand{\GutterLead}[1]{%
+  \par\setbox\GutterLeadBox=\vbox{\hsize=\EssayColumnWidth #1\par}%
+  \GutterLeadLines=\number\dimexpr\ht\GutterLeadBox+\dp\GutterLeadBox+\baselineskip-1sp\relax
+  \divide\GutterLeadLines by \number\baselineskip
+  \nointerlineskip\vbox to\dimexpr\GutterLeadLines\baselineskip\relax{%
+    \unvbox\GutterLeadBox\vfil}%
+  \nointerlineskip
+}
 \newsavebox{\GutterQuoteBox}
 \newsavebox{\GutterQuoteTextBox}
 \newlength{\GutterQuoteCentre}
@@ -25,10 +38,12 @@
 \newcount\GutterLinesUsed
 \newcount\GutterShapeLine
 % Measure the actual italic lettering, including its separate opening mark.
-% The cutout adds 3mm on the left and 5mm on the right, with
-% 7.5mm above and at least 2mm below, rounded up to whole body lines.
+% Both columns reserve the same rectangle, with 4.5mm side clearance.
+% Centre the quote vertically in that rectangle rather than shifting one edge.
 \newcommand{\PrepareGutterQuote}[2]{%
   \GutterTop=#1\relax
+  \GutterLeadLines=0
+  \global\GutterLeftLeadLines=0
   \setlength{\GutterQuoteCentre}{\dimexpr\EssayColumnWidth+\columnsep/2\relax}%
   \sbox{\GutterQuoteTextBox}{%
     \color{black}\fontsize{16}{20}\selectfont\itshape
@@ -45,8 +60,8 @@
       \node[anchor=north west,inner sep=0pt,outer sep=0pt,text=CoverOrange] at (0,-0.8mm)
         {\resizebox{8.5mm}{!}{\usefont{T1}{ptm}{b}{n}\textquotedblleft}};
     \end{tikzpicture}}%
-  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-\wd\GutterQuoteBox)/2-3mm\relax}%
-  \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+9.5mm+\baselineskip-1sp\relax
+  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-\wd\GutterQuoteBox)/2-4.5mm\relax}%
+  \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+8mm+\baselineskip-1sp\relax
   \divide\GutterWindowLines by \number\baselineskip
 }
 % The line count spans paragraphs; the final shape line restores full width.
@@ -78,18 +93,20 @@
   \parshape=0
 }
 \newcommand{\GutterQuote}{%
+  \global\GutterLeftLeadLines=\GutterLeadLines
   \setlength{\GutterTextIndent}{0pt}%
   \StartGutterShape
   \noindent\begin{tikzpicture}[overlay]
-    \node[anchor=north,inner sep=0pt,outer sep=0pt]
-      at (\GutterQuoteCentre,\dimexpr-\GutterTop\baselineskip+\ht\strutbox-7.5mm\relax)
+    \node[anchor=center,inner sep=0pt,outer sep=0pt]
+      at (\GutterQuoteCentre,\dimexpr-\GutterTop\baselineskip-\GutterWindowLines\baselineskip/2+\ht\strutbox\relax)
       {\usebox{\GutterQuoteBox}};
   \end{tikzpicture}\ignorespaces
 }
-% A column with artwork starts its matching cutout on its own baseline grid.
-\newcommand{\ReserveGutterQuote}[1]{%
-  \GutterTop=#1\relax
-  \addtolength{\GutterTextWidth}{-2mm}%
+% Derive the mirrored cutout from the measured header heights. No independent
+% right-column offset or padding can skew its upper and lower boundaries.
+\newcommand{\ReserveGutterQuote}{%
+  \advance\GutterTop by \GutterLeftLeadLines
+  \advance\GutterTop by -\GutterLeadLines
   \setlength{\GutterTextIndent}{\dimexpr\EssayColumnWidth-\GutterTextWidth\relax}%
   \StartGutterShape
   \ignorespaces
