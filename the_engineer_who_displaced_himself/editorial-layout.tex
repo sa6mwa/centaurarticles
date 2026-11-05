@@ -7,6 +7,12 @@
   \par\vspace{2mm}\noindent\makebox[\linewidth][c]{%
     \includegraphics[width=#1]{illustrations/#2.png}}\par\vspace{2mm}%
 }
+% Full-column scenes can use a shallow crop without shrinking their width.
+\newcommand{\EssayStrip}[3]{%
+  \par\vspace{2mm}\noindent
+  \includegraphics[width=\linewidth,trim=0 #2 0 #3,clip]{illustrations/#1.png}%
+  \par\vspace{2mm}%
+}
 \newenvironment{EssayColumns}{%
   \par\noindent\begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
   \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%

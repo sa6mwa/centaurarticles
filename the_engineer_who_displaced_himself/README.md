@@ -57,6 +57,10 @@ small illustration at the head of column two from the panorama below the text.
 Contemporary cinematic artwork uses cool shadows, selective orange light and
 substantial compact mechanical keyboards. The updated comic retains its
 three-part story; the approved closing landscape is retained unchanged.
+Scene illustrations fill the column with square, crisp edges; shallow crops
+preserve the page rhythm. Isolated architectural objects retain their natural
+cutouts. The syntax-shift illustration keeps the hands and mechanical keyboard
+solid while manual code syntax recedes and written instructions become active.
 The closing panorama is cropped in LaTeX; its full source is retained.
 The built-in image-generation prompts are recorded in
 `illustrations/art-direction.md`, beside the source PNGs.
