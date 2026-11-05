@@ -14,7 +14,9 @@
   \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%
 }
 \newsavebox{\GutterQuoteBox}
+\newsavebox{\GutterQuoteTextBox}
 \newlength{\GutterQuoteCentre}
+\newlength{\GutterQuoteTextWidth}
 \newlength{\GutterTextWidth}
 \newlength{\GutterTextIndent}
 \newcount\GutterTop
@@ -22,14 +24,29 @@
 \newcount\GutterWindowLines
 \newcount\GutterLinesUsed
 \newcount\GutterShapeLine
-\newcommand{\PrepareGutterQuote}[3]{%
+% Measure the actual italic lettering, including its separate opening mark.
+% The cutout adds 3mm on the left and 5mm on the right, with
+% 7.5mm above and at least 2mm below, rounded up to whole body lines.
+\newcommand{\PrepareGutterQuote}[2]{%
   \GutterTop=#1\relax
   \setlength{\GutterQuoteCentre}{\dimexpr\EssayColumnWidth+\columnsep/2\relax}%
-  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-#2)/2-4.5mm\relax}%
-  \sbox{\GutterQuoteBox}{\parbox{#2}{%
-    \centering\color{black}\fontsize{17}{20}\selectfont
-    {\color{CoverOrange}\textquotedblleft}#3{\color{CoverOrange}\textquotedblright}\par}}%
-  \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+3mm+\baselineskip-1sp\relax
+  \sbox{\GutterQuoteTextBox}{%
+    \color{black}\fontsize{16}{20}\selectfont\itshape
+    \shortstack[l]{#2}}%
+  \setlength{\GutterQuoteTextWidth}{\wd\GutterQuoteTextBox}%
+  \sbox{\GutterQuoteTextBox}{\vtop{%
+    \hsize=\GutterQuoteTextWidth
+    \color{black}\fontsize{16}{20}\selectfont\itshape\raggedright
+    #2\par}}%
+  \sbox{\GutterQuoteBox}{%
+    \begin{tikzpicture}
+      \node[anchor=north west,inner sep=0pt,outer sep=0pt] at (11mm,0)
+        {\usebox{\GutterQuoteTextBox}};
+      \node[anchor=north west,inner sep=0pt,outer sep=0pt,text=CoverOrange] at (0,-0.8mm)
+        {\resizebox{8.5mm}{!}{\usefont{T1}{ptm}{b}{n}\textquotedblleft}};
+    \end{tikzpicture}}%
+  \setlength{\GutterTextWidth}{\dimexpr(\textwidth-\wd\GutterQuoteBox)/2-3mm\relax}%
+  \GutterWindowLines=\number\dimexpr\ht\GutterQuoteBox+\dp\GutterQuoteBox+9.5mm+\baselineskip-1sp\relax
   \divide\GutterWindowLines by \number\baselineskip
 }
 % The line count spans paragraphs; the final shape line restores full width.
@@ -65,13 +82,14 @@
   \StartGutterShape
   \noindent\begin{tikzpicture}[overlay]
     \node[anchor=north,inner sep=0pt,outer sep=0pt]
-      at (\GutterQuoteCentre,\dimexpr-\GutterTop\baselineskip+\ht\strutbox-1.5mm\relax)
+      at (\GutterQuoteCentre,\dimexpr-\GutterTop\baselineskip+\ht\strutbox-7.5mm\relax)
       {\usebox{\GutterQuoteBox}};
   \end{tikzpicture}\ignorespaces
 }
 % A column with artwork starts its matching cutout on its own baseline grid.
 \newcommand{\ReserveGutterQuote}[1]{%
   \GutterTop=#1\relax
+  \addtolength{\GutterTextWidth}{-2mm}%
   \setlength{\GutterTextIndent}{\dimexpr\EssayColumnWidth-\GutterTextWidth\relax}%
   \StartGutterShape
   \ignorespaces
