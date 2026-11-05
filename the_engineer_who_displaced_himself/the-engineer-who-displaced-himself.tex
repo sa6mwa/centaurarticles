@@ -8,8 +8,12 @@
 \hypersetup{colorlinks=true,urlcolor=blue,linkcolor=blue,
 pdftitle={The Engineer Who Displaced Himself},pdfauthor={Michel Blomgren with AI},
 pdfsubject={Agency, automation and professional identity}}
-\definecolor{CoverInk}{HTML}{111A21}
-\definecolor{CoverPaper}{HTML}{FFF5DF}
+\usepackage{fontspec}
+\newfontfamily\CoverTitleFont[Extension=.ttf,Path=fonts/]{Anton-Regular.ttf}
+\newfontfamily\CoverSlantedFont[Extension=.ttf,Path=fonts/,FakeSlant=0.18]{Anton-Regular.ttf}
+\newfontfamily\CoverTextFont[Extension=.ttf,Path=fonts/,LetterSpace=7]{Barlow-Medium.ttf}
+\definecolor{CoverPaper}{HTML}{F7F0E6}
+\definecolor{CoverOrange}{HTML}{FF4C0A}
 \setlength{\emergencystretch}{2em}
 \setlength{\parindent}{1em}
 \setlength{\multicolsep}{0pt}
@@ -21,24 +25,7 @@ pdfsubject={Agency, automation and professional identity}}
 \newcommand{\essaynote}[1]{\textsuperscript{\hyperlink{note#1}{#1}}}
 \newcommand{\project}[2]{\href{https://github.com/c89systems/#1}{#2}}
 \begin{document}
-\thispagestyle{firstpage}
-\AddToShipoutPictureBG*{\AtPageLowerLeft{\includegraphics[width=\paperwidth,height=\paperheight]{illustrations/cover.png}}}
-\begin{tikzpicture}[remember picture,overlay]
-\node[anchor=north west,inner sep=0pt,text width=180mm] at ([xshift=15mm,yshift=-15mm]current page.north west) {
-\color{CoverPaper}
-\vspace{5mm}
-{\fontsize{46}{49}\usefont{OT1}{phv}{b}{n}THE ENGINEER\\WHO DISPLACED\\HIMSELF\par}};
-\node[anchor=south west,inner sep=0pt,text width=178mm] at ([xshift=16mm,yshift=17mm]current page.south west) {
-\color{CoverPaper}
-{\fontsize{18}{23}\selectfont He taught machines to do his work.\\Then the world asked him to prove\\he could still do it alone.\par}
-\vspace{7mm}
-{\fontsize{11}{14}\usefont{OT1}{phv}{b}{n}MICHEL BLOMGREN\par}
-\vspace{1mm}
-{\fontsize{10}{13}\selectfont\hypersetup{urlcolor=CoverPaper}
-\href{mailto:mike@c89.systems}{mike@c89.systems}\enspace /\enspace
-\href{https://c89.systems}{c89.systems}\par}};
-\end{tikzpicture}
-\null\clearpage
+\input{cover.tex}
 \pdfbookmark[0]{The essay}{essay}
 \input{manuscript.tex}
 \clearpage

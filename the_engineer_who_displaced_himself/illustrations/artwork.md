@@ -1,6 +1,6 @@
 # Artwork provenance
 
-The cover and comic were generated with the built-in ImageGen tool on 5 November 2026.
+The cover background and comic were generated with the built-in ImageGen tool on 5 November 2026.
 They are original conceptual artwork, not photographs of the author or the interview.
 The cover is rendered photographically; the interior is a three-panel ink-and-watercolour
 comic. Neither borrows imagery from the films discussed in the essay. The title and
@@ -8,13 +8,17 @@ cover line are LaTeX text, not raster lettering.
 
 ## Cover — `cover.png`
 
-The author requested an epic, slightly dystopian frontier full of expectation, with
-the absurdity of the story rather than a literal road, car, or film reference.
-An examination desk contrasts with the immense unfinished world the engineer built.
+The current background is an edit of the author's supplied replacement cover mockup.
+All title, subtitle, author and contact lettering and orange editorial ornaments were
+removed with the built-in ImageGen tool. The architecture, interview room, engineer,
+sunset and futuristic city were retained and reframed to A4. `cover.tex` reconstructs
+the lettering as selectable embedded font text, the contact details as live links,
+and the orange rules as vectors. Anton and Barlow are included under `fonts/` with
+their SIL Open Font Licenses. The previous cover is retained in Git history.
 
 Prompt:
 
-Use case: stylized-concept. Asset: full-page portrait book/essay cover, A4 ratio. Original epic cinematic editorial artwork for 'The Engineer Who Displaced Himself'. Central narrative: an engineer has built a vast autonomous production world, but institutions judge him at a small solitary manual examination desk. A severe monumental concrete examination chamber opens through an enormous rectangular missing wall onto an immense unfinished frontier of exquisitely complex autonomous architecture and engineering works, stretching toward a luminous amber dawn. Foreground lower third: a small plain examination desk and empty chair under cold institutional light, a modest keyboard on desk. Midground: one small solitary human seen from behind, standing on the threshold between room and the world he helped build. His scale makes the architecture immense but he has quiet agency, not helplessness. Outside: suspended structural ribs, working cranes, distant lit workshops, terraces disappearing into mist; plausible sophisticated engineering rather than a fantasy castle. Mood: slightly dystopian, strange, intellectually provocative, full of expectation, ambiguity and awe. Restrained charcoal, slate blue, concrete gray, burning amber horizon, realistic materials and atmospheric depth. Architectural fine-art photography meets cinematic matte painting; not cartoon, not comic, not glossy game poster. No roads, no cars, no flying vehicles, no movie references, no robots, no logos, no readable text. Reserve upper 28 percent as dark quiet concrete/atmosphere for large separately typeset title. Reserve bottom 15 percent relatively dark for separate cover line. The threshold and dawn occupy middle third; dramatic depth and beautifully controlled light. Portrait composition.
+Use case: precise-object-edit. Asset: text-free background plate for a LaTeX essay cover. Input image: the supplied cover mockup is the edit target. Remove ALL overlaid cover typography: title at upper left, orange DISPLACED word, white subtitle, author name, email, website. Also remove all orange graphic design rules, ticks and decorative strokes at the left and bottom, so they can be redrawn precisely in LaTeX. Seamlessly reconstruct the dark concrete and reflective floor underneath. Preserve the scene and its visual identity: vast dark concrete arch curving diagonally from upper right to lower middle, quiet dark upper-left wall for the title, glass interview room with people and desk at lower left, lone engineer seen from behind near the lower middle looking across a luminous sunset, monumental curved futuristic towers with greenery and mist to the right, subtle transparent blue technical diagrams in the right architecture, warm reflected sunlight on the floor. Keep the engineer small and preserve his pose, keep lighting, color, material detail and framing as closely as possible. Adapt to A4 portrait proportions (approximately 1:1.414), widening the composition gently rather than stretching objects or cropping important elements; the upper left remains very dark and quiet, and the bottom strip remains dark for the author line. Preserve the visual positions of the main scene elements relative to the canvas. High-resolution cinematic architectural artwork. No cover lettering, no readable text anywhere, no logos, no watermark, no added ornaments. Output ONLY the finished text-free background image.
 
 ## Interior — `interview-comic.png`
 

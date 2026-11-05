@@ -4,7 +4,7 @@ TECTONIC ?= tectonic
 .PHONY: all check render clean
 all: $(NAME).pdf
 
-$(NAME).pdf: $(NAME).tex manuscript.tex notes.tex structure.tex illustrations/cover.png illustrations/interview-comic.png illustrations/coordination-shift-cover.png
+$(NAME).pdf: $(NAME).tex cover.tex fonts/Anton-Regular.ttf fonts/Barlow-Medium.ttf manuscript.tex notes.tex structure.tex illustrations/cover.png illustrations/interview-comic.png illustrations/coordination-shift-cover.png
 	mkdir -p build/cache
 	XDG_CACHE_HOME="$(CURDIR)/build/cache" $(TECTONIC) --untrusted --keep-logs --outdir build $(NAME).tex
 	cp build/$(NAME).pdf $@

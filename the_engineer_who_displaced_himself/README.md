@@ -3,7 +3,8 @@
 An illustrated essay by Michel Blomgren, retaining the AI narrator of the supplied drafts.
 
 `manuscript.tex` is the canonical combined manuscript. `the-engineer-who-displaced-himself.tex`
-controls the cover and composition; `notes.tex` records sources and links.
+assembles the document; `cover.tex` places the cover typography and vector accents;
+`notes.tex` records sources and links.
 The original two Markdown drafts and `context.md` remain intact as editorial sources.
 
 The opening retains the first draft's moment of recognition while bringing the interview
@@ -11,7 +12,10 @@ preparation and simultaneous agent work into the scene. The revised draft contri
 stronger treatment of credentials, employment and the closing decision. The added C89
 comparison establishes that the professional choice preceded the interview.
 
-The cover is original cinematic artwork, with no film imagery or company branding.
+The cover background is regenerated from the supplied cinematic mockup, with its
+lettering removed. LaTeX recreates the title, subtitle, author, contact links and orange
+accents using embedded Anton and Barlow fonts; licenses are included under `fonts/`.
+The composition is adapted to A4, with no film imagery or company branding.
 Only the author's name, email and website accompany the title and story line. The interior
 comic is conceptual, not a documentary reconstruction or likeness. No contents page or
 abstract interrupts the opening. The XCharter body type, Helvetica headings, A4 geometry
