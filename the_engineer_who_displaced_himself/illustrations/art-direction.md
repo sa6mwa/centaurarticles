@@ -28,6 +28,26 @@ Edit the supplied image. Preserve the engineer's hand, the serious black mechani
 
 Use case: illustration-story. Create a new full-bleed rectangular cinematic editorial image about an engineer typing MORE than ever while delegating manual code syntax. Wide 3:1 composition. Foreground: two anatomically natural human hands actively typing on a beautiful intact compact premium 60-percent mechanical keyboard, thick sculpted dark PBT keycaps, deep mechanical switches, substantial charcoal case, Wooting-inspired quality, subtle warm amber underlighting. EVERY KEY and the entire keyboard stay solid, sharp and vivid: absolutely NO fading, dissolving or erasure of keyboard or hands. Behind it a wide dark glass screen carries a visual transition: at LEFT pale small C-language code fragments with braces, semicolons and nested indentation recede into dim ghostly traces; at RIGHT dense flowing lines of warm amber written instructions are clear and energetic, with a bright cursor, suggesting rapid deliberate prompting. No giant slogans or labels. Use the brief readable instruction 'Test the failure paths.' once on the right screen if text is visible. The ghosting belongs ONLY to source-code syntax on the left screen. Hands retain agency; typing is central and loved. Crisp contemporary photographic surrealism, black/charcoal and restrained amber, cool blue screen shadows, intimate side angle. No office stock photography, gears, steampunk, white vignette, soft edges, rounded corners, borders, logos or watermark. Image fills all four square corners.
 
+### Screen-text revision — 6 November 2026
+
+The following built-in ImageGen edit replaces the generic instructions in the original generation. These are illustrative engineering prompts, not quotations from a recorded session.
+
+```text
+Use case: text-localization.
+Asset type: full-column cinematic editorial illustration for a LaTeX essay.
+Input image: the supplied full wide image is the edit target.
+Primary request: replace ONLY the six amber prompt lines on the upper-right screen. These must read as technically specific directions from a senior systems engineer, not generic boilerplate instructions.
+Text (verbatim, six separate lines):
+>> A lost ACK is not a failed commit. Reconcile before retrying.
+>> Test torn writes, ENOSPC, cancellation and crash recovery.
+>> Cut per-thread stack use; preserve reentrancy and ownership.
+>> Prove lease expiry cannot let a stale writer commit.
+>> Profile the hot path. Remove copies; do not add a cache.
+>> Benchmark tail latency under contention; test every backend.
+Typography: crisp legible amber monospace lettering, consistent size, restrained glow, matching screen perspective. Keep all six lines complete and comfortably inside the screen edges. Bright cursor after the final sentence. Do not add any other prompt text. Remove all original six instructions completely.
+Invariants: preserve the original panoramic 3:1 composition, full-bleed square corners, two anatomically natural typing hands, intact solid premium 60-percent mechanical keyboard with tall sculpted keycaps, desk, camera position, dark screen, fading blue C syntax on the left, warm under-key lighting and cool shadows. No faded keyboard or hands, rounded corners, soft borders, white margin, new objects, logos or watermarks. Change only the amber screen text. Output the complete full illustration, not a crop of the screen.
+```
+
 ## three-roles.png
 
 Edit the supplied image with extreme fidelity to all content: the same middle-aged engineer seated from behind, his three reflections configuring a board, directing processes, and observing, the black premium mechanical keyboard, cool dark room and orange/blue accents. Change ONLY edge treatment. REMOVE ALL white feathering, blurred margins, soft masking and rounded corners. Extend the actual dark room, desk and reflections right out to every edge and all four SQUARE CORNERS. Full-bleed sharp rectangular cinematic image, 3:1 aspect ratio, no border, no white outside background, no vignette. Preserve people, layout, expressions and material detail. No new text, logo, caption or objects.
