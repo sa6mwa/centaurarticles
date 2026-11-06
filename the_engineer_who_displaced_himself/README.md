@@ -25,6 +25,7 @@ in `structure.tex`. Image-generation prompts and provenance are in `illustration
 ## Build and verification
 
 Requires Tectonic, Make and Poppler (`pdfinfo`, `pdftotext`, `pdftoppm`).
+Regenerating image derivatives also requires Python 3 with Pillow.
 Tectonic downloads its TeX packages into the repository-local ignored `build/cache`.
 
 ```sh
@@ -34,6 +35,12 @@ make render
 ```
 
 For an engine outside PATH, set `TECTONIC=/absolute/path/to/tectonic` on the Make command.
+The PDF embeds downsized, quality-90 JPEGs from `illustrations/jpeg/`; the original
+PNGs remain in `illustrations/`. `make images` regenerates stale derivatives using
+`scripts/prepare_images.py`, and the PDF build does this automatically when needed.
+Image widths reflect their page placement, with extra resolution for the small
+screen text. The cover retains its original pixel dimensions. JPEG sampling retains
+full colour resolution; scaled DPI metadata preserves the existing LaTeX crops.
 The build is serialized. The PDF is produced both at the essay root and under `build/`.
 PDFs and intermediate output are ignored by Git. `make clean` removes generated output
 and the local package cache. Rendered pages under `build/render/` support visual inspection.

@@ -1,10 +1,18 @@
 .NOTPARALLEL:
 NAME = the-engineer-who-displaced-himself
 TECTONIC ?= tectonic
-.PHONY: all check render clean
+PYTHON ?= python3
+PNG_IMAGES = $(wildcard illustrations/*.png)
+JPEG_IMAGES = $(patsubst illustrations/%.png,illustrations/jpeg/%.jpg,$(PNG_IMAGES))
+.PHONY: all images check render clean
 all: $(NAME).pdf
 
-$(NAME).pdf: $(NAME).tex cover.tex editorial-layout.tex fonts/Anton-Regular.ttf fonts/Barlow-Medium.ttf manuscript.tex notes.tex structure.tex $(wildcard illustrations/*.png)
+images: $(JPEG_IMAGES)
+
+illustrations/jpeg/%.jpg: illustrations/%.png scripts/prepare_images.py
+	$(PYTHON) scripts/prepare_images.py $< $@
+
+$(NAME).pdf: $(NAME).tex cover.tex editorial-layout.tex fonts/Anton-Regular.ttf fonts/Barlow-Medium.ttf manuscript.tex notes.tex structure.tex $(JPEG_IMAGES)
 	mkdir -p build/cache
 	XDG_CACHE_HOME="$(CURDIR)/build/cache" $(TECTONIC) --untrusted --keep-logs --outdir build $(NAME).tex
 	cp build/$(NAME).pdf $@
