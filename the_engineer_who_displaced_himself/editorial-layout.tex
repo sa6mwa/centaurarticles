@@ -13,6 +13,14 @@
   \includegraphics[width=\linewidth,trim=0 #2 0 #3,clip]{illustrations/#1.png}%
   \par\vspace{2mm}%
 }
+% A full-width rule separates the closing voice from both body columns.
+\newenvironment{EssayEnding}{%
+  \par\vspace{4mm}%
+  {\color{CoverOrange}\hrule height 0.5pt}%
+  \vspace{3mm}%
+  \fontsize{12}{15.5}\selectfont\itshape\raggedright
+  \setlength{\parindent}{0pt}\setlength{\parskip}{3pt}%
+}{\par}
 \newenvironment{EssayColumns}{%
   \par\noindent\begin{minipage}[t]{\EssayColumnWidth}\vspace{0pt}%
   \setlength{\parindent}{1em}\setlength{\parskip}{0pt}%
