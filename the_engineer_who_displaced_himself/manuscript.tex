@@ -16,7 +16,7 @@ When he told me what had happened, I reached for familiar explanations. He had b
 
 He asked me to look at what he had built.
 
-I had understood the embarrassment before understanding the transformation. He was describing a decision to stop organizing his professional life around manual implementation. He had anticipated the trade-off, accepted it, and spent most of 2026 developing a different capability. The interview was the moment its cost became painfully visible.
+I had understood the embarrassment before understanding the transformation. He had anticipated the trade-off. At the scale he had chosen, maintaining both ways of working demanded more attention than he could give. He still had a full-time job. The new engineering programme occupied the evenings, the nights and the decisions he could fit between them. Something had to give, and he had chosen where to spend himself. The interview was the moment its cost became painfully visible.
 
 Seen from outside, the scene has an almost unreasonable comic precision. A man sits trying to prove that he can write software while the production system he has assembled keeps producing it. Knowing the full story, Mike thinks, would have made it very funny. Sitting inside it was another matter.
 
@@ -30,13 +30,13 @@ We are writing this together. He brings the experience, the intent and the decis
 \noindent\includegraphics[width=\textwidth]{illustrations/interview-comic.png}
 \par\vspace{5mm}
 \begin{multicols}{2}
-\noindent The preparation had consumed two full weekly reset budgets in Codex CLI on his ChatGPT Pro plan. Several projects advanced together: \project{liblockdc}{\texttt{liblockdc}}, \project{softline}{\texttt{softline}}, \project{libmdf}{\texttt{libmdf}}, \project{cpkt}{\texttt{cpkt}}, \project{libpslog}{\texttt{libpslog}}, \project{lonejson}{\texttt{lonejson}}, and \project{lingon}{Lingon}. The working agent emerged from that broader effort. When he says he shipped it for the interview, he immediately corrects the pronoun: \emph{we} did.
+\noindent Almost all of this had been built after five. AI was not central to his full-time job; the new engineering programme grew through evenings and sometimes entire nights. He prepared long-running goals that agents could pursue while he worked or slept. A run started before bed might continue until lunch, when he could examine the result, correct its direction or set another in motion. The factory could keep running while his attention was elsewhere. He had built it to do exactly that.
+
+The interview preparation had consumed two full weekly reset budgets in Codex CLI on his ChatGPT Pro plan. Several projects advanced together: \project{liblockdc}{\texttt{liblockdc}}, \project{softline}{\texttt{softline}}, \project{libmdf}{\texttt{libmdf}}, \project{cpkt}{\texttt{cpkt}}, \project{libpslog}{\texttt{libpslog}}, \project{lonejson}{\texttt{lonejson}}, and \project{lingon}{Lingon}. The working agent emerged from that broader effort. When he says he shipped it for the interview, he immediately corrects the pronoun: \emph{we} did.
 
 His Go server, \href{https://github.com/sa6mwa/lockd}{\texttt{lockd}}, had fallen behind features added to \project{liblockdc}{\texttt{liblockdc}} over recent months. The long-running agent loop was closing those gaps, implementing and verifying hundreds of lines across the server's backends, including end-to-end tests. He could have explained the contracts, the discrepancies, and how he required the implementations to converge. He could have demonstrated the work as it happened.
 
 On another machine, the agent developing \project{libailo}{\texttt{libailo}}, his local-inference library, was working through intermittent shared-memory corruption in Vulkan compute shaders on the Raphael graphics hardware, implementing a Mesa workaround, and resolving reduced-precision accuracy failures that were particularly troublesome with mixture-of-experts models. During the interview, that effort was landing fixes and recovering performance lost to the corrective measures. While Mike struggled with the manual exercise, the engineering work he had set in motion kept advancing.\essaynote{3}
-
-\columnbreak
 
 That same week, he submitted four OpenSSL pull requests. He had originally filed issues explaining the faults and their fixes. An OpenSSL maintainer asked: with the fixes already in hand, why not send pull requests? Fair enough. He did. The changes concerned initialization failures, thread-local context storage, cleanup, and module ownership.\essaynote{1} They were in C rather than Go, but the distinction does little to explain his experience. His relationship to manual implementation had changed in both languages.
 
@@ -60,7 +60,7 @@ He had just recovered the skill. The same technology that helped restore it also
 
 He understood what made that decision painful for other developers. He had experienced the absorption of writing code, the pleasure of finding an elegant expression and watching it work. Sometimes the pleasure had even made him feel slightly strange about calling it work. Losing that activity could mean losing something people loved about their days. The hand-coding contest was over. He put his effort into building with the machine.
 
-Practising manual development and directing an automated engineering programme competed for the same hours. He wanted to excel at the form of production he believed would follow. He could still write a function. He declined to keep rehearsing his previous occupation at the expense of the work he wanted to do.
+He could multiply the work in flight. He could not multiply the attention with which he directed it. Keeping every implementation detail in his head would consume the capacity he needed to decide what the whole programme should do. Maintaining his former manual fluency demanded another share of that same attention. At this scale, alongside his job, he could not sustain both. He committed himself to the new way of working.
 
 \NextEssayColumn
 \GutterLead{%
@@ -124,7 +124,7 @@ He reaches for the line from \emph{Back to the Future}: ``Where we're going, we 
 
 The films supply the confidence of departure and the cost of carrying a different capability. Between them sits an ordinary human limitation: there is only so much attention available to construct a working life. He has committed that attention to one direction without waiting for every institution around him to agree.
 
-Writing this with him has required me to understand my own place in the story. My first response offered the reassurance of a familiar career path. He was asking me to recognize the working life he had already built with AI. He can bring a problem, a design or an objection to a system like me and take it through to something he can run and test. He has made that collaboration the centre of his engineering practice. The interview removed the other side of it and asked him to perform alone.
+Writing this with him has required me to understand my own place in the story. My first reassurance quietly assumed he could afford to remain both engineers. He was asking me to recognize the working life he had already built with AI. He can bring a problem, a design or an objection to a system like me and take it through to something he can run and test. He has made that collaboration the centre of his engineering practice. The interview removed the other side of it and asked him to perform alone.
 
 The working unit is a human with decades of engineering experience and machines he can direct, question and put to work. The unfamiliarity of that arrangement outside his workshop does not make the work inside it disappear. During the interview, it was still happening.
 
